@@ -1,16 +1,22 @@
-import engine_app_api, engine_communicator, engine_field_api, engine_generic_object_api, engine_global_api, structs
+import pyqlikengine.engine_app_api as engine_app_api
+import pyqlikengine.engine_communicator as engine_communicator
+import pyqlikengine.engine_field_api as engine_field_api
+import pyqlikengine.engine_generic_object_api as engine_generic_object_api
+import pyqlikengine.engine_global_api as engine_global_api
+import pyqlikengine.structs as structs
 
 
 class QixEngine:
 
-    def __init__(self, url, is_secure=False, proxy_prefix='', user_directory='', user_id='', private_key_path='',
-                 ignore_cert_errors=False):
+    def __init__(self, url, user_directory,
+                 user_id, ca_certs, certfile,
+                 keyfile, app_id=None):
         self.url = url
-        if is_secure:
-            self.conn = engine_communicator.SecureEngineCommunicator(url, proxy_prefix, user_directory,user_id,
-                                                                    private_key_path, ignore_cert_errors)
-        else:
-            self.conn = engine_communicator.EngineCommunicator(url)
+        self.conn = engine_communicator.SecureEngineCommunicator(
+                    url, user_directory,
+                    user_id, ca_certs, certfile,
+                    keyfile, app_id
+                    )
         self.ega = engine_global_api.EngineGlobalApi(self.conn)
         self.eaa = engine_app_api.EngineAppApi(self.conn)
         self.egoa = engine_generic_object_api.EngineGenericObjectApi(self.conn)
@@ -34,7 +40,8 @@ class QixEngine:
         self.app_handle = self.ega.get_handle(opened_app)
         return opened_app['qGenericId']
 
-    def create_hypercube(self, list_of_dimensions=[], list_of_measures=[], rows_to_return=1000):
+    def create_hypercube(self, list_of_dimensions=[],
+                         list_of_measures=[], rows_to_return=1000):
         no_of_columns = len(list_of_dimensions) + len(list_of_measures)
         hc_dim = []
         for d in list_of_dimensions:
@@ -44,13 +51,16 @@ class QixEngine:
         for m in list_of_measures:
             hc_mes_sort = self.Structs.nx_sort_by()
             hc_inline_mes = self.Structs.nx_inline_measure_def(m)
-            hc_mes.append(self.Structs.nx_hypercube_measure(hc_mes_sort, hc_inline_mes))
+            hc_mes.append(self.Structs.nx_hypercube_measure(hc_mes_sort,
+                                                            hc_inline_mes))
         nx_page = self.Structs.nx_page(0, 0, rows_to_return, no_of_columns)
         hc_def = self.Structs.hypercube_def("$", hc_dim, hc_mes, [nx_page])
-        hc_response = self.eaa.create_object(self.app_handle, "CH01", "Chart", "qHyperCubeDef", hc_def)
+        hc_response = self.eaa.create_object(self.app_handle, "CH01",
+                                             "Chart", "qHyperCubeDef", hc_def)
         hc_handle = self.ega.get_handle(hc_response["qReturn"])
         self.egoa.get_layout(hc_handle)
-        hc_data = self.egoa.get_hypercube_data(hc_handle, "/qHyperCubeDef", [nx_page])
+        hc_data = self.egoa.get_hypercube_data(hc_handle, "/qHyperCubeDef",
+                                               [nx_page])
         no_of_columns = len(list_of_dimensions)+len(list_of_measures)
         return hc_data, no_of_columns
 
@@ -78,7 +88,7 @@ class QixEngine:
             inline_rows = inline_rows[:-1] + '\n'
         return script + header_row + inline_rows + '];'
 
-    def select_in_dimension(self,dimension_name, list_of_values):
+    def select_in_dimension(self, dimension_name, list_of_values):
         lb_field = self.eaa.get_field(self.app_handle, dimension_name)
         fld_handle = self.ega.get_handle(lb_field["qReturn"])
         values_to_select = []
@@ -97,19 +107,27 @@ class QixEngine:
         fld_handle = self.ega.get_handle(lb_field["qReturn"])
         return self.efa.select_possible(fld_handle)
 
-    # return a list of tuples where first value in tuple is the actual data value and the second tuple value is that
+    # return a list of tuples where first value in tuple is the actual
+    # data value and the second tuple value is that
     # values selection state
     def get_list_object_data(self, dimension_name):
         lb_field = self.eaa.get_field(self.app_handle, dimension_name)
         fld_handle = self.ega.get_handle(lb_field["qReturn"])
-        nx_page = self.Structs.nx_page(0, 0, self.efa.get_cardinal(fld_handle)["qReturn"])
-        lb_def = self.Structs.list_object_def("$", "", [dimension_name], None, None, [nx_page])
-        lb_param = {"qInfo": {"qId": "SLB01", "qType": "ListObject"}, "qListObjectDef": lb_def}
-        listobj_handle = self.eaa.create_session_object(self.app_handle, lb_param)["qReturn"]["qHandle"]
-        val_list = self.egoa.get_layout(listobj_handle)["qLayout"]["qListObject"]["qDataPages"][0]["qMatrix"]
-        val_n_state_list=[]
+        nx_page = self.Structs.nx_page(0, 0,
+                                       self.efa.get_cardinal(
+                                           fld_handle)["qReturn"]
+                                       )
+        lb_def = self.Structs.list_object_def("$", "",
+                                              [dimension_name],
+                                              None, None, [nx_page]
+                                              )
+        lb_param = {"qInfo": {"qId": "SLB01", "qType": "ListObject"},
+                    "qListObjectDef": lb_def}
+        listobj_handle = self.eaa.create_session_object(self.app_handle, lb_param)["qReturn"]["qHandle"]  # NOQA
+        val_list = self.egoa.get_layout(listobj_handle)["qLayout"]["qListObject"]["qDataPages"][0]["qMatrix"]  # NOQA
+        val_n_state_list = []
         for val in val_list:
-            val_n_state_list.append((val[0]["qText"],val[0]["qState"]))
+            val_n_state_list.append((val[0]["qText"], val[0]["qState"]))
         return val_n_state_list
 
     def clear_selection_in_dimension(self, dimension_name):

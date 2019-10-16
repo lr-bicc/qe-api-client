@@ -3,8 +3,10 @@ class Structs:
         pass
 
     @staticmethod
-    def list_object_def(state_name="$", library_id="", field_defs=None, field_labels=None, sort_criterias=None,
-                        initial_data_fetch=None):
+    def list_object_def(state_name="$", library_id="",
+                        field_defs=None, field_labels=None,
+                        sort_criterias=None, initial_data_fetch=None
+                        ):
         if initial_data_fetch is None:
             initial_data_fetch = []
         if sort_criterias is None:
@@ -24,8 +26,11 @@ class Structs:
                 }
 
     @staticmethod
-    def hypercube_def(state_name="$", nx_dims=[], nx_meas=[], nx_page=[], inter_column_sort=[0, 1, 2], suppress_zero=False,
-                      suppress_missing=False):
+    def hypercube_def(state_name="$", nx_dims=[],
+                      nx_meas=[], nx_page=[],
+                      inter_column_sort=[0, 1, 2], suppress_zero=False,
+                      suppress_missing=False
+                      ):
         return {"qStateName": state_name,
                 "qDimensions": nx_dims,  # NxDimensions
                 "qMeasures": nx_meas,  # NxMeasure
@@ -52,7 +57,10 @@ class Structs:
                 }
 
     @staticmethod
-    def nx_inline_dimension_def(field_definitions=[], grouping='N', field_labels=[]):
+    def nx_inline_dimension_def(field_definitions=[],
+                                grouping='N',
+                                field_labels=[]
+                                ):
         return {"qGrouping": grouping,
                 "qFieldDefs": field_definitions,
                 "qFieldLabels": field_labels
@@ -78,7 +86,11 @@ class Structs:
                 }
 
     @staticmethod
-    def nx_inline_measure_def(definition, label="", description="", tags=[], grouping="N"):
+    def nx_inline_measure_def(definition, label="",
+                              description="",
+                              tags=[],
+                              grouping="N"
+                              ):
         return {"qLabel": label,
                 "qDescription":	description,
                 "qTags": tags,

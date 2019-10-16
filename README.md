@@ -1,13 +1,29 @@
 # pyqlikengine
 
-[This repository is no longer maintained by me since I have moved on to new challenges outside Qlik]
+Python wrapper around [Qlik Engine JSON API](https://help.qlik.com/en-US/sense-developer/June2019/Subsystems/EngineAPI/Content/Sense_EngineAPI/introducing-engine-API.htm)
 
-Qlik Engine API extended for Python
-This is an attempt to implement a Qlik Engine API extension for Python. I started working on this May 7th 2017 and it is at a very experimental level. This is very much a hobby project that I will to work on it during my spare time, whenever I have enough inspiration to do so.
+Forked from [qliknln/pyqlikengine](https://github.com/qliknln/pyqlikengine)
 
-It uses Python 3.6, the Python json encoder: https://docs.python.org/2/library/json.html and the websocket client: 
-https://pypi.python.org/pypi/websocket-client
+## Requirements
+* Python 3.6+
 
+## Example of usage
+```bash
+pip install -i https://test.pypi.org/simple/ pyqlikengine
+```
+```python
+from pyqlikengine.engine import QixEngine
 
+url = 'qlik-1.ad.xxx.xxx'
+user_directory = 'UserDomainToQlikLogin'
+user_id = 'sense'
+ca_certs = 'qlik_certs/qlik-1_root.pem'
+certfile = 'qlik_certs/qlik-1_client.pem'
+keyfile = 'qlik_certs/qlik-1_client_key.pem'
+qixe = QixEngine(url=url, user_directory=user_directory,
+                 user_id=user_id, ca_certs=ca_certs,
+                 certfile=certfile, keyfile=keyfile)
 
-/Niklas
+# print all apps in Qlik Server
+print(qixe.ega.get_doc_list())
+```

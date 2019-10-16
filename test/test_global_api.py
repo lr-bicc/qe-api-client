@@ -54,7 +54,7 @@ class TestGlobalApi(unittest.TestCase):
     # May be a meaningless test since there are no commands to abort??
     def test_abort_all(self):
         response = self.ega.abort_all()
-        self.assertEqual(response,{},'abort_all method returned unexpected object')
+        self.assertEqual(response,{}, 'abort_all method returned unexpected object')
 
     # May be a meaningless test since there is no request with id 1?
     def test_abort_request(self):
@@ -87,7 +87,6 @@ class TestGlobalApi(unittest.TestCase):
     def test_replace_app_from_id(self):
         response_create = self.ega.create_app("test_app")['qAppId']
         tmp_folder = tempfile.gettempdir()
-        response = self.ega.replace_app_from_id(tmp_folder, response_create)
         print("Same bug as CopyApp and ExportApp")
         self.ega.delete_app(response_create)
 
@@ -97,7 +96,7 @@ class TestGlobalApi(unittest.TestCase):
 
     def test_is_desktop_mode(self):
         response = self.ega.is_desktop_mode(0)['qReturn']
-        self.assertTrue(type(response) is bool,'Failed to check desktop mode')
+        self.assertTrue(type(response) is bool, 'Failed to check desktop mode')
 
     # Clean up after the tests have been run
     def tearDown(self):
@@ -122,10 +121,9 @@ if __name__ == '__main__':
     # self.efa.select_values(h2,val)
     # print self.egoa.get_layout(h3)
 
-
-    # conn.connect()
+    # qrs_conn.connect()
     # print ega.get_doc_list()
-    # print conn.get_os_name()
+    # print qrs_conn.get_os_name()
     # ega.create_app('theApp')
     # time.sleep(1)
     # ega.open_doc('theApp')
@@ -136,4 +134,4 @@ if __name__ == '__main__':
     # print eaa.do_reload(handle)
     # print eaa.do_reload_ex(handle)
     # ega.delete_app('C:\\Users\\Niklas\\Documents\\Qlik\\Sense\\Apps\\theApp.qvf')
-    # conn.close_qvengine_connection(conn)
+    # qrs_conn.close_qvengine_connection(qrs_conn)
