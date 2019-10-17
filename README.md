@@ -6,10 +6,11 @@ Forked from [qliknln/pyqlikengine](https://github.com/qliknln/pyqlikengine)
 
 ## Requirements
 * Python 3.6+
+* websocket-client>=0.47.0
 
 ## Example of usage
 ```bash
-pip install -i https://test.pypi.org/simple/ pyqlikengine
+pip install pyqlikengine
 ```
 ```python
 from pyqlikengine.engine import QixEngine

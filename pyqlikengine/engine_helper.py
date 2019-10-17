@@ -1,9 +1,11 @@
-from structs import Structs
 import math
-from engine_app_api import EngineAppApi
-from engine_global_api import EngineGlobalApi
-from engine_generic_object_api import EngineGenericObjectApi
-from engine_field_api import EngineFieldApi
+
+from pyqlikengine.engine_app_api import EngineAppApi
+from pyqlikengine.engine_field_api import EngineFieldApi
+from pyqlikengine.engine_generic_object_api import EngineGenericObjectApi
+from pyqlikengine.engine_global_api import EngineGlobalApi
+from pyqlikengine.structs import Structs
+
 import pandas as pd
 
 

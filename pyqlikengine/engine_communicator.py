@@ -1,5 +1,4 @@
 from websocket import create_connection
-import jwt
 import ssl
 
 

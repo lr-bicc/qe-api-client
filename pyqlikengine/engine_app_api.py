@@ -429,18 +429,19 @@ class EngineAppApi:
         # qPartial (optional): Set to true for partial reload, The default value is false.  # NOQA
         # qDebug (optional): Set to true if debug breakpoints are to be honored. The execution of the script will be in debug mode. The default value is false.  # NOQA
 
-    def do_reload(self, doc_handle, reload_mode=0,
-                  partial_mode=False, debug_mode=False):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "DoReload",
-                          "params": [reload_mode, partial_mode, debug_mode]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
-        try:
-            return response['result']
-        except KeyError:
-            return response['error']
+    # Original do_reload function
+    # def do_reload(self, doc_handle, reload_mode=0,
+    #               partial_mode=False, debug_mode=False):
+    #     msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
+    #                       "method": "DoReload",
+    #                       "params": [reload_mode, partial_mode, debug_mode]})
+    #     response = json.loads(self.engine_socket.send_call(self.engine_socket,  # NOQA
+    #                                                        msg)
+    #                           )
+    #     try:
+    #         return response['result']
+    #     except KeyError:
+    #         return response['error']
 
     # DoSave method: Saves an app - All objects and data in the data model are saved.  # NOQA
     # Desktop only - server auto saves

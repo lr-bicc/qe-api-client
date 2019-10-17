@@ -9,8 +9,10 @@ class TestLabs(unittest.TestCase):
         self.qixe = QixEngine('ws://localhost:4848/app')
 
     def test_select_in_field(self):
-        print ('sdfasef')
-        app = os.path.join("C:/", "Users", "nln", "Documents", "Qlik", "Sense", "Apps", "Consumer Sales.qvf")
+        print('sdfasef')
+        app = os.path.join("C:/", "Users", "nln", "Documents",
+                           "Qlik", "Sense", "Apps",
+                           "Consumer Sales.qvf")
         self.qixe.open_app(app)
         print(self.qixe.select_in_dimension('Product Sub Group', ['Cheese']))
 

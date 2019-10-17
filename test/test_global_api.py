@@ -1,16 +1,17 @@
-import tempfile
+# import tempfile
 import unittest
 
-from engine_app_api import EngineAppApi
-from engine_communicator import EngineCommunicator
-from engine_field_api import EngineFieldApi
-from engine_global_api import EngineGlobalApi
-from structs import Structs
+from pyqlikengine.engine_app_api import EngineAppApi
+from pyqlikengine.engine_communicator import EngineCommunicator
+from pyqlikengine.engine_field_api import EngineFieldApi
+from pyqlikengine.engine_global_api import EngineGlobalApi
+from pyqlikengine.structs import Structs
 
-from engine_generic_object_api import EngineGenericObjectApi
+from pyqlikengine.engine_generic_object_api import EngineGenericObjectApi
 
 
-# Unittest class for the methods in EngineGlobalApi. All tests methods must have the "test_" prefix.
+# Unittest class for the methods in EngineGlobalApi.
+# All tests methods must have the "test_" prefix.
 
 
 class TestGlobalApi(unittest.TestCase):
@@ -30,73 +31,89 @@ class TestGlobalApi(unittest.TestCase):
 
     def test_app_methods(self):
         response_create = self.ega.create_app("test_app")['qAppId']
-        self.assertTrue(response_create.endswith(".qvf"), "Failed to create app. Response did not end with .qvf")
-        #response_copy = self.ega.copy_app("test_app_copy", response_create)
-        #print response_copy
+        self.assertTrue(response_create.endswith(".qvf"),
+                        "Failed to create app. Response did not end with .qvf")
+        # response_copy = self.ega.copy_app("test_app_copy", response_create)
+        # print response_copy
         response_open = self.ega.open_doc("test_app")
-        #response_open = self.ega.open_doc_ex("test_app_asdf")
+        # response_open = self.ega.open_doc_ex("test_app_asdf")
         self.assertEqual(response_open['qReturn']["qHandle"], 1,
-                         "Failed to retrieve a proper document handle with open_doc method")
-        self.assertTrue(response_open['qReturn']["qGenericId"].endswith(".qvf"),
-                        'Generic id does not contain any app file extension using open_doc method')
-        self.assertEqual(response_open['qReturn']["qType"],"Doc",'Unknown doc type returned using open_doc method')
+                         "Failed to retrieve a proper document "
+                         "handle with open_doc method")
+        self.assertTrue(response_open['qReturn']["qGenericId"].
+                        endswith(".qvf"),
+                        'Generic id does not contain any app '
+                        'file extension using open_doc method')
+        self.assertEqual(response_open['qReturn']["qType"], "Doc",
+                         'Unknown doc type returned using open_doc method')
         response_get_active_doc = self.ega.get_active_doc()
-        self.assertEqual(response_get_active_doc['qReturn']["qHandle"], 1, "Failed to retrive a proper document handle with "
-                                                                "get_active_doc method")
-        self.assertTrue(response_get_active_doc['qReturn']["qGenericId"].endswith(".qvf"),
-                        'Generic id does not contain any app file extension  using get_active_doc method')
-        self.assertEqual(response_get_active_doc['qReturn']["qType"], "Doc", 'Unknown doc type returned using get_active_doc '
-                                                                  'method')
+        self.assertEqual(response_get_active_doc['qReturn']["qHandle"], 1,
+                         "Failed to retrive a proper document handle with "
+                         "get_active_doc method")
+        self.assertTrue(response_get_active_doc['qReturn']["qGenericId"].
+                        endswith(".qvf"),
+                        'Generic id does not contain any app file extension'
+                        ' using get_active_doc method')
+        self.assertEqual(response_get_active_doc['qReturn']["qType"],
+                         "Doc",
+                         'Unknown doc type returned using get_active_doc '
+                         'method')
         response_delete = self.ega.delete_app(response_create)['qSuccess']
-        #self.ega.delete_app(response_copy)
+        # self.ega.delete_app(response_copy)
         self.assertTrue(response_delete, "Failed to delete app")
 
     # May be a meaningless test since there are no commands to abort??
     def test_abort_all(self):
         response = self.ega.abort_all()
-        self.assertEqual(response,{}, 'abort_all method returned unexpected object')
+        self.assertEqual(response, {},
+                         'abort_all method returned unexpected object')
 
     # May be a meaningless test since there is no request with id 1?
     def test_abort_request(self):
         response = self.ega.abort_request(1)
-        self.assertEqual(response, {}, 'abort_request method returned unexpected object')
+        self.assertEqual(response, {}, 'abort_request method returned unexpected object')  # NOQA
 
     def test_configure_reload(self):
         response_pos = self.ega.configure_reload(True, True, True)
-        self.assertEqual(response_pos, {}, 'configure_reload method returned unexpected object')
-        response_neg = self.ega.configure_reload('dummy',True,True)['message']
+        self.assertEqual(response_pos, {},
+                         'configure_reload method returned unexpected object')  # NOQA
+        response_neg = self.ega.configure_reload('dummy', True, True)['message']  # NOQA
         self.assertEqual(response_neg, "Invalid method parameter(s)")
 
     def test_create_session_app(self):
         response = self.ega.create_session_app()['qSessionAppId']
-        self.assertTrue(response.startswith("SessionApp_"),"Failed to create session app")
+        self.assertTrue(response.startswith("SessionApp_"),
+                        "Failed to create session app")
 
     def test_create_session_app_from_app(self):
         response_create = self.ega.create_app("test_app")['qAppId']
-        response = self.ega.create_session_app_from_app(response_create)['qSessionAppId']
+        response = self.ega.create_session_app_from_app(response_create)['qSessionAppId']  # NOQA
         self.ega.delete_app(response_create)
-        self.assertTrue(response.startswith("SessionApp_"),"Failed to create session app")
+        self.assertTrue(response.startswith("SessionApp_"),
+                        "Failed to create session app")
 
     def test_export_app(self):
-        tmp_folder = tempfile.gettempdir()
+        # tmp_folder = tempfile.gettempdir()
         response_create = self.ega.create_app("test_app")['qAppId']
-        response = self.ega.export_app(tmp_folder,response_create)
+        # response = self.ega.export_app(tmp_folder, response_create)
         self.ega.delete_app(response_create)
         print("BUG returns method not found. Reported")
 
     def test_replace_app_from_id(self):
         response_create = self.ega.create_app("test_app")['qAppId']
-        tmp_folder = tempfile.gettempdir()
+        # tmp_folder = tempfile.gettempdir()
         print("Same bug as CopyApp and ExportApp")
         self.ega.delete_app(response_create)
 
     def test_get_auth_user(self):
         response = self.ega.get_auth_user()
-        self.assertTrue(type(response) is dict, "Failed to retrieve authenticated user")
+        self.assertTrue(type(response) is dict,
+                        "Failed to retrieve authenticated user")
 
     def test_is_desktop_mode(self):
         response = self.ega.is_desktop_mode(0)['qReturn']
-        self.assertTrue(type(response) is bool, 'Failed to check desktop mode')
+        self.assertTrue(type(response) is bool,
+                        'Failed to check desktop mode')
 
     # Clean up after the tests have been run
     def tearDown(self):
@@ -111,7 +128,7 @@ if __name__ == '__main__':
     # doc = self.ega.get_active_doc()
     # time.sleep(1)
     # h=self.ega.get_handle(doc)
-    # lod = self.struct.list_object_def("$","",["Alpha"],["my field"],[{"qSortByLoadOrder": 1}],[{"qTop": 0, "qLeft": 0, "qHeight": 3, "qWidth": 1}])
+    # lod = self.struct.list_object_def("$","",["Alpha"],["my field"],[{"qSortByLoadOrder": 1}],[{"qTop": 0, "qLeft": 0, "qHeight": 3, "qWidth": 1}])  # NOQA
     # lobj= self.eaa.create_object(h,"LB01","ListObject","qListObjectDef",lod)
     # h3=self.ega.get_handle(lobj['qReturn'])
     # self.egoa.get_layout(h3)
