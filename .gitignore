@@ -91,6 +91,9 @@ ENV/
 # PyCharm project folder
 .idea/
 
+# PyCharm project folder
+.vscode/
+
 # Merge stuff
 .swp
 
