@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyqlikengine",
-    version="0.0.1",
+    version="0.0.2",
     author="Jakub Hettler",
     author_email="jakub.hettler@gmail.com",
     description="Python wrapper around Qlik Engine JSON API",

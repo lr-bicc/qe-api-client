@@ -34,6 +34,7 @@ class SecureEngineCommunicator(EngineCommunicator):
                   "server_side": False
                   })
 
+        ssl.match_hostname = lambda cert, hostname: True
         header = f'X-Qlik-User: UserDirectory={user_directory}; UserId={user_id}'  # NOQA
         self.ws = create_connection(
                 self.url, sslopt=certs,
