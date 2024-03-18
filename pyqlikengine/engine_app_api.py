@@ -797,3 +797,14 @@ class EngineAppApi:
             return response['result']
         except KeyError:
             return response['error']
+
+    def apply_bookmark(self, doc_handle, bookmark_id):
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
+                          "method": "ApplyBookmark", "params": [bookmark_id]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket,
+                                                           msg)
+                              )
+        try:
+            return response['result']
+        except KeyError:
+            return response['error']
