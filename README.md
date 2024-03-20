@@ -1,8 +1,8 @@
 # pyqlikengine
 
-Python wrapper around [Qlik Engine JSON API](https://help.qlik.com/en-US/sense-developer/June2019/Subsystems/EngineAPI/Content/Sense_EngineAPI/introducing-engine-API.htm)
+Python wrapper around [Qlik Engine JSON API](https://help.qlik.com/en-US/sense-developer/February2024/Subsystems/EngineAPI/Content/Sense_EngineAPI/introducing-engine-API.htm)
 
-Forked from [qliknln/pyqlikengine](https://github.com/qliknln/pyqlikengine)
+Forked from [jhettler/pyqlikengine](https://github.com/jhettler/pyqlikengine)
 
 ## Requirements
 * Python 3.6+
