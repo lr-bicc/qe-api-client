@@ -5,13 +5,13 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyqlikengine",
-    version="0.0.3",
-    author="Jakub Hettler",
-    author_email="jakub.hettler@gmail.com",
+    version="0.0.4",
+    author="Rumen Vasilev",
+    author_email="R.Vasilev@LRWorld.com",
     description="Python wrapper around Qlik Engine JSON API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/jhettler/pyqlikengine",
+    url="https://github.com/lr-bicc/pyqlikengine",
     package_dir={'pyqlikengine': 'pyqlikengine'},
     packages=setuptools.find_packages(exclude=["test"]),
     classifiers=[
