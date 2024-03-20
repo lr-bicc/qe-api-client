@@ -6,6 +6,18 @@ class EngineFieldApi:
     def __init__(self, socket):
         self.engine_socket = socket
 
+    def select(self, fld_handle, value):
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": fld_handle,
+                          "method": "Select",
+                          "params": [value, False, 0]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket,
+                                                           msg)
+                              )
+        try:
+            return response
+        except KeyError:
+            return response["error"]
+
     def select_values(self, fld_handle, values=None):
         if values is None:
             values = []
