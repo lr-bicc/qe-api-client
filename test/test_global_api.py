@@ -1,13 +1,13 @@
 # import tempfile
 import unittest
 
-from pyqlikengine.engine_app_api import EngineAppApi
-from pyqlikengine.engine_communicator import EngineCommunicator
-from pyqlikengine.engine_field_api import EngineFieldApi
-from pyqlikengine.engine_global_api import EngineGlobalApi
-from pyqlikengine.structs import Structs
+from qe_api_client.engine_app_api import EngineAppApi
+from qe_api_client.engine_communicator import EngineCommunicator
+from qe_api_client.engine_field_api import EngineFieldApi
+from qe_api_client.engine_global_api import EngineGlobalApi
+from qe_api_client.structs import Structs
 
-from pyqlikengine.engine_generic_object_api import EngineGenericObjectApi
+from qe_api_client.engine_generic_object_api import EngineGenericObjectApi
 
 
 # Unittest class for the methods in EngineGlobalApi.

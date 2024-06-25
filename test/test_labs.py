@@ -1,5 +1,5 @@
 import unittest
-from pyqlikengine import QixEngine
+from qe_api_client.engine import QixEngine
 import os
 
 

@@ -1,12 +1,12 @@
 import unittest
 
-from pyqlikengine.engine_app_api import EngineAppApi
-from pyqlikengine.engine_communicator import EngineCommunicator
-from pyqlikengine.engine_field_api import EngineFieldApi
-from pyqlikengine.engine_global_api import EngineGlobalApi
-from pyqlikengine.structs import Structs
+from qe_api_client.engine_app_api import EngineAppApi
+from qe_api_client.engine_communicator import EngineCommunicator
+from qe_api_client.engine_field_api import EngineFieldApi
+from qe_api_client.engine_global_api import EngineGlobalApi
+from qe_api_client.structs import Structs
 
-from pyqlikengine.engine_generic_object_api import EngineGenericObjectApi
+from qe_api_client.engine_generic_object_api import EngineGenericObjectApi
 
 
 class TestFieldApi(unittest.TestCase):
@@ -22,7 +22,7 @@ class TestFieldApi(unittest.TestCase):
         self.app = self.ega.create_app("TestApp")["qAppId"]
         opened_app = self.ega.open_doc(self.app)
         self.app_handle = self.ega.get_handle(opened_app['qReturn'])
-        with open('./test/test_data/ctrl00_script.qvs') as f:
+        with open('../test/test_data/ctrl00_script.qvs') as f:
             script = f.read()
         self.eaa.set_script(self.app_handle, script)
         self.eaa.do_reload_ex(self.app_handle)
