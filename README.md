@@ -10,10 +10,10 @@ Forked from [jhettler/pyqlikengine](https://github.com/jhettler/pyqlikengine)
 
 ## Example of usage
 ```bash
-pip install pyqlikengine
+pip install qe-api-client
 ```
 ```python
-from pyqlikengine.engine import QixEngine
+from qe_api_client.engine import QixEngine
 
 url = 'qlik-1.ad.xxx.xxx'
 user_directory = 'UserDomainToQlikLogin'

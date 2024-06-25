@@ -1,9 +1,9 @@
-import pyqlikengine.engine_app_api as engine_app_api
-import pyqlikengine.engine_communicator as engine_communicator
-import pyqlikengine.engine_field_api as engine_field_api
-import pyqlikengine.engine_generic_object_api as engine_generic_object_api
-import pyqlikengine.engine_global_api as engine_global_api
-import pyqlikengine.structs as structs
+import qe_api_client.engine_app_api as engine_app_api
+import qe_api_client.engine_communicator as engine_communicator
+import qe_api_client.engine_field_api as engine_field_api
+import qe_api_client.engine_generic_object_api as engine_generic_object_api
+import qe_api_client.engine_global_api as engine_global_api
+import qe_api_client.structs as structs
 
 
 class QixEngine:

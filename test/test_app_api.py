@@ -1,12 +1,12 @@
 import unittest
 
-from pyqlikengine.engine_app_api import EngineAppApi
-from pyqlikengine.engine_communicator import EngineCommunicator
-from pyqlikengine.engine_field_api import EngineFieldApi
-from pyqlikengine.engine_global_api import EngineGlobalApi
-from pyqlikengine.structs import Structs
+from qe_api_client.engine_app_api import EngineAppApi
+from qe_api_client.engine_communicator import EngineCommunicator
+from qe_api_client.engine_field_api import EngineFieldApi
+from qe_api_client.engine_global_api import EngineGlobalApi
+from qe_api_client.structs import Structs
 
-from pyqlikengine.engine_generic_object_api import EngineGenericObjectApi
+from qe_api_client.engine_generic_object_api import EngineGenericObjectApi
 
 
 class TestAppApi(unittest.TestCase):
@@ -29,7 +29,7 @@ class TestAppApi(unittest.TestCase):
         self.assertEqual(response, {}, "Failed to add alternate state")
 
     def test_create_hypercube_object(self):
-        with open('./test/test_data/ctrl00_script.qvs') as f:
+        with open('../test/test_data/ctrl00_script.qvs') as f:
             script = f.read()
         self.eaa.set_script(self.app_handle, script)
         self.eaa.do_reload_ex(self.app_handle)
