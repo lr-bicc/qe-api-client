@@ -12,7 +12,7 @@ class TestQixEngine(unittest.TestCase):
         self.assertTrue(app_exists == "App already exists",
                         'Failed to handle existing app exception')
         self.opened_app = self.qixe.open_app(app)
-        with open('../test_data/ctrl00_script.qvs') as f:
+        with open('./test_data/ctrl00_script.qvs') as f:
             script = f.read()
         self.assertTrue(self.qixe.load_script(script), 'Failed to load script')
 
