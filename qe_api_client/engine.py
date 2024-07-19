@@ -3,24 +3,27 @@ import qe_api_client.engine_communicator as engine_communicator
 import qe_api_client.engine_field_api as engine_field_api
 import qe_api_client.engine_generic_object_api as engine_generic_object_api
 import qe_api_client.engine_global_api as engine_global_api
+import qe_api_client.engine_generic_variable_api as engine_generic_variable_api
 import qe_api_client.structs as structs
 
 
 class QixEngine:
 
-    def __init__(self, url, user_directory,
-                 user_id, ca_certs, certfile,
-                 keyfile, app_id=None):
+    def __init__(self, url, user_directory=None, user_id=None, ca_certs=None, certfile=None, keyfile=None, app_id=None):
         self.url = url
-        self.conn = engine_communicator.SecureEngineCommunicator(
-                    url, user_directory,
-                    user_id, ca_certs, certfile,
-                    keyfile, app_id
-                    )
+
+        # Check, if server or local connection available
+        if user_directory is None and user_id is None and ca_certs is None and certfile is None and keyfile is None:
+            self.conn = engine_communicator.EngineCommunicator(url)
+        else:
+            self.conn = engine_communicator.SecureEngineCommunicator(url, user_directory, user_id, ca_certs, certfile,
+                                                                     keyfile, app_id)
+
         self.ega = engine_global_api.EngineGlobalApi(self.conn)
         self.eaa = engine_app_api.EngineAppApi(self.conn)
         self.egoa = engine_generic_object_api.EngineGenericObjectApi(self.conn)
         self.efa = engine_field_api.EngineFieldApi(self.conn)
+        self.egva = engine_generic_variable_api.EngineGenericVariableApi(self.conn)
         self.Structs = structs.Structs()
         self.app_handle = ''
 
