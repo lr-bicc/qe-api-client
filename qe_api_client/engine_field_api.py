@@ -58,7 +58,7 @@ class EngineFieldApi:
 
     def clear(self, fld_handle):
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": fld_handle,
-                          "method": "SelectExcluded",
+                          "method": "Clear",
                           "params": []})
         response = json.loads(self.engine_socket.send_call(self.engine_socket,
                                                            msg)
