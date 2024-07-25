@@ -46,7 +46,7 @@ class TestFieldApi(unittest.TestCase):
         sel_res = self.efa.select_values(self.fld_handle, values_to_select)
         self.assertTrue(sel_res["qReturn"] is True,
                         "Failed to perform selection")
-        val_mtrx = self.egoa.get_layout(self.lb_handle)["qLayout"]["qListObject"]["qDataPages"][0]["qMatrix"]  # NOQA
+        val_mtrx = self.egoa.get_layout(self.lb_handle)["qListObject"]["qDataPages"][0]["qMatrix"]  # NOQA
         self.assertEqual(val_mtrx[0][0]["qState"],
                          "S",
                          "Failed to select first value")
@@ -54,7 +54,7 @@ class TestFieldApi(unittest.TestCase):
                          "X",
                          "Failed to exclude fifth value")
         self.eaa.clear_all(self.app_handle)
-        val_mtrx = self.egoa.get_layout(self.lb_handle)["qLayout"]["qListObject"]["qDataPages"][0]["qMatrix"]  # NOQA
+        val_mtrx = self.egoa.get_layout(self.lb_handle)["qListObject"]["qDataPages"][0]["qMatrix"]  # NOQA
         self.assertEqual(val_mtrx[0][0]["qState"],
                          "O",
                          "Failed to clear selection")

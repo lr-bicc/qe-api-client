@@ -13,7 +13,7 @@ class EngineGenericObjectApi:
                                                            msg)
                               )
         try:
-            return response["result"]
+            return response["result"]["qLayout"]
         except KeyError:
             return response["error"]
 

@@ -129,7 +129,7 @@ class QixEngine:
         lb_param = {"qInfo": {"qId": "SLB01", "qType": "ListObject"},
                     "qListObjectDef": lb_def}
         listobj_handle = self.eaa.create_session_object(self.app_handle, lb_param)["qReturn"]["qHandle"]  # NOQA
-        val_list = self.egoa.get_layout(listobj_handle)["qLayout"]["qListObject"]["qDataPages"][0]["qMatrix"]  # NOQA
+        val_list = self.egoa.get_layout(listobj_handle)["qListObject"]["qDataPages"][0]["qMatrix"]  # NOQA
         val_n_state_list = []
         for val in val_list:
             val_n_state_list.append((val[0]["qText"], val[0]["qState"]))
