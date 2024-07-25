@@ -21,7 +21,7 @@ class TestFieldApi(unittest.TestCase):
         self.struct = Structs()
         self.app = self.ega.create_app("TestApp")["qAppId"]
         opened_app = self.ega.open_doc(self.app)
-        self.app_handle = self.ega.get_handle(opened_app['qReturn'])
+        self.app_handle = self.ega.get_handle(opened_app)
         with open('../test/test_data/ctrl00_script.qvs') as f:
             script = f.read()
         self.eaa.set_script(self.app_handle, script)

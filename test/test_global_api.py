@@ -37,14 +37,14 @@ class TestGlobalApi(unittest.TestCase):
         # print response_copy
         response_open = self.ega.open_doc("test_app")
         # response_open = self.ega.open_doc_ex("test_app_asdf")
-        self.assertEqual(response_open['qReturn']["qHandle"], 1,
+        self.assertEqual(response_open["qHandle"], 1,
                          "Failed to retrieve a proper document "
                          "handle with open_doc method")
-        self.assertTrue(response_open['qReturn']["qGenericId"].
+        self.assertTrue(response_open["qGenericId"].
                         endswith(".qvf"),
                         'Generic id does not contain any app '
                         'file extension using open_doc method')
-        self.assertEqual(response_open['qReturn']["qType"], "Doc",
+        self.assertEqual(response_open["qType"], "Doc",
                          'Unknown doc type returned using open_doc method')
         response_get_active_doc = self.ega.get_active_doc()
         self.assertEqual(response_get_active_doc['qReturn']["qHandle"], 1,

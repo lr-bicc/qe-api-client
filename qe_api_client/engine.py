@@ -43,7 +43,7 @@ class QixEngine:
         return self.eaa.do_reload_ex(self.app_handle)['qResult']['qSuccess']
 
     def open_app(self, app_obj):
-        opened_app = self.ega.open_doc(app_obj)['qReturn']
+        opened_app = self.ega.open_doc(app_obj)
         self.app_handle = self.ega.get_handle(opened_app)
         return opened_app['qGenericId']
 

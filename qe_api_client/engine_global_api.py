@@ -60,18 +60,12 @@ class EngineGlobalApi:
             return response["error"]
 
     # opens an app and returns an object with handle, generic id and type
-    def open_doc(self, app_name, user_name='',
-                 password='', serial='', no_data=False
-                 ):
-        msg = json.dumps(
-            {"jsonrpc": "2.0", "id": 0, "handle": -1,
-             "method": "OpenDoc", "params": [app_name, user_name,
-                                             password, serial,
-                                             no_data]})
-        response = json.loads(
-            self.engine_socket.send_call(self.engine_socket, msg))
+    def open_doc(self, app_name, user_name='', password='', serial='', no_data=False):
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": -1, "method": "OpenDoc",
+                          "params": [app_name, user_name, password, serial, no_data]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response['result']
+            return response["result"]["qReturn"]
         except KeyError:
             return response["error"]
 

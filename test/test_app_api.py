@@ -22,7 +22,7 @@ class TestAppApi(unittest.TestCase):
         self.struct = Structs()
         self.app = self.ega.create_app("TestApp")['qAppId']
         opened_app = self.ega.open_doc(self.app)
-        self.app_handle = self.ega.get_handle(opened_app['qReturn'])
+        self.app_handle = self.ega.get_handle(opened_app)
 
     def test_add_alternate_state(self):
         response = self.eaa.add_alternate_state(self.app_handle, "MyState")
