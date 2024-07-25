@@ -4,6 +4,7 @@ import qe_api_client.engine_field_api as engine_field_api
 import qe_api_client.engine_generic_object_api as engine_generic_object_api
 import qe_api_client.engine_global_api as engine_global_api
 import qe_api_client.engine_generic_variable_api as engine_generic_variable_api
+import qe_api_client.engine_generic_dimension_api as engine_generic_dimension_api
 import qe_api_client.engine_generic_measure_api as engine_generic_measure_api
 import qe_api_client.structs as structs
 
@@ -25,6 +26,7 @@ class QixEngine:
         self.egoa = engine_generic_object_api.EngineGenericObjectApi(self.conn)
         self.efa = engine_field_api.EngineFieldApi(self.conn)
         self.egva = engine_generic_variable_api.EngineGenericVariableApi(self.conn)
+        self.egda = engine_generic_dimension_api.EngineGenericDimensionApi(self.conn)
         self.egma = engine_generic_measure_api.EngineGenericMeasureApi(self.conn)
         self.Structs = structs.Structs()
         self.app_handle = ''
