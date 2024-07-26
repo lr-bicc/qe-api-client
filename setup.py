@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="qe-api-client",
-    version="1.1.0",
+    version="1.2.0",
     author="Rumen Vasilev",
     author_email="R.Vasilev@LRWorld.com",
     description="Python wrapper around Qlik Engine JSON API",
