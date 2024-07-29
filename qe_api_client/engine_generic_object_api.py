@@ -28,30 +28,6 @@ class EngineGenericObjectApi:
         except KeyError:
             return response["error"]
 
-    def get_measure(self, handle, params):
-        msg = json.dumps(
-            {"jsonrpc": "2.0", "id": 0, "handle": handle,
-             "method": "GetMeasure", "params": params})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
-        try:
-            return response["result"]
-        except KeyError:
-            return response["error"]
-
-    def get_dimension(self, handle, params):
-        msg = json.dumps(
-            {"jsonrpc": "2.0", "id": 0, "handle": handle,
-             "method": "GetDimension", "params": params})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
-        try:
-            return response["result"]
-        except KeyError:
-            return response["error"]
-
     def get_effective_properties(self, handle):
         msg = json.dumps(
             {"jsonrpc": "2.0", "id": 0, "handle": handle,
