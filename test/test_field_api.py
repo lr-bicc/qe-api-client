@@ -36,7 +36,7 @@ class TestFieldApi(unittest.TestCase):
                          "qListObjectDef": self.lb_def}
         self.lb_sobject = self.eaa.create_session_object(self.app_handle,
                                                          self.lb_param)
-        self.lb_handle = self.ega.get_handle(self.lb_sobject["qReturn"])
+        self.lb_handle = self.ega.get_handle(self.lb_sobject)
         self.egoa.get_layout(self.lb_handle)
         self.lb_field = self.eaa.get_field(self.app_handle, "Alpha")
         self.fld_handle = self.ega.get_handle(self.lb_field["qReturn"])
