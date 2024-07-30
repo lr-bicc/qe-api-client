@@ -97,7 +97,7 @@ class QixEngine:
 
     def select_in_dimension(self, dimension_name, list_of_values):
         lb_field = self.eaa.get_field(self.app_handle, dimension_name)
-        fld_handle = self.ega.get_handle(lb_field["qReturn"])
+        fld_handle = self.ega.get_handle(lb_field)
         values_to_select = []
         for val in list_of_values:
             val = {'qText': val}
@@ -106,12 +106,12 @@ class QixEngine:
 
     def select_excluded_in_dimension(self, dimension_name):
         lb_field = self.eaa.get_field(self.app_handle, dimension_name)
-        fld_handle = self.ega.get_handle(lb_field["qReturn"])
+        fld_handle = self.ega.get_handle(lb_field)
         return self.efa.select_excluded(fld_handle)
 
     def select_possible_in_dimension(self, dimension_name):
         lb_field = self.eaa.get_field(self.app_handle, dimension_name)
-        fld_handle = self.ega.get_handle(lb_field["qReturn"])
+        fld_handle = self.ega.get_handle(lb_field)
         return self.efa.select_possible(fld_handle)
 
     # return a list of tuples where first value in tuple is the actual
@@ -119,7 +119,7 @@ class QixEngine:
     # values selection state
     def get_list_object_data(self, dimension_name):
         lb_field = self.eaa.get_field(self.app_handle, dimension_name)
-        fld_handle = self.ega.get_handle(lb_field["qReturn"])
+        fld_handle = self.ega.get_handle(lb_field)
         nx_page = self.Structs.nx_page(0, 0,
                                        self.efa.get_cardinal(
                                            fld_handle)["qReturn"]
@@ -139,7 +139,7 @@ class QixEngine:
 
     def clear_selection_in_dimension(self, dimension_name):
         lb_field = self.eaa.get_field(self.app_handle, dimension_name)
-        fld_handle = self.ega.get_handle(lb_field["qReturn"])
+        fld_handle = self.ega.get_handle(lb_field)
         return self.efa.clear(fld_handle)['qReturn']
 
     def clear_all_selections(self):

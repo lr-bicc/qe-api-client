@@ -71,16 +71,11 @@ class EngineAppApi:
             return response['error']
 
     def get_field(self, doc_handle, field_name, state_name=""):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "GetField", "params":
-                          {"qFieldName": field_name,
-                           "qStateName": state_name}
-                          })
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetField",
+                          "params": {"qFieldName": field_name, "qStateName": state_name}})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response['result']
+            return response['result']['qReturn']
         except KeyError:
             return response['error']
 

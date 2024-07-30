@@ -39,7 +39,7 @@ class TestFieldApi(unittest.TestCase):
         self.lb_handle = self.ega.get_handle(self.lb_sobject)
         self.egoa.get_layout(self.lb_handle)
         self.lb_field = self.eaa.get_field(self.app_handle, "Alpha")
-        self.fld_handle = self.ega.get_handle(self.lb_field["qReturn"])
+        self.fld_handle = self.ega.get_handle(self.lb_field)
 
     def test_select_values(self):
         values_to_select = [{'qText': 'A'}, {'qText': 'B'}, {'qText': 'C'}]
