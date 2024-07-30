@@ -13,7 +13,7 @@ class EngineAppApi:
                                                            msg)
                               )
         try:
-            return response['result']
+            return response['result']['qScript']
         except KeyError:
             return response['error']
 
