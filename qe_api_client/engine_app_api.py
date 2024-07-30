@@ -61,14 +61,12 @@ class EngineAppApi:
         except KeyError:
             return response['error']
 
-    def get_object(self, doc_handle, param_list=[]):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "GetObject", "params": param_list})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+    def get_object(self, doc_handle, object_id):
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetObject",
+                          "params": {"qId": object_id}})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response['result']
+            return response['result']['qReturn']
         except KeyError:
             return response['error']
 
