@@ -517,12 +517,9 @@ class EngineAppApi:
 
     # GetDatabases: List the databases of a ODBC, OLEDB or CUSTOM connection
     def get_databases(self, doc_handle, connection_id):
-        msg = json.dumps(
-            {"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-             "method": "GetDatabases", "params": [connection_id]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetDatabases",
+                          "params": [connection_id]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']['qDatabases']
         except KeyError:
@@ -530,18 +527,12 @@ class EngineAppApi:
 
     # GetDatabaseTableFields: List the fields in a table for a ODBC, OLEDB or CUSTOM connection  # NOQA
     # Parameters taken are: connection_id (mandatory), db_name, db_owner, table_name (mandatory)  # NOQA
-    def get_db_table_fields(self, doc_handle, connection_id,
-                            db_name="", db_owner="", table_name=""):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "GetDatabaseTableFields",
-                          "params": [connection_id, db_name,
-                                     db_owner, table_name]
-                          })
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+    def get_db_table_fields(self, doc_handle, connection_id, db_name="", db_owner="", table_name=""):
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetDatabaseTableFields",
+                          "params": [connection_id, db_name, db_owner, table_name]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response['result']
+            return response['result']['qFields']
         except KeyError:
             return response['error']
 
