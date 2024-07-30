@@ -497,14 +497,11 @@ class EngineAppApi:
 
     # GetDatabaseInfo: Get information about an ODBC, OLEDB or CUSTOM connection  # NOQA
     def get_db_info(self, doc_handle, connection_id):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "GetDatabaseInfo",
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetDatabaseInfo",
                           "params": [connection_id]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response['result']
+            return response['result']['qInfo']
         except KeyError:
             return response['error']
 
