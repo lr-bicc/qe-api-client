@@ -7,11 +7,8 @@ class EngineAppApi:
         self.engine_socket = socket
 
     def get_script(self, doc_handle):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "GetScript", "params": []})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetScript", "params": []})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']['qScript']
         except KeyError:
@@ -51,11 +48,8 @@ class EngineAppApi:
             return response['error']
 
     def get_app_layout(self, doc_handle):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "GetAppLayout", "params": []})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetAppLayout", "params": []})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']['qLayout']
         except KeyError:
@@ -465,11 +459,8 @@ class EngineAppApi:
 
     # GetAllInfos method: Get the identifier and the type of any generic object in an app by using the GetAllInfos method.  # NOQA
     def get_all_infos(self, doc_handle):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "GetAllInfos", "params": []})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetAllInfos", "params": []})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']['qInfos']
         except KeyError:
@@ -477,12 +468,8 @@ class EngineAppApi:
 
     # GetAppProperties method: Gets the properties of an app.
     def get_app_properties(self, doc_handle):
-        msg = json.dumps(
-            {"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-             "method": "GetAppProperties", "params": []})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetAppProperties", "params": []})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']['qProp']
         except KeyError:
@@ -492,24 +479,17 @@ class EngineAppApi:
     # the connection, The type of the connection, The name of the connection, The connection string  # NOQA
     def get_connection(self, doc_handle, connection_id):
         msg = json.dumps(
-            {"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-             "method": "GetConnection", "params": [connection_id]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+            {"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetConnection", "params": [connection_id]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response['result']
+            return response['result']['qConnection']
         except KeyError:
             return response['error']
 
     # GetConnections method: Lists the connections in an app
     def get_connections(self, doc_handle):
-        msg = json.dumps(
-            {"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-             "method": "GetConnections", "params": []})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetConnections", "params": []})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']['qConnections']
         except KeyError:
