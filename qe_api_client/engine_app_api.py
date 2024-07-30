@@ -524,7 +524,7 @@ class EngineAppApi:
                                                            msg)
                               )
         try:
-            return response['result']
+            return response['result']['qDatabases']
         except KeyError:
             return response['error']
 
