@@ -471,7 +471,7 @@ class EngineAppApi:
                                                            msg)
                               )
         try:
-            return response['result']
+            return response['result']['qInfos']
         except KeyError:
             return response['error']
 
