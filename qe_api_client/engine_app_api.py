@@ -507,14 +507,11 @@ class EngineAppApi:
 
     # GetDatabaseOwners: List the owners of a database for a ODBC, OLEDB or CUSTOM connection  # NOQA
     def get_db_owners(self, doc_handle, connection_id):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "GetDatabaseOwners",
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetDatabaseOwners",
                           "params": [connection_id]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response['result']
+            return response['result']['qOwners']
         except KeyError:
             return response['error']
 
