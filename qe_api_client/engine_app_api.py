@@ -538,16 +538,10 @@ class EngineAppApi:
 
     # GetDatabaseTablePreview: Preview the data in the fields in a table for a ODBC, OLEDB or CUSTOM connection  # NOQA
     # Parameters taken are: connection_id (mandatory), db_name, db_owner, table_name (mandatory)  # NOQA
-    def get_db_table_preview(self, doc_handle, connection_id,
-                             db_name="", db_owner="", table_name=""):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "GetDatabaseTablePreview",
-                          "params": [connection_id, db_name,
-                                     db_owner, table_name]
-                          })
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+    def get_db_table_preview(self, doc_handle, connection_id, db_name="", db_owner="", table_name=""):
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetDatabaseTablePreview",
+                          "params": [connection_id, db_name, db_owner, table_name]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -555,16 +549,12 @@ class EngineAppApi:
 
     # GetDatabaseTables: List the tables in a database for a specific owner and for a ODBC, OLEDB or CUSTOM connection  # NOQA
     # Parameters taken are: connection_id (mandatory), db_name, db_owner
-    def get_db_tables(self, doc_handle,
-                      connection_id, db_name="", db_owner=""):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "GetDatabaseTables",
+    def get_db_tables(self, doc_handle, connection_id, db_name="", db_owner=""):
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetDatabaseTables",
                           "params": [connection_id, db_name, db_owner]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response['result']
+            return response['result']['qTables']
         except KeyError:
             return response['error']
 
