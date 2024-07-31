@@ -573,14 +573,10 @@ class EngineAppApi:
     # localized information from the regional settings of the computer.
     # Parameter: none
     def get_empty_script(self, doc_handle):
-        msg = json.dumps(
-            {"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-             "method": "GetEmptyScript", "params": []})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetEmptyScript", "params": []})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response['result']
+            return response['result']['qReturn']
         except KeyError:
             return response['error']
 
