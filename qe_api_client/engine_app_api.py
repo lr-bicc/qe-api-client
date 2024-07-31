@@ -591,19 +591,6 @@ class EngineAppApi:
         except KeyError:
             return response['error']
 
-    # GetField method: Retrieves the handle of a field.
-    # Parameter: field name
-    def get_field_handle(self, doc_handle, field_name):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "GetField", "params": [field_name]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
-        try:
-            return response['result']
-        except KeyError:
-            return response['error']
-
         # GetFileTableFields method: Lists the fields of a table for a folder connection.  # NOQA
         # Parameters:
         # qConnectionId (MANDATORY): Identifier of the connection.
