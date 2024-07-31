@@ -583,14 +583,11 @@ class EngineAppApi:
     # GetFieldDescription: Get the description of a field
     # Parameter: field name
     def get_field_descr(self, doc_handle, field_name):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "GetFieldDescription",
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetFieldDescription",
                           "params": {"qFieldName": field_name}})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response['result']
+            return response['result']['qReturn']
         except KeyError:
             return response['error']
 
