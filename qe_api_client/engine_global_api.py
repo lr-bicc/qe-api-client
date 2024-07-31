@@ -360,10 +360,6 @@ class EngineGlobalApi:
         except KeyError:
             return response['error']
 
-    @staticmethod
-    def get_doc_handle(doc_object):
-        return doc_object['qHandle']
-
     # ## NOT IMPLEMENTED, perceived out of use case scope: ## CreateDocEx, GetBaseBNFHash, GetBaseBNF, GetBNF,  # NOQA
         # GetCustomConnectors, GetDefaultAppFolder, GetFunctions, GetInteract, GetLogicalDriveStrings,  # NOQA
         # ## GetStreamList, GetSupportedCodePages, GetUniqueID, InteractDone, IsPersonalMode (deprecated), OSVersion,  # NOQA
