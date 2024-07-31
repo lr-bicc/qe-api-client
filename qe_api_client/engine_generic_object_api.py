@@ -23,14 +23,11 @@ class EngineGenericObjectApi:
             return response["error"]
 
     def get_effective_properties(self, handle):
-        msg = json.dumps(
-            {"jsonrpc": "2.0", "id": 0, "handle": handle,
-             "method": "GetEffectiveProperties", "params": {}})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "GetEffectiveProperties",
+                          "params": {}})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response["result"]
+            return response["result"]['qProp']
         except KeyError:
             return response["error"]
 
