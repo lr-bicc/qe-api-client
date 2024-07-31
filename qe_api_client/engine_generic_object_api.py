@@ -7,24 +7,18 @@ class EngineGenericObjectApi:
         self.engine_socket = socket
 
     def get_layout(self, handle):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle,
-                          "method": "GetLayout", "params": []})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "GetLayout", "params": []})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response["result"]["qLayout"]
         except KeyError:
             return response["error"]
 
     def get_full_property_tree(self, handle):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle,
-                          "method": "GetFullPropertyTree", "params": []})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "GetFullPropertyTree", "params": []})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response["result"]
+            return response["result"]['qPropEntry']
         except KeyError:
             return response["error"]
 
