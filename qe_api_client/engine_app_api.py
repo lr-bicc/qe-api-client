@@ -713,7 +713,7 @@ class EngineAppApi:
                                                            msg)
                               )
         try:
-            return response['result']
+            return response['result']['qSetExpression']
         except KeyError:
             return response['error']
 
