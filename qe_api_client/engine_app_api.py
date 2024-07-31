@@ -15,33 +15,25 @@ class EngineAppApi:
             return response['error']
 
     def set_script(self, doc_handle, script):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "SetScript", "params": [script]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "SetScript", "params": [script]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
             return response['error']
 
     def do_reload(self, doc_handle, param_list=[]):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "DoReload", "params": param_list})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "DoReload", "params": param_list})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
             return response['error']
 
     def do_reload_ex(self, doc_handle, param_list=[]):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "DoReloadEx", "params": param_list})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "DoReloadEx",
+                          "params": param_list})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -73,17 +65,10 @@ class EngineAppApi:
         except KeyError:
             return response['error']
 
-    def create_object(self, doc_handle, q_id="LB01",
-                      q_type="ListObject", struct_name="qListObjectDef",
-                      ob_struct={}):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0,
-                          "method": "CreateObject", "handle": doc_handle,
-                          "params": [{"qInfo": {"qId": q_id, "qType": q_type},
-                                      struct_name: ob_struct}]
-                          })
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+    def create_object(self, doc_handle, q_id="LB01", q_type="ListObject", struct_name="qListObjectDef", ob_struct={}):
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "method": "CreateObject", "handle": doc_handle,
+                          "params": [{"qInfo": {"qId": q_id, "qType": q_type}, struct_name: ob_struct}]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -94,12 +79,9 @@ class EngineAppApi:
     # Objects in a given state are not affected by user selections in the other states.  # NOQA
     # Call GetAppLayout() afterwards to get the latest states
     def add_alternate_state(self, doc_handle, state_name):
-        msg = json.dumps(
-            {"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-             "method": "AddAlternateState", "params": [state_name]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "AddAlternateState",
+                          "params": [state_name]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -108,12 +90,9 @@ class EngineAppApi:
     # AddFieldFromExpression method: Adds a field on the fly. !! The expression of a field on the fly is persisted but  # NOQA
     # not its values. !!
     def add_field_from_expression(self, doc_handle, field_name, expr_value):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "AddFieldFromExpression",
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "AddFieldFromExpression",
                           "params": [field_name, expr_value]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -122,12 +101,9 @@ class EngineAppApi:
     # CheckExpression method: Checks whether an expression is valid or not
     # qErrorMsg is empty if it's valid
     def check_expression(self, doc_handle, expr_value):
-        msg = json.dumps(
-            {"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-             "method": "CheckExpression", "params": [expr_value]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "CheckExpression",
+                          "params": [expr_value]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -137,24 +113,17 @@ class EngineAppApi:
     # Used AFTER doing SetScript method
     # errors are displayed in an array discussing positions of characters in script where failing  # NOQA
     def check_script(self, doc_handle):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "CheckScriptSyntax",
-                          "params": {}})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "CheckScriptSyntax", "params": {}})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
             return response['error']
 
     def clear_all(self, doc_handle, locked_also=False, alt_state=""):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "ClearAll",
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "ClearAll",
                           "params": [locked_also, alt_state]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -163,22 +132,12 @@ class EngineAppApi:
     # CreateConnection method: Creates a connection. A connection indicates from which data source, the data should  # NOQA
     # be taken. The connection can be: an ODBC connection, OLEDB connection, a custom connection, a folder connection  # NOQA
     #  (lib connection), an internet connection, Single Sign-On
-    def create_connection(self, doc_handle, connect_name,
-                          connect_string, connect_type, user_name, password,
-                          mod_date="", meta="",
-                          sso_passthrough="LOG_ON_SERVICE_USER"):
-        msg = json.dumps(
-            {"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                "method": "CreateConnection", "params": [{
-                    "qName": connect_name,
-                    "qMeta": meta,
-                    "qConnectionString": connect_string,
-                    "qType": connect_type
-                    }]
-             })
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+    def create_connection(self, doc_handle, connect_name, connect_string, connect_type, user_name, password,
+                          mod_date="", meta="", sso_passthrough="LOG_ON_SERVICE_USER"):
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "CreateConnection",
+                          "params": [{"qName": connect_name, "qMeta": meta, "qConnectionString": connect_string,
+                                      "qType": connect_type}]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -192,8 +151,8 @@ class EngineAppApi:
     def create_master_dim(self, doc_handle, dim_id, dim_title,
                           dim_grouping="N", dim_field='', dim_label='',
                           meta_def=""):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "CreateDimension", "params": [{
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "CreateDimension",
+                          "params": [{
                                 "qInfo": {
                                     "qId": dim_id,
                                     "qType": "Dimension"
@@ -213,9 +172,7 @@ class EngineAppApi:
                                 }
                             }]
                           })
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -223,12 +180,9 @@ class EngineAppApi:
 
     # DestroyDimension method: Removes a dimension
     def destroy_dim(self, doc_handle, dim_id):
-        msg = json.dumps(
-            {"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-             "method": "DestroyDimension", "params": [{dim_id}]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "DestroyDimension",
+                          "params": [{dim_id}]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -236,12 +190,9 @@ class EngineAppApi:
 
     # DestroyMeasure method: Removes a measure
     def destroy_measure(self, doc_handle, measure_id):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "DestroyDimension",
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "DestroyDimension",
                           "params": [{measure_id}]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -249,12 +200,9 @@ class EngineAppApi:
 
     # DestroyObject method: Removes an app object. The children of the object (if any) are removed as well.  # NOQA
     def destroy_object(self, doc_handle, object_id):
-        msg = json.dumps(
-            {"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-             "method": "DestroyObject", "params": [{object_id}]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "DestroyObject",
+                          "params": [{object_id}]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -262,12 +210,9 @@ class EngineAppApi:
 
     # DestroySessionObject method: Removes a session object. The children of the object (if any) are removed as well.  # NOQA
     def destroy_session_object(self, doc_handle, object_id):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "DestroySessionObject",
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "DestroySessionObject",
                           "params": [{object_id}]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -275,12 +220,9 @@ class EngineAppApi:
 
     # DestroySessionVariable method: Removes an transient variable.
     def destroy_session_variable(self, doc_handle, var_id):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "DestroySessionVariable",
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "DestroySessionVariable",
                           "params": [{var_id}]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -290,12 +232,9 @@ class EngineAppApi:
     # Script-defined variables cannot be removed using the DestroyVariableById method or the  # NOQA
     # DestroyVariableByName method.
     def destroy_variable_by_id(self, doc_handle, var_name):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "DestroyVariableById",
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "DestroyVariableById",
                           "params": [{var_name}]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -306,8 +245,7 @@ class EngineAppApi:
     # can contain the same dimension.
     # Parameters:
     # qProp (MANDATORY: send dim_id, dim_title, dim_grouping, dim_field, dim_label, meta_def (optional)  # NOQA
-    def create_master_measure(self, doc_handle, measure_id,
-                              measure_title, measure_expr, meta_def=""):
+    def create_master_measure(self, doc_handle, measure_id, measure_title, measure_expr, meta_def=""):
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
                           "method": "CreateMeasure", "params": [{
                                 "qInfo": {
@@ -323,9 +261,7 @@ class EngineAppApi:
                                 }
                             }]
                           })
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -355,8 +291,7 @@ class EngineAppApi:
     # ### Example:  The variable x contains the text string Sum(Sales). In a chart, you define the expression $(x)/12.  # NOQA
     # The effect is exactly the same as having the chart expression Sum(Sales)/12. However, if you change the value of the variable x to Sum(Budget),  # NOQA
     # the data in the chart are immediately recalculated with the expression interpreted as Sum(Budget)/12.  # NOQA
-    def create_session_variable(self, doc_handle, var_id="",
-                                var_name="", var_comment="", var_def=""):
+    def create_session_variable(self, doc_handle, var_id="", var_name="", var_comment="", var_def=""):
         msg = json.dumps(
             {"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
              "method": "CreateSessionVariable", "params": [{
@@ -369,9 +304,7 @@ class EngineAppApi:
                 "qDefinition": var_def
                 }]
              })
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -387,8 +320,7 @@ class EngineAppApi:
     # The effect is exactly the same as having the chart expression Sum(Sales)/12.   # NOQA
     # However, if you change the value of the variable x to Sum(Budget),
     # the data in the chart are immediately recalculated with the expression interpreted as Sum(Budget)/12.  # NOQA
-    def create_variable(self, doc_handle, var_id="",
-                        var_name="", var_comment="", var_def=""):
+    def create_variable(self, doc_handle, var_id="", var_name="", var_comment="", var_def=""):
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
                           "method": "CreateVariable", "params": [{
                                 "qInfo": {
@@ -400,9 +332,7 @@ class EngineAppApi:
                                 "qDefinition": var_def
                             }]
                           })
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -433,11 +363,8 @@ class EngineAppApi:
     # DoSave method: Saves an app - All objects and data in the data model are saved.  # NOQA
     # Desktop only - server auto saves
     def do_save(self, doc_handle):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "DoSave", "params": []})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "DoSave", "params": []})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -446,12 +373,9 @@ class EngineAppApi:
     # Evaluate method: Evaluates an expression as a string. (Actually uses EvaluateEx, which is better for giving the data type back to python)  # NOQA
     # Parameters: qExpression
     def expr_eval(self, doc_handle, expr):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "EvaluateEx",
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "EvaluateEx",
                           "params": {"qExpression": expr}})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -478,8 +402,8 @@ class EngineAppApi:
     # GetConnection method: Retrieves a connection and returns: The creation time of the connection, The identifier of  # NOQA
     # the connection, The type of the connection, The name of the connection, The connection string  # NOQA
     def get_connection(self, doc_handle, connection_id):
-        msg = json.dumps(
-            {"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetConnection", "params": [connection_id]})
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetConnection",
+                          "params": [connection_id]})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']['qConnection']
@@ -617,16 +541,10 @@ class EngineAppApi:
         # qRelativePath: Path of the connection file
         # qDataFormat: Type of the file
         # qTable (MOSTLY MANDATORY): Name of the table ***This parameter must be set for XLS, XLSX, HTML and XML files.***  # NOQA
-    def get_file_table_preview(self, doc_handle, connection_id,
-                               rel_path="", data_fmt="", table_name=""):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "GetFileTablePreview", "params": [
-                            connection_id, rel_path,
-                            {"qType": data_fmt}, table_name]
-                          })
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+    def get_file_table_preview(self, doc_handle, connection_id, rel_path="", data_fmt="", table_name=""):
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetFileTablePreview",
+                          "params": [connection_id, rel_path, {"qType": data_fmt}, table_name]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -640,13 +558,9 @@ class EngineAppApi:
         # qTable (MOSTLY MANDATORY): Name of the table ***This parameter must be set for XLS, XLSX, HTML and XML files.***  # NOQA
     def get_file_table_ex(self, doc_handle, connection_id,
                           rel_path="", data_fmt=""):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "GetFileTablesEx", "params": [
-                            connection_id, rel_path, {"qType": data_fmt}]
-                          })
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetFileTablesEx",
+                          "params": [connection_id, rel_path, {"qType": data_fmt}]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -657,15 +571,10 @@ class EngineAppApi:
         # qConnectionId (MANDATORY): Identifier of the connection.
         # qRelativePath: Path of the connection file
         # qDataFormat: Type of the file (XML, JSON)
-    def get_file_tables(self, doc_handle, connection_id,
-                        rel_path="", data_fmt=""):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "GetFileTables", "params": [
-                            connection_id, rel_path, {"qType": data_fmt}]
-                          })
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+    def get_file_tables(self, doc_handle, connection_id, rel_path="", data_fmt=""):
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetFileTables",
+                          "params": [connection_id, rel_path, {"qType": data_fmt}]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -674,12 +583,9 @@ class EngineAppApi:
     # GetFolderItemsForConnection method: List the items for a folder connection  # NOQA
     # Parameter: connection_id
     def get_folder_items_for_connection(self, doc_handle, connection_id):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "GetFolderItemsForConnection",
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetFolderItemsForConnection",
                           "params": [connection_id]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
@@ -704,25 +610,18 @@ class EngineAppApi:
             return response['error']
 
     def get_set_analysis(self, doc_handle, state_name="", bookmark_id=""):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 3, "handle": doc_handle,
-                          "method": "GetSetAnalysis", "params":
-                          {"qStateName": state_name,
-                           "qBookmarkId": bookmark_id}
-                          })
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 3, "handle": doc_handle, "method": "GetSetAnalysis",
+                          "params": {"qStateName": state_name, "qBookmarkId": bookmark_id}})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']['qSetExpression']
         except KeyError:
             return response['error']
 
     def apply_bookmark(self, doc_handle, bookmark_id):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "ApplyBookmark", "params": [bookmark_id]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "ApplyBookmark",
+                          "params": [bookmark_id]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
         except KeyError:
