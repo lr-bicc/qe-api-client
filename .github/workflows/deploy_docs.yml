@@ -1,4 +1,4 @@
-name: deploy_docs
+name: Upload API documentation to GitHub Pages
 
 on:
   push:
