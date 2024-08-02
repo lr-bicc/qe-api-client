@@ -4,7 +4,7 @@ from qe_api_client.engine_app_api import EngineAppApi
 from qe_api_client.engine_communicator import EngineCommunicator
 from qe_api_client.engine_field_api import EngineFieldApi
 from qe_api_client.engine_global_api import EngineGlobalApi
-from qe_api_client.structs import Structs
+import qe_api_client.structs as structs
 
 from qe_api_client.engine_generic_object_api import EngineGenericObjectApi
 
@@ -19,7 +19,7 @@ class TestAppApi(unittest.TestCase):
         self.eaa = EngineAppApi(self.conn)
         self.egoa = EngineGenericObjectApi(self.conn)
         self.efa = EngineFieldApi(self.conn)
-        self.struct = Structs()
+        self.struct = structs
         self.app = self.ega.create_app("TestApp")['qAppId']
         opened_app = self.ega.open_doc(self.app)
         self.app_handle = self.ega.get_handle(opened_app)
@@ -35,30 +35,30 @@ class TestAppApi(unittest.TestCase):
         self.eaa.do_reload_ex(self.app_handle)
 
         # Create the inline dimension structures
-        hc_inline_dim1 = Structs.nx_inline_dimension_def(["Alpha"])
-        hc_inline_dim2 = Structs.nx_inline_dimension_def(["Num"])
+        hc_inline_dim1 = structs.nx_inline_dimension_def(["Alpha"])
+        hc_inline_dim2 = structs.nx_inline_dimension_def(["Num"])
 
         # Create a sort structure
-        hc_mes_sort = Structs.nx_sort_by()
+        hc_mes_sort = structs.nx_sort_by()
 
         # Create the measure structures
-        hc_inline_mes1 = Structs.nx_inline_measure_def("=Sum(Num)")
-        hc_inline_mes2 = Structs.nx_inline_measure_def("=Avg(Num)")
+        hc_inline_mes1 = structs.nx_inline_measure_def("=Sum(Num)")
+        hc_inline_mes2 = structs.nx_inline_measure_def("=Avg(Num)")
 
         # Create hypercube dimensions from the inline dimension structures
-        hc_dim1 = Structs.nx_hypercube_dimensions(hc_inline_dim1)
-        hc_dim2 = Structs.nx_hypercube_dimensions(hc_inline_dim2)
+        hc_dim1 = structs.nx_hypercube_dimensions(hc_inline_dim1)
+        hc_dim2 = structs.nx_hypercube_dimensions(hc_inline_dim2)
 
         # Create hypercube measures from the inline measure structures
-        hc_mes1 = Structs.nx_hypercube_measure(hc_mes_sort, hc_inline_mes1)
-        hc_mes2 = Structs.nx_hypercube_measure(hc_mes_sort, hc_inline_mes2)
+        hc_mes1 = structs.nx_hypercube_measure(hc_mes_sort, hc_inline_mes1)
+        hc_mes2 = structs.nx_hypercube_measure(hc_mes_sort, hc_inline_mes2)
 
         # Create the paging model/structure (26 rows and 4 columns)
-        nx_page = Structs.nx_page(0, 0, 26, 4)
+        nx_page = structs.nx_page(0, 0, 26, 4)
 
         # Create a hypercube definition with arrays of
         # hc dims, measures and nxpages
-        hc_def = Structs.hypercube_def("$",
+        hc_def = structs.hypercube_def("$",
                                        [hc_dim1, hc_dim2],
                                        [hc_mes1, hc_mes2],
                                        [nx_page])

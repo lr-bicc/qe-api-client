@@ -28,7 +28,7 @@ class QixEngine:
         self.egva = engine_generic_variable_api.EngineGenericVariableApi(self.conn)
         self.egda = engine_generic_dimension_api.EngineGenericDimensionApi(self.conn)
         self.egma = engine_generic_measure_api.EngineGenericMeasureApi(self.conn)
-        self.Structs = structs.Structs()
+        self.structs = structs
         self.app_handle = ''
 
     def create_app(self, app_name='my_app'):
@@ -52,16 +52,16 @@ class QixEngine:
         no_of_columns = len(list_of_dimensions) + len(list_of_measures)
         hc_dim = []
         for d in list_of_dimensions:
-            hc_inline_dim = self.Structs.nx_inline_dimension_def([d])
-            hc_dim.append(self.Structs.nx_hypercube_dimensions(hc_inline_dim))
+            hc_inline_dim = self.structs.nx_inline_dimension_def([d])
+            hc_dim.append(self.structs.nx_hypercube_dimensions(hc_inline_dim))
         hc_mes = []
         for m in list_of_measures:
-            hc_mes_sort = self.Structs.nx_sort_by()
-            hc_inline_mes = self.Structs.nx_inline_measure_def(m)
-            hc_mes.append(self.Structs.nx_hypercube_measure(hc_mes_sort,
+            hc_mes_sort = self.structs.nx_sort_by()
+            hc_inline_mes = self.structs.nx_inline_measure_def(m)
+            hc_mes.append(self.structs.nx_hypercube_measure(hc_mes_sort,
                                                             hc_inline_mes))
-        nx_page = self.Structs.nx_page(0, 0, rows_to_return, no_of_columns)
-        hc_def = self.Structs.hypercube_def("$", hc_dim, hc_mes, [nx_page])
+        nx_page = self.structs.nx_page(0, 0, rows_to_return, no_of_columns)
+        hc_def = self.structs.hypercube_def("$", hc_dim, hc_mes, [nx_page])
         hc_response = self.eaa.create_object(self.app_handle, "CH01",
                                              "Chart", "qHyperCubeDef", hc_def)
         hc_handle = self.ega.get_handle(hc_response["qReturn"])
@@ -120,11 +120,11 @@ class QixEngine:
     def get_list_object_data(self, dimension_name):
         lb_field = self.eaa.get_field(self.app_handle, dimension_name)
         fld_handle = self.ega.get_handle(lb_field)
-        nx_page = self.Structs.nx_page(0, 0,
+        nx_page = self.structs.nx_page(0, 0,
                                        self.efa.get_cardinal(
                                            fld_handle)["qReturn"]
                                        )
-        lb_def = self.Structs.list_object_def("$", "",
+        lb_def = self.structs.list_object_def("$", "",
                                               [dimension_name],
                                               None, None, [nx_page]
                                               )

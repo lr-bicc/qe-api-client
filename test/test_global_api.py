@@ -5,7 +5,7 @@ from qe_api_client.engine_app_api import EngineAppApi
 from qe_api_client.engine_communicator import EngineCommunicator
 from qe_api_client.engine_field_api import EngineFieldApi
 from qe_api_client.engine_global_api import EngineGlobalApi
-from qe_api_client.structs import Structs
+import qe_api_client.structs as structs
 
 from qe_api_client.engine_generic_object_api import EngineGenericObjectApi
 
@@ -23,7 +23,7 @@ class TestGlobalApi(unittest.TestCase):
         self.eaa = EngineAppApi(self.conn)
         self.egoa = EngineGenericObjectApi(self.conn)
         self.efa = EngineFieldApi(self.conn)
-        self.struct = Structs()
+        self.struct = structs
 
     def test_get_doclist(self):
         response = self.ega.get_doc_list()

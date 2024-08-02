@@ -4,7 +4,7 @@ from qe_api_client.engine_app_api import EngineAppApi
 from qe_api_client.engine_communicator import EngineCommunicator
 from qe_api_client.engine_field_api import EngineFieldApi
 from qe_api_client.engine_global_api import EngineGlobalApi
-from qe_api_client.structs import Structs
+import qe_api_client.structs as structs
 
 from qe_api_client.engine_generic_object_api import EngineGenericObjectApi
 
@@ -18,7 +18,7 @@ class TestFieldApi(unittest.TestCase):
         self.eaa = EngineAppApi(self.conn)
         self.egoa = EngineGenericObjectApi(self.conn)
         self.efa = EngineFieldApi(self.conn)
-        self.struct = Structs()
+        self.struct = structs
         self.app = self.ega.create_app("TestApp")["qAppId"]
         opened_app = self.ega.open_doc(self.app)
         self.app_handle = self.ega.get_handle(opened_app)
@@ -26,8 +26,8 @@ class TestFieldApi(unittest.TestCase):
             script = f.read()
         self.eaa.set_script(self.app_handle, script)
         self.eaa.do_reload_ex(self.app_handle)
-        nx_page_initial = Structs.nx_page(0, 0, 26, 1)
-        self.lb_def = Structs.list_object_def("$", "",
+        nx_page_initial = structs.nx_page(0, 0, 26, 1)
+        self.lb_def = structs.list_object_def("$", "",
                                               ["Alpha"],
                                               None,
                                               None,
