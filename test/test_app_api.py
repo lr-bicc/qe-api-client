@@ -73,7 +73,7 @@ class TestAppApi(unittest.TestCase):
         # Get the handle to the chart object (this may be different
         # in my local repo. I have made some changes to thisfor
         # future versions)
-        hc_handle = self.ega.get_handle(hc_response['qReturn'])
+        hc_handle = self.ega.get_handle(hc_response)
 
         # Validate the chart object by calling get_layout
         self.egoa.get_layout(hc_handle)

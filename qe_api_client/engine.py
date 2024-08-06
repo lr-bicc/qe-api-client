@@ -47,7 +47,7 @@ class QixEngine:
         self.app_handle = self.ega.get_handle(opened_app)
         return opened_app['qGenericId']
 
-    def create_hypercube(self, list_of_dimensions=[],
+    def create_hypercube(self, doc_handle, list_of_dimensions=[],
                          list_of_measures=[], rows_to_return=1000):
         no_of_columns = len(list_of_dimensions) + len(list_of_measures)
         hc_dim = []
@@ -62,9 +62,8 @@ class QixEngine:
                                                             hc_inline_mes))
         nx_page = self.structs.nx_page(0, 0, rows_to_return, no_of_columns)
         hc_def = self.structs.hypercube_def("$", hc_dim, hc_mes, [nx_page])
-        hc_response = self.eaa.create_object(self.app_handle, "CH01",
-                                             "Chart", "qHyperCubeDef", hc_def)
-        hc_handle = self.ega.get_handle(hc_response["qReturn"])
+        hc_response = self.eaa.create_object(doc_handle, "CH01", "Chart", "qHyperCubeDef", hc_def)
+        hc_handle = self.ega.get_handle(hc_response)
         self.egoa.get_layout(hc_handle)
         hc_data = self.egoa.get_hypercube_data(hc_handle, "/qHyperCubeDef",
                                                [nx_page])

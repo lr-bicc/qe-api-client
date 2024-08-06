@@ -17,7 +17,7 @@ class TestQixEngine(unittest.TestCase):
         self.assertTrue(self.qixe.load_script(script), 'Failed to load script')
 
     def test_create_hypercube(self):
-        hc = self.qixe.create_hypercube(['Dim1', 'Dim2'],
+        hc = self.qixe.create_hypercube(1, ['Dim1', 'Dim2'],
                                         ['=Sum(Expression1)',
                                          '=Sum(Expression2)',
                                          '=Sum(Expression3)'])

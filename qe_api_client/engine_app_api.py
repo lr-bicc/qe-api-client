@@ -70,7 +70,7 @@ class EngineAppApi:
                           "params": [{"qInfo": {"qId": q_id, "qType": q_type}, struct_name: ob_struct}]})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response['result']
+            return response['result']['qReturn']
         except KeyError:
             return response['error']
 
