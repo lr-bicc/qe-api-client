@@ -1,11 +1,11 @@
-import qe_api_client.engine_app_api as engine_app_api
+import qe_api_client.api_classes.engine_app_api as engine_app_api
 import qe_api_client.engine_communicator as engine_communicator
-import qe_api_client.engine_field_api as engine_field_api
-import qe_api_client.engine_generic_object_api as engine_generic_object_api
-import qe_api_client.engine_global_api as engine_global_api
-import qe_api_client.engine_generic_variable_api as engine_generic_variable_api
-import qe_api_client.engine_generic_dimension_api as engine_generic_dimension_api
-import qe_api_client.engine_generic_measure_api as engine_generic_measure_api
+import qe_api_client.api_classes.engine_field_api as engine_field_api
+import qe_api_client.api_classes.engine_generic_object_api as engine_generic_object_api
+import qe_api_client.api_classes.engine_global_api as engine_global_api
+import qe_api_client.api_classes.engine_generic_variable_api as engine_generic_variable_api
+import qe_api_client.api_classes.engine_generic_dimension_api as engine_generic_dimension_api
+import qe_api_client.api_classes.engine_generic_measure_api as engine_generic_measure_api
 import qe_api_client.structs as structs
 
 
@@ -47,8 +47,7 @@ class QixEngine:
         self.app_handle = self.ega.get_handle(opened_app)
         return opened_app['qGenericId']
 
-    def create_hypercube(self, doc_handle, list_of_dimensions=[],
-                         list_of_measures=[], rows_to_return=1000):
+    def create_hypercube(self, doc_handle, list_of_dimensions=[], list_of_measures=[], rows_to_return=1000):
         no_of_columns = len(list_of_dimensions) + len(list_of_measures)
         hc_dim = []
         for d in list_of_dimensions:
@@ -58,15 +57,13 @@ class QixEngine:
         for m in list_of_measures:
             hc_mes_sort = self.structs.nx_sort_by()
             hc_inline_mes = self.structs.nx_inline_measure_def(m)
-            hc_mes.append(self.structs.nx_hypercube_measure(hc_mes_sort,
-                                                            hc_inline_mes))
+            hc_mes.append(self.structs.nx_hypercube_measure(hc_mes_sort, hc_inline_mes))
         nx_page = self.structs.nx_page(0, 0, rows_to_return, no_of_columns)
         hc_def = self.structs.hypercube_def("$", hc_dim, hc_mes, [nx_page])
         hc_response = self.eaa.create_object(doc_handle, "CH01", "Chart", "qHyperCubeDef", hc_def)
         hc_handle = self.ega.get_handle(hc_response)
-        self.egoa.get_layout(hc_handle)
-        hc_data = self.egoa.get_hypercube_data(hc_handle, "/qHyperCubeDef",
-                                               [nx_page])
+        # self.egoa.get_layout(hc_handle)
+        hc_data = self.egoa.get_hypercube_data(hc_handle, "/qHyperCubeDef", [nx_page])
         no_of_columns = len(list_of_dimensions)+len(list_of_measures)
         return hc_data, no_of_columns
 

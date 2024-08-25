@@ -1,12 +1,12 @@
 import unittest
 
-from qe_api_client.engine_app_api import EngineAppApi
+from qe_api_client.api_classes.engine_app_api import EngineAppApi
 from qe_api_client.engine_communicator import EngineCommunicator
-from qe_api_client.engine_field_api import EngineFieldApi
-from qe_api_client.engine_global_api import EngineGlobalApi
+from qe_api_client.api_classes.engine_field_api import EngineFieldApi
+from qe_api_client.api_classes.engine_global_api import EngineGlobalApi
 import qe_api_client.structs as structs
 
-from qe_api_client.engine_generic_object_api import EngineGenericObjectApi
+from qe_api_client.api_classes.engine_generic_object_api import EngineGenericObjectApi
 
 
 class TestAppApi(unittest.TestCase):
