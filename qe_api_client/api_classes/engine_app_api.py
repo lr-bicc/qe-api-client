@@ -2,11 +2,40 @@ import json
 
 
 class EngineAppApi:
+    """
+    API class for interacting with Qlik Sense engine's app-related functionalities, such as script management,
+    reloading, and object creation.
+
+    Methods:
+        get_script(doc_handle): Retrieves the script of the app.
+        set_script(doc_handle, script): Sets the script of the app.
+        do_reload(doc_handle, param_list): Triggers a reload of the app.
+        do_reload_ex(doc_handle, param_list): Triggers an extended reload of the app.
+        get_app_layout(doc_handle): Retrieves the layout structure of the app.
+        get_object(doc_handle, object_id): Retrieves a specific object from the app.
+        get_field(doc_handle, field_name, state_name): Retrieves a specific field from the app.
+        create_object(doc_handle, q_id, q_type, struct_name, ob_struct): Creates a new object in the app.
+    """
 
     def __init__(self, socket):
+        """
+        Initializes the EngineAppApi with a given socket connection.
+
+        Parameters:
+            socket (object): The socket connection to the Qlik Sense engine.
+        """
         self.engine_socket = socket
 
     def get_script(self, doc_handle):
+        """
+        Retrieves the script of the app identified by the document handle.
+
+        Parameters:
+            doc_handle (int): The handle identifying the app document.
+
+        Returns:
+            str: The script of the app (qScript). In case of an error, returns the error information.
+        """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetScript", "params": []})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
@@ -15,6 +44,16 @@ class EngineAppApi:
             return response['error']
 
     def set_script(self, doc_handle, script):
+        """
+        Sets the script of the app identified by the document handle.
+
+        Parameters:
+            doc_handle (int): The handle identifying the app document.
+            script (str): The script content to be set.
+
+        Returns:
+            dict: The result of setting the script. In case of an error, returns the error information.
+        """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "SetScript", "params": [script]})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
@@ -23,6 +62,16 @@ class EngineAppApi:
             return response['error']
 
     def do_reload(self, doc_handle, param_list=[]):
+        """
+        Triggers a reload of the app identified by the document handle.
+
+        Parameters:
+            doc_handle (int): The handle identifying the app document.
+            param_list (list): A list of parameters for the reload operation. Default is an empty list.
+
+        Returns:
+            dict: The result of the reload operation. In case of an error, returns the error information.
+        """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "DoReload", "params": param_list})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
@@ -31,6 +80,16 @@ class EngineAppApi:
             return response['error']
 
     def do_reload_ex(self, doc_handle, param_list=[]):
+        """
+        Triggers an extended reload of the app identified by the document handle.
+
+        Parameters:
+            doc_handle (int): The handle identifying the app document.
+            param_list (list): A list of parameters for the extended reload operation. Default is an empty list.
+
+        Returns:
+            dict: The result of the extended reload operation. In case of an error, returns the error information.
+        """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "DoReloadEx",
                           "params": param_list})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
@@ -40,6 +99,15 @@ class EngineAppApi:
             return response['error']
 
     def get_app_layout(self, doc_handle):
+        """
+        Retrieves the layout structure of the app identified by the document handle.
+
+        Parameters:
+            doc_handle (int): The handle identifying the app document.
+
+        Returns:
+            dict: The layout structure of the app (qLayout). In case of an error, returns the error information.
+        """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetAppLayout", "params": []})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
@@ -48,6 +116,16 @@ class EngineAppApi:
             return response['error']
 
     def get_object(self, doc_handle, object_id):
+        """
+        Retrieves a specific object from the app identified by the document handle.
+
+        Parameters:
+            doc_handle (int): The handle identifying the app document.
+            object_id (str): The ID of the object to retrieve.
+
+        Returns:
+            dict: The retrieved object (qReturn). In case of an error, returns the error information.
+        """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetObject",
                           "params": {"qId": object_id}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
@@ -57,6 +135,17 @@ class EngineAppApi:
             return response['error']
 
     def get_field(self, doc_handle, field_name, state_name=""):
+        """
+        Retrieves a specific field from the app identified by the document handle.
+
+        Parameters:
+            doc_handle (int): The handle identifying the app document.
+            field_name (str): The name of the field to retrieve.
+            state_name (str): The name of the state. Default is an empty string, indicating the default state.
+
+        Returns:
+            dict: The retrieved field (qReturn). In case of an error, returns the error information.
+        """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetField",
                           "params": {"qFieldName": field_name, "qStateName": state_name}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
@@ -66,6 +155,19 @@ class EngineAppApi:
             return response['error']
 
     def create_object(self, doc_handle, q_id="LB01", q_type="ListObject", struct_name="qListObjectDef", ob_struct={}):
+        """
+        Creates a new object in the app identified by the document handle.
+
+        Parameters:
+            doc_handle (int): The handle identifying the app document.
+            q_id (str): The ID of the new object. Default is "LB01".
+            q_type (str): The type of the new object. Default is "ListObject".
+            struct_name (str): The name of the structure defining the object. Default is "qListObjectDef".
+            ob_struct (dict): The structure defining the object.
+
+        Returns:
+            dict: The created object (qReturn). In case of an error, returns the error information.
+        """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "method": "CreateObject", "handle": doc_handle,
                           "params": [{"qInfo": {"qId": q_id, "qType": q_type}, struct_name: ob_struct}]})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
