@@ -77,9 +77,5 @@ def nx_inline_measure_def(definition, label="",
             }
 
 
-def nx_page(top=0, left=0, height=2, width=2):
-    return {"qTop": top,
-            "qLeft": left,
-            "qHeight": height,
-            "qWidth": width
-            }
+def nx_page(left=0, top=0, width=2, height=2):
+    return {"qLeft": left, "qTop": top, "qWidth": width, "qHeight": height}

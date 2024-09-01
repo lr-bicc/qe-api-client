@@ -26,7 +26,7 @@ class TestFieldApi(unittest.TestCase):
             script = f.read()
         self.eaa.set_script(self.app_handle, script)
         self.eaa.do_reload_ex(self.app_handle)
-        nx_page_initial = structs.nx_page(0, 0, 26, 1)
+        nx_page_initial = structs.nx_page(0, 0, 1, 26)
         self.lb_def = structs.list_object_def("$", "",
                                               ["Alpha"],
                                               None,

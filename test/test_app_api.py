@@ -54,7 +54,7 @@ class TestAppApi(unittest.TestCase):
         hc_mes2 = structs.nx_hypercube_measure(hc_mes_sort, hc_inline_mes2)
 
         # Create the paging model/structure (26 rows and 4 columns)
-        nx_page = structs.nx_page(0, 0, 26, 4)
+        nx_page = structs.nx_page(0, 0, 4, 26)
 
         # Create a hypercube definition with arrays of
         # hc dims, measures and nxpages

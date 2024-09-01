@@ -1,9 +1,9 @@
 import math
 
-from qe_api_client.engine_app_api import EngineAppApi
-from qe_api_client.engine_field_api import EngineFieldApi
-from qe_api_client.engine_generic_object_api import EngineGenericObjectApi
-from qe_api_client.engine_global_api import EngineGlobalApi
+from qe_api_client.api_classes.engine_app_api import EngineAppApi
+from qe_api_client.api_classes.engine_field_api import EngineFieldApi
+from qe_api_client.api_classes.engine_generic_object_api import EngineGenericObjectApi
+from qe_api_client.api_classes.engine_global_api import EngineGlobalApi
 from qe_api_client.structs import Structs
 
 import pandas as pd
@@ -26,12 +26,12 @@ def getDataFrame(connection, appHandle, measures, dimensions, selections={}):
 
     width = len(measures) + len(dimensions)
     height = int(math.floor(10000 / width))
-    nx_page = Structs.nx_page(0, 0, height, width)
-    hc_def = Structs.hypercube_def("$", hc_dim, hc_mes, [nx_page])
+    nx_page = Structs.nx_page(0, 0, width, height)
+    hc_def = Structs.hypercube_def("$", [hc_dim], [hc_mes], [nx_page])
 
     engineAppApi = EngineAppApi(connection)
     hc_response = engineAppApi.create_object(appHandle, "CH01", "Chart", "qHyperCubeDef", hc_def)  # NOQA
-    hc_handle = engineGlobalApi.get_handle(hc_response)
+    hc_handle = engineGlobalApi.get_handle(hc_response['qReturn'])
 
     engineGenericObjectApi = EngineGenericObjectApi(connection)
 
@@ -47,7 +47,7 @@ def getDataFrame(connection, appHandle, measures, dimensions, selections={}):
 
     i = 0
     while i % height == 0:
-        nx_page = Structs.nx_page(i, 0, height, width)
+        nx_page = Structs.nx_page(0, i, width, height)
         hc_data = engineGenericObjectApi.get_hypercube_data(hc_handle, "/qHyperCubeDef", [nx_page])  # NOQA
         elems = hc_data["qDataPages"][0]['qMatrix']
 

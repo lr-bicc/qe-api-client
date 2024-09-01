@@ -58,7 +58,7 @@ class QixEngine:
             hc_mes_sort = self.structs.nx_sort_by()
             hc_inline_mes = self.structs.nx_inline_measure_def(m)
             hc_mes.append(self.structs.nx_hypercube_measure(hc_mes_sort, hc_inline_mes))
-        nx_page = self.structs.nx_page(0, 0, rows_to_return, no_of_columns)
+        nx_page = self.structs.nx_page(0, 0, no_of_columns, rows_to_return)
         hc_def = self.structs.hypercube_def("$", hc_dim, hc_mes, [nx_page])
         hc_response = self.eaa.create_object(doc_handle, "CH01", "Chart", "qHyperCubeDef", hc_def)
         hc_handle = self.ega.get_handle(hc_response)
@@ -116,16 +116,10 @@ class QixEngine:
     def get_list_object_data(self, dimension_name):
         lb_field = self.eaa.get_field(self.app_handle, dimension_name)
         fld_handle = self.ega.get_handle(lb_field)
-        nx_page = self.structs.nx_page(0, 0,
-                                       self.efa.get_cardinal(
-                                           fld_handle)["qReturn"]
-                                       )
-        lb_def = self.structs.list_object_def("$", "",
-                                              [dimension_name],
-                                              None, None, [nx_page]
-                                              )
-        lb_param = {"qInfo": {"qId": "SLB01", "qType": "ListObject"},
-                    "qListObjectDef": lb_def}
+        nx_page = self.structs.nx_page(0, 0, self.efa.get_cardinal(fld_handle)["qReturn"])
+        lb_def = self.structs.list_object_def("$", "",[dimension_name], None,
+                                              None, [nx_page])
+        lb_param = {"qInfo": {"qId": "SLB01", "qType": "ListObject"}, "qListObjectDef": lb_def}
         listobj_handle = self.eaa.create_session_object(self.app_handle, lb_param)["qHandle"]  # NOQA
         val_list = self.egoa.get_layout(listobj_handle)["qListObject"]["qDataPages"][0]["qMatrix"]  # NOQA
         val_n_state_list = []
