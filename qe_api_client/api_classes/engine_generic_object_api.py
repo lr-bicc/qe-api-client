@@ -88,12 +88,9 @@ class EngineGenericObjectApi:
         Returns:
             dict: The data from the hypercube. In case of an error, returns the error information.
         """
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle,
-                          "method": "GetHyperCubeData",
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "GetHyperCubeData",
                           "params": [path, pages]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response["result"]
         except KeyError:
@@ -114,9 +111,29 @@ class EngineGenericObjectApi:
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle,
                           "method": "GetHyperCubePivotData",
                           "params": [path, pages]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket,
-                                                           msg)
-                              )
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
+        try:
+            return response["result"]
+        except KeyError:
+            return response["error"]
+
+    def get_hypercube_stack_data(self, handle, path="/qHyperCubeDef", pages=[], max_no_cells=10000):
+        """
+        Retrieves the values of a stacked pivot table. It is possible to retrieve specific pages of data.
+
+        Parameters:
+            handle (int): The handle identifying the generic object containing the hypercube.
+            path (str): The path to the hypercube definition within the object. Default is "/qHyperCubeDef".
+            pages (list): A list of pages to retrieve from the hypercube pivot data.
+            max_no_cells (int): Maximum number of cells at outer level. The default value is 10 000.
+
+
+        Returns:
+            dict: The pivot data from the hypercube. In case of an error, returns the error information.
+        """
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "GetHyperCubeStackData",
+                          "params": [path, pages, max_no_cells]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response["result"]
         except KeyError:
