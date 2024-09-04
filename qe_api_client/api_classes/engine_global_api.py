@@ -135,26 +135,6 @@ class EngineGlobalApi:
         except KeyError:
             return response["error"]
 
-    @staticmethod
-    def get_handle(obj):
-        """
-        Retrieves the handle from a given object.
-
-        Parameters:
-        obj : dict
-            The object containing the handle.
-
-        Returns:
-        int: The handle value.
-
-        Raises:
-        ValueError: If the handle value is invalid.
-        """
-        try:
-            return obj["qHandle"]
-        except ValueError:
-            return "Bad handle value in " + obj
-
     # Abort All commands
     def abort_all(self):
         """

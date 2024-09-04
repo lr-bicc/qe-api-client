@@ -7,6 +7,8 @@ import qe_api_client.api_classes.engine_generic_variable_api as engine_generic_v
 import qe_api_client.api_classes.engine_generic_dimension_api as engine_generic_dimension_api
 import qe_api_client.api_classes.engine_generic_measure_api as engine_generic_measure_api
 import qe_api_client.structs as structs
+import math
+import pandas as pd
 
 
 class QixEngine:
@@ -140,3 +142,60 @@ class QixEngine:
 
     def disconnect(self):
         self.conn.close_qvengine_connection(self.conn)
+
+    @staticmethod
+    def get_handle(obj):
+        """
+        Retrieves the handle from a given object.
+
+        Parameters:
+        obj : dict
+            The object containing the handle.
+
+        Returns:
+        int: The handle value.
+
+        Raises:
+        ValueError: If the handle value is invalid.
+        """
+        try:
+            return obj["qHandle"]
+        except ValueError:
+            return "Bad handle value in " + obj
+
+    def get_chart_content(self, doc_handle, obj_id):
+
+        # Get object ID
+        obj = self.eaa.get_object(doc_handle, obj_id)
+
+        obj_handle = self.get_handle(obj)
+
+        obj_layout = self.egoa.get_layout(obj_handle)
+
+        no_of_columns = obj_layout["qHyperCube"]["qSize"]["qcx"]
+        width = no_of_columns
+        no_of_rows = obj_layout["qHyperCube"]["qSize"]["qcy"]
+        height = int(math.floor(10000 / no_of_columns))
+
+        page = 0
+        hc_list = []
+
+        while no_of_rows > page * height:
+            nx_page = self.structs.nx_page(0, page * height, width, height)
+            hc_data = self.egoa.get_hypercube_data(obj_handle, "/qHyperCubeDef", [nx_page])['qDataPages'][0]['qMatrix']
+            hc_list.extend(hc_data)
+
+            page += 1
+
+        # DataFrame nur mit dem Attribut "qText" erstellen
+        df = pd.DataFrame([[d['qText'] for d in sublist] for sublist in hc_list])
+
+        # Extrahiere die qFallbackTitle-Werte für Dimensionen und Maße
+        dimension_titles = [dim['qFallbackTitle'] for dim in obj_layout["qHyperCube"]["qDimensionInfo"]]
+        measure_titles = [measure['qFallbackTitle'] for measure in obj_layout["qHyperCube"]["qMeasureInfo"]]
+        # Erstelle eine Liste von Spaltennamen (Kombination aus Dimensionen und Maßen)
+        column_names = dimension_titles + measure_titles
+        # Zuweisen der Spaltennamen
+        df.columns = column_names
+
+        return df
