@@ -1,4 +1,4 @@
-qe_api_client
+Qlik Engine API Client
 =============
 
 .. toctree::
