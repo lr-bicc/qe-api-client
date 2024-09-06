@@ -1,10 +1,10 @@
-qe\_api\_client package
+Qlik Engine API Client Package
 =======================
 
 Submodules
 ----------
 
-qe\_api\_client.engine module
+Engine API Module
 -----------------------------
 
 .. automodule:: qe_api_client.engine
@@ -12,15 +12,7 @@ qe\_api\_client.engine module
    :undoc-members:
    :show-inheritance:
 
-qe\_api\_client.api\_classes.engine\_app\_api module
----------------------------------------
-
-.. automodule:: qe_api_client.api_classes.engine_app_api
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-qe\_api\_client.engine\_communicator module
+Engine API Communicator Module
 -------------------------------------------
 
 .. automodule:: qe_api_client.engine_communicator
@@ -28,7 +20,15 @@ qe\_api\_client.engine\_communicator module
    :undoc-members:
    :show-inheritance:
 
-qe\_api\_client.api\_classes.engine\_field\_api module
+App API Module
+---------------------------------------
+
+.. automodule:: qe_api_client.api_classes.engine_app_api
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Field API Module
 -----------------------------------------
 
 .. automodule:: qe_api_client.api_classes.engine_field_api
@@ -36,7 +36,7 @@ qe\_api\_client.api\_classes.engine\_field\_api module
    :undoc-members:
    :show-inheritance:
 
-qe\_api\_client.api\_classes.engine\_generic\_dimension\_api module
+Generic Dimension API Module
 ------------------------------------------------------
 
 .. automodule:: qe_api_client.api_classes.engine_generic_dimension_api
@@ -44,7 +44,7 @@ qe\_api\_client.api\_classes.engine\_generic\_dimension\_api module
    :undoc-members:
    :show-inheritance:
 
-qe\_api\_client.api\_classes.engine\_generic\_measure\_api module
+Generic Measure API Module
 ----------------------------------------------------
 
 .. automodule:: qe_api_client.api_classes.engine_generic_measure_api
@@ -52,7 +52,7 @@ qe\_api\_client.api\_classes.engine\_generic\_measure\_api module
    :undoc-members:
    :show-inheritance:
 
-qe\_api\_client.api\_classes.engine\_generic\_object\_api module
+Generic Object API Module
 ---------------------------------------------------
 
 .. automodule:: qe_api_client.api_classes.engine_generic_object_api
@@ -60,7 +60,7 @@ qe\_api\_client.api\_classes.engine\_generic\_object\_api module
    :undoc-members:
    :show-inheritance:
 
-qe\_api\_client.api\_classes.engine\_generic\_variable\_api module
+Generic Variable API Module
 -----------------------------------------------------
 
 .. automodule:: qe_api_client.api_classes.engine_generic_variable_api
@@ -68,7 +68,7 @@ qe\_api\_client.api\_classes.engine\_generic\_variable\_api module
    :undoc-members:
    :show-inheritance:
 
-qe\_api\_client.api\_classes.engine\_global\_api module
+Global API Module
 ------------------------------------------
 
 .. automodule:: qe_api_client.api_classes.engine_global_api
@@ -76,15 +76,7 @@ qe\_api\_client.api\_classes.engine\_global\_api module
    :undoc-members:
    :show-inheritance:
 
-qe\_api\_client.engine\_helper module
--------------------------------------
-
-.. automodule:: qe_api_client.engine_helper
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-qe\_api\_client.structs module
+Structs module
 ------------------------------
 
 .. automodule:: qe_api_client.structs
