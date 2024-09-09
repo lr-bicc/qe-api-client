@@ -12,7 +12,10 @@ documentation for details.
 
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
+   :caption: API Client Modules:
 
-   modules
+   engine_communicator
+   engine_api
+   api_classes/index
+   structs
