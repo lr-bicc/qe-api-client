@@ -7,6 +7,7 @@ class EngineGenericObjectApi:
     data visualization objects.
 
     Methods:
+        create_child(handle, params): Creates a generic object that is a child of another generic object.
         get_layout(handle): Retrieves the layout structure of a generic object.
         get_full_property_tree(handle): Retrieves the full property tree of a generic object.
         get_effective_properties(handle): Retrieves the effective properties of a generic object.
@@ -23,6 +24,23 @@ class EngineGenericObjectApi:
             socket (object): The socket connection to the Qlik Sense engine.
         """
         self.engine_socket = socket
+    def create_child(self, handle, params):
+        """
+        Retrieves the layout structure of a specific generic object.
+
+        Parameters:
+            handle (int): The handle identifying the generic object.
+            params (str): The parameters of the generic object.
+
+        Returns:
+            dict: The layout structure of the generic object (qLayout). In case of an error, returns the error information.
+        """
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "CreateChild", "params": [params]})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
+        try:
+            return response["result"]
+        except KeyError:
+            return response["error"]
 
     def get_layout(self, handle):
         """
@@ -76,7 +94,7 @@ class EngineGenericObjectApi:
         except KeyError:
             return response["error"]
 
-    def get_hypercube_data(self, handle, path="/qHyperCubeDef", pages=[]):
+    def get_hypercube_data(self, handle, path="/qHyperCubeDef", pages={}):
         """
         Retrieves the data from a specific hypercube in a generic object.
 
@@ -89,14 +107,14 @@ class EngineGenericObjectApi:
             dict: The data from the hypercube. In case of an error, returns the error information.
         """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "GetHyperCubeData",
-                          "params": [path, pages]})
+                          "params": {"qPath": path, "qPages": [pages]}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response["result"]
         except KeyError:
             return response["error"]
 
-    def get_hypercube_pivot_data(self, handle, path="/qHyperCubeDef", pages=[]):
+    def get_hypercube_pivot_data(self, handle, path="/qHyperCubeDef", pages={}):
         """
         Retrieves the pivot data from a specific hypercube in a generic object.
 
@@ -108,16 +126,15 @@ class EngineGenericObjectApi:
         Returns:
             dict: The pivot data from the hypercube. In case of an error, returns the error information.
         """
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle,
-                          "method": "GetHyperCubePivotData",
-                          "params": [path, pages]})
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "GetHyperCubePivotData",
+                          "params": {"qPath": path, "qPages": [pages]}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response["result"]
         except KeyError:
             return response["error"]
 
-    def get_hypercube_stack_data(self, handle, path="/qHyperCubeDef", pages=[], max_no_cells=10000):
+    def get_hypercube_stack_data(self, handle, path="/qHyperCubeDef", pages={}, max_no_cells=10000):
         """
         Retrieves the values of a stacked pivot table. It is possible to retrieve specific pages of data.
 
@@ -132,7 +149,7 @@ class EngineGenericObjectApi:
             dict: The pivot data from the hypercube. In case of an error, returns the error information.
         """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "GetHyperCubeStackData",
-                          "params": [path, pages, max_no_cells]})
+                          "params": {"qPath": path, "qPages": [pages], "qMaxNbrCells": max_no_cells}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response["result"]

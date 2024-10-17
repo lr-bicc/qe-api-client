@@ -154,7 +154,7 @@ class EngineAppApi:
         except KeyError:
             return response['error']
 
-    def create_object(self, doc_handle, q_id="LB01", q_type="ListObject", struct_name="qListObjectDef", ob_struct={}):
+    def create_object(self, doc_handle, prop):
         """
         Creates a new object in the app identified by the document handle.
 
@@ -169,7 +169,7 @@ class EngineAppApi:
             dict: The created object (qReturn). In case of an error, returns the error information.
         """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "method": "CreateObject", "handle": doc_handle,
-                          "params": [{"qInfo": {"qId": q_id, "qType": q_type}, struct_name: ob_struct}]})
+                          "params": {"qProp": prop}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']['qReturn']
@@ -702,9 +702,9 @@ class EngineAppApi:
         except KeyError:
             return response['error']
 
-    def create_session_object(self, doc_handle, param):
+    def create_session_object(self, doc_handle, prop):
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "CreateSessionObject",
-                          "params": [param]})
+                          "params": {"qProp": prop}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']['qReturn']

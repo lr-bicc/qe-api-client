@@ -49,50 +49,6 @@ class QixEngine:
         self.app_handle = self.ega.get_handle(opened_app)
         return opened_app['qGenericId']
 
-    def create_hypercube(self, doc_handle, list_of_dimensions=[], list_of_measures=[], rows_to_return=1000):
-        no_of_columns = len(list_of_dimensions) + len(list_of_measures)
-        hc_dim = []
-        for d in list_of_dimensions:
-            hc_inline_dim = self.structs.nx_inline_dimension_def([d])
-            hc_dim.append(self.structs.nx_hypercube_dimensions(hc_inline_dim))
-        hc_mes = []
-        for m in list_of_measures:
-            hc_mes_sort = self.structs.nx_sort_by()
-            hc_inline_mes = self.structs.nx_inline_measure_def(m)
-            hc_mes.append(self.structs.nx_hypercube_measure(hc_mes_sort, hc_inline_mes))
-        nx_page = self.structs.nx_page(0, 0, no_of_columns, rows_to_return)
-        hc_def = self.structs.hypercube_def("$", hc_dim, hc_mes, [nx_page])
-        hc_response = self.eaa.create_object(doc_handle, "CH01", "Chart", "qHyperCubeDef", hc_def)
-        hc_handle = self.ega.get_handle(hc_response)
-        # self.egoa.get_layout(hc_handle)
-        hc_data = self.egoa.get_hypercube_data(hc_handle, "/qHyperCubeDef", [nx_page])
-        no_of_columns = len(list_of_dimensions)+len(list_of_measures)
-        return hc_data, no_of_columns
-
-    @staticmethod
-    def convert_hypercube_to_matrix(hc_data, no_of_columns):
-        rows = hc_data["qDataPages"][0]['qMatrix']
-        matrix = [[0 for x in range(no_of_columns)] for y in range(len(rows))]
-        for col_idx, row in enumerate(rows):
-            for cell_idx, cell_val in enumerate(row):
-                matrix[col_idx][cell_idx] = cell_val['qText']
-        return [list(i) for i in zip(*matrix)]
-
-    @staticmethod
-    def convert_hypercube_to_inline_table(hc_data, table_name):
-        rows = hc_data["qDataPages"][0]['qMatrix']
-        script = str.format('{0}:{1}Load * Inline [{1}', table_name, '\n')
-        inline_rows = ''
-        header_row = ''
-        for col_idx in range(len(rows[0])):
-            header_row = header_row + str.format('Column{0}{1}', col_idx, ',')
-        header_row = header_row[:-1] + '\n'
-        for row in rows:
-            for cell_val in row:
-                inline_rows = inline_rows + "'" + cell_val['qText'] + "'" + ','
-            inline_rows = inline_rows[:-1] + '\n'
-        return script + header_row + inline_rows + '];'
-
     def select_in_dimension(self, dimension_name, list_of_values):
         lb_field = self.eaa.get_field(self.app_handle, dimension_name)
         fld_handle = self.ega.get_handle(lb_field)
@@ -163,23 +119,19 @@ class QixEngine:
         except ValueError:
             return "Bad handle value in " + obj
 
-    def get_chart_data(self, doc_handle, obj_id):
+    def get_chart_data(self, app_handle, obj_id):
         """
         Retrieves the data from a given chart object.
 
         Parameters:
-            doc_handle (int): The handle of the app.
+            app_handle (int): The handle of the app.
             obj_id (str): The ID of the chart object.
 
         Returns:
-        int: The handle value.
-
-        Raises:
-        ValueError: If the handle value is invalid.
+        DataFrame: A table of the chart content.
         """
-
         # Get object ID
-        obj = self.eaa.get_object(doc_handle, obj_id)
+        obj = self.eaa.get_object(app_handle, obj_id)
         if obj['qType'] is None:
             return 'Chart ID does not exists!'
 
@@ -212,7 +164,7 @@ class QixEngine:
             # Retrieves the hypercube data in a loop (because of limitation from 10.000 cells per call)
             while no_of_rows > page * height:
                 nx_page = self.structs.nx_page(0, page * height, width, height)
-                hc_data = self.egoa.get_hypercube_data(obj_handle, '/qHyperCubeDef', [nx_page])[
+                hc_data = self.egoa.get_hypercube_data(obj_handle, '/qHyperCubeDef', nx_page)[
                     'qDataPages'][0]['qMatrix']
                 data_values.extend(hc_data)
                 page += 1
@@ -242,7 +194,7 @@ class QixEngine:
             # Gets the column headers for the pivot table
             col_headers = []
             nx_page_top = self.structs.nx_page(0, 0, width, 1)
-            hc_top = self.egoa.get_hypercube_pivot_data(obj_handle, '/qHyperCubeDef', [nx_page_top])[
+            hc_top = self.egoa.get_hypercube_pivot_data(obj_handle, '/qHyperCubeDef', nx_page_top)[
                 'qDataPages'][0]['qTop']
             for top_node in hc_top:
                 col_headers.extend(get_all_dimensions(top_node))
@@ -257,13 +209,13 @@ class QixEngine:
                 nx_page = self.structs.nx_page(0, page * height, width, height)
 
                 # Retrieves the row headers for the pivot table
-                hc_left = self.egoa.get_hypercube_pivot_data(obj_handle, '/qHyperCubeDef', [nx_page])[
+                hc_left = self.egoa.get_hypercube_pivot_data(obj_handle, '/qHyperCubeDef', nx_page)[
                     'qDataPages'][0]['qLeft']
                 for left_node in hc_left:
                     row_headers.extend(get_all_dimensions(left_node))
 
                 # Retrieves the data for the pivot table
-                hc_data = self.egoa.get_hypercube_pivot_data(obj_handle, '/qHyperCubeDef', [nx_page])[
+                hc_data = self.egoa.get_hypercube_pivot_data(obj_handle, '/qHyperCubeDef', nx_page)[
                     'qDataPages'][0]['qData']
                 for row in hc_data:
                     data_values.append([cell['qText'] for cell in row])
@@ -281,8 +233,8 @@ class QixEngine:
         elif obj_layout['qInfo']['qType'] in ['barchart'] and obj_layout['qHyperCube']['qStackedDataPages'] != []:
             max_no_cells = no_of_columns * no_of_rows
             nx_page = self.structs.nx_page(0, 0, no_of_columns, no_of_rows)
-            hc_data = self.egoa.get_hypercube_stack_data(obj_handle, '/qHyperCubeDef', [nx_page],
-                                                         max_no_cells)['qDataPages'][0]['qData'][0]['qSubNodes']
+            hc_data = self.egoa.get_hypercube_stack_data(obj_handle, '/qHyperCubeDef', nx_page, max_no_cells)[
+                'qDataPages'][0]['qData'][0]['qSubNodes']
 
             # Transform the nested structure into a flat DataFrame
             data_values = []
@@ -296,6 +248,86 @@ class QixEngine:
 
         else:
             return 'Chart type not supported.'
+
+        # Returns the Dataframe
+        return df
+
+    def get_constructed_table_data(self, app_handle, list_of_dimensions = [], list_of_measures = [],
+                                  list_of_master_dimensions = [], list_of_master_measures = []):
+        """
+        Creates a table from given fields, expressions, dimensions or measures and retrieves the data from it.
+
+        Parameters:
+            app_handle (int): The handle of the app.
+            list_of_dimensions (list): A list of dimensions.
+            list_of_measures (list): A list of measures.
+            list_of_master_dimensions (list): A list of master dimensions.
+            list_of_master_measures (list): A list of master measures.
+
+        Returns:
+        DataFrame: A table of the chart content.
+        """
+        # Create dimension property
+        hc_dim = []
+        for dimension in list_of_dimensions:
+            hc_inline_dim_def = self.structs.nx_inline_dimension_def([dimension])
+            hc_dim.append(self.structs.nx_dimension("", hc_inline_dim_def))
+        for dimension in list_of_master_dimensions:
+            hc_dim.append(self.structs.nx_dimension(dimension))
+
+        # Create measure property
+        hc_mes = []
+        for measure in list_of_measures:
+            hc_inline_mes = self.structs.nx_inline_measure_def(measure)
+            hc_mes.append(self.structs.nx_measure("", hc_inline_mes))
+        for measure in list_of_master_measures:
+            hc_mes.append(self.structs.nx_measure(measure))
+
+        # Create hypercube structure
+        hc_def = self.structs.hypercube_def("$", hc_dim, hc_mes)
+
+        # Create info structure
+        nx_info = self.structs.nx_info("table")
+
+        # Create generic object properties structure
+        gen_obj_props = self.structs.generic_object_properties(nx_info, "qHyperCubeDef", hc_def)
+
+        # Create session object
+        hc_obj = self.eaa.create_session_object(app_handle, gen_obj_props)
+
+        # Get object handle
+        hc_obj_handle = self.get_handle(hc_obj)
+
+        # Get object layout
+        hc_obj_layout = self.egoa.get_layout(hc_obj_handle)
+
+        # Determine the number of the columns and the rows the table has and splits in certain circumstances the table calls
+        no_of_columns = hc_obj_layout['qHyperCube']['qSize']['qcx']
+        width = no_of_columns
+        no_of_rows = hc_obj_layout['qHyperCube']['qSize']['qcy']
+        height = int(math.floor(10000 / no_of_columns))
+
+        # Extract the dimension and measure titles and concat them to column names.
+        dimension_titles = [dim['qFallbackTitle'] for dim in hc_obj_layout['qHyperCube']['qDimensionInfo']]
+        measure_titles = [measure['qFallbackTitle'] for measure in hc_obj_layout['qHyperCube']['qMeasureInfo']]
+        column_names = dimension_titles + measure_titles
+
+        # Paging variables
+        page = 0
+        data_values = []
+
+        # Retrieves the hypercube data in a loop (because of limitation from 10.000 cells per call)
+        while no_of_rows > page * height:
+            nx_page = self.structs.nx_page(0, page * height, width, height)
+            hc_data = self.egoa.get_hypercube_data(hc_obj_handle, '/qHyperCubeDef', nx_page)['qDataPages'][0]['qMatrix']
+            data_values.extend(hc_data)
+            page += 1
+
+        # Creates Dataframe from the content of the attribute 'qText'.
+        df = pd.DataFrame([[d['qText'] for d in sublist] for sublist in data_values])
+
+        # Assign titles zu Dataframe columns
+        df.columns = column_names
 
         # Returns the Dataframe
         return df
