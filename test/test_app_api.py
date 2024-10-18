@@ -1,6 +1,5 @@
 import unittest
 from qe_api_client.engine import QixEngine
-import qe_api_client.structs as structs
 
 
 class TestAppApi(unittest.TestCase):
@@ -24,38 +23,41 @@ class TestAppApi(unittest.TestCase):
         self.qixe.eaa.do_reload_ex(self.app_handle)
 
         # Create the inline dimension structures
-        hc_inline_dim1 = structs.nx_inline_dimension_def(["Alpha"])
-        hc_inline_dim2 = structs.nx_inline_dimension_def(["Num"])
+        hc_inline_dim1 = self.qixe.structs.nx_inline_dimension_def(["Dim1"])
+        hc_inline_dim2 = self.qixe.structs.nx_inline_dimension_def(["Dim2"])
 
         # Create a sort structure
-        hc_mes_sort = structs.sort_criteria()
+        hc_mes_sort = self.qixe.structs.sort_criteria()
 
         # Create the measure structures
-        hc_inline_mes1 = structs.nx_inline_measure_def("=Sum(Num)")
-        hc_inline_mes2 = structs.nx_inline_measure_def("=Avg(Num)")
+        hc_inline_mes1 = self.qixe.structs.nx_inline_measure_def("Sum(Expression1)")
+        hc_inline_mes2 = self.qixe.structs.nx_inline_measure_def("Sum(Expression2)")
 
         # Create hypercube dimensions from the inline dimension structures
-        hc_dim1 = structs.nx_dimension(hc_inline_dim1)
-        hc_dim2 = structs.nx_dimension(hc_inline_dim2)
+        hc_dim1 = self.qixe.structs.nx_dimension("", hc_inline_dim1)
+        hc_dim2 = self.qixe.structs.nx_dimension("", hc_inline_dim2)
 
         # Create hypercube measures from the inline measure structures
-        hc_mes1 = structs.nx_measure("", hc_inline_mes1, hc_mes_sort)
-        hc_mes2 = structs.nx_measure("", hc_inline_mes2, hc_mes_sort)
+        hc_mes1 = self.qixe.structs.nx_measure("", hc_inline_mes1, hc_mes_sort)
+        hc_mes2 = self.qixe.structs.nx_measure("", hc_inline_mes2, hc_mes_sort)
 
         # Create the paging model/structure (26 rows and 4 columns)
-        nx_page = structs.nx_page(0, 0, 4, 26)
+        nx_page = self.qixe.structs.nx_page(0, 0, 4, 26)
 
         # Create a hypercube definition with arrays of
         # hc dims, measures and nxpages
-        hc_def = structs.hypercube_def("$",[hc_dim1, hc_dim2],[hc_mes1, hc_mes2], nx_page)
+        hc_def = self.qixe.structs.hypercube_def("$",[hc_dim1, hc_dim2],[hc_mes1, hc_mes2])
+
+        nx_info = self.qixe.structs.nx_info("table")
+        gen_obj_props = self.qixe.structs.generic_object_properties(nx_info, "qHyperCubeDef", hc_def)
 
         # Create a Chart object with the hypercube definitions as parameter
-        hc_response = self.qixe.eaa.create_object(self.app_handle, "CH01", "Chart", "qHyperCubeDef", hc_def)
+        hc_response = self.qixe.eaa.create_session_object(self.app_handle, gen_obj_props)
 
         # Get the handle to the chart object (this may be different
         # in my local repo. I have made some changes to thisfor
         # future versions)
-        hc_handle = self.qixe.ega.get_handle(hc_response)
+        hc_handle = self.qixe.get_handle(hc_response)
 
         # Validate the chart object by calling get_layout
         self.qixe.egoa.get_layout(hc_handle)
@@ -68,7 +70,7 @@ class TestAppApi(unittest.TestCase):
         first_element_number = hc_data["qDataPages"][0]["qMatrix"][0][0]["qElemNumber"]  # NOQA
         first_element_text = hc_data["qDataPages"][0]["qMatrix"][0][0]["qText"]  # NOQA
         self.assertTrue(first_element_number == 0,"Incorrect value in first element number")
-        self.assertTrue(first_element_text == 'A',"Incorrect value in first element text")
+        self.assertTrue(first_element_text == 'C',"Incorrect value in first element text")
 
     def tearDown(self):
         self.qixe.ega.delete_app(self.app)
