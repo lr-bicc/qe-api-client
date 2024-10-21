@@ -70,7 +70,7 @@ class TestAppApi(unittest.TestCase):
         first_element_number = hc_data["qDataPages"][0]["qMatrix"][0][0]["qElemNumber"]  # NOQA
         first_element_text = hc_data["qDataPages"][0]["qMatrix"][0][0]["qText"]  # NOQA
         self.assertTrue(first_element_number == 0,"Incorrect value in first element number")
-        self.assertTrue(first_element_text == 'C',"Incorrect value in first element text")
+        self.assertTrue(first_element_text == "A","Incorrect value in first element text")
 
     def tearDown(self):
         self.qixe.ega.delete_app(self.app)

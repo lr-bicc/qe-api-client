@@ -33,68 +33,46 @@ class QixEngine:
         self.structs = structs
         self.app_handle = ''
 
-    def create_app(self, app_name='my_app'):
-        app = self.ega.create_app(app_name)
-        try:
-            return app['qAppId']
-        except KeyError:
-            return app['message']
-
-    def load_script(self, script):
-        self.eaa.set_script(self.app_handle, script)
-        return self.eaa.do_reload_ex(self.app_handle)['qResult']['qSuccess']
-
-    def open_app(self, app_obj):
-        opened_app = self.ega.open_doc(app_obj)
-        self.app_handle = self.ega.get_handle(opened_app)
-        return opened_app['qGenericId']
-
-    def select_in_dimension(self, dimension_name, list_of_values):
-        lb_field = self.eaa.get_field(self.app_handle, dimension_name)
-        fld_handle = self.ega.get_handle(lb_field)
+    def select_in_dimension(self, app_handle, dimension_name, list_of_values):
+        lb_field = self.eaa.get_field(app_handle, dimension_name)
+        fld_handle = self.get_handle(lb_field)
         values_to_select = []
         for val in list_of_values:
-            val = {'qText': val}
-            values_to_select.append(val)
+            fld_value = self.structs.field_value(val)
+            values_to_select.append(fld_value)
         return self.efa.select_values(fld_handle, values_to_select)
 
-    def select_excluded_in_dimension(self, dimension_name):
-        lb_field = self.eaa.get_field(self.app_handle, dimension_name)
-        fld_handle = self.ega.get_handle(lb_field)
+    def select_excluded_in_dimension(self, app_handle, dimension_name):
+        lb_field = self.eaa.get_field(app_handle, dimension_name)
+        fld_handle = self.get_handle(lb_field)
         return self.efa.select_excluded(fld_handle)
 
-    def select_possible_in_dimension(self, dimension_name):
-        lb_field = self.eaa.get_field(self.app_handle, dimension_name)
-        fld_handle = self.ega.get_handle(lb_field)
+    def select_possible_in_dimension(self, app_handle, dimension_name):
+        lb_field = self.eaa.get_field(app_handle, dimension_name)
+        fld_handle = self.get_handle(lb_field)
         return self.efa.select_possible(fld_handle)
 
     # return a list of tuples where first value in tuple is the actual
     # data value and the second tuple value is that
     # values selection state
-    def get_list_object_data(self, dimension_name):
-        lb_field = self.eaa.get_field(self.app_handle, dimension_name)
-        fld_handle = self.ega.get_handle(lb_field)
-        nx_page = self.structs.nx_page(0, 0, self.efa.get_cardinal(fld_handle)["qReturn"])
+    def get_list_object_data(self, app_handle, dimension_name):
+        lb_field = self.eaa.get_field(app_handle, dimension_name)
+        fld_handle = self.get_handle(lb_field)
+        nx_page = self.structs.nx_page(0, 0, self.efa.get_cardinal(fld_handle))
         lb_def = self.structs.list_object_def("$", "",[dimension_name], None,
                                               None, [nx_page])
         lb_param = {"qInfo": {"qId": "SLB01", "qType": "ListObject"}, "qListObjectDef": lb_def}
-        listobj_handle = self.eaa.create_session_object(self.app_handle, lb_param)["qHandle"]  # NOQA
+        listobj_handle = self.eaa.create_session_object(app_handle, lb_param)["qHandle"]  # NOQA
         val_list = self.egoa.get_layout(listobj_handle)["qListObject"]["qDataPages"][0]["qMatrix"]  # NOQA
         val_n_state_list = []
         for val in val_list:
             val_n_state_list.append((val[0]["qText"], val[0]["qState"]))
         return val_n_state_list
 
-    def clear_selection_in_dimension(self, dimension_name):
-        lb_field = self.eaa.get_field(self.app_handle, dimension_name)
-        fld_handle = self.ega.get_handle(lb_field)
-        return self.efa.clear(fld_handle)['qReturn']
-
-    def clear_all_selections(self):
-        return self.eaa.clear_all(self.app_handle, True)
-
-    def delete_app(self, app_name):
-        return self.ega.delete_app(app_name)['qSuccess']
+    def clear_selection_in_dimension(self, app_handle, dimension_name):
+        lb_field = self.eaa.get_field(app_handle, dimension_name)
+        fld_handle = self.get_handle(lb_field)
+        return self.efa.clear(fld_handle)
 
     def disconnect(self):
         self.conn.close_qvengine_connection(self.conn)

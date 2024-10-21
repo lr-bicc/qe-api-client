@@ -85,7 +85,8 @@ class EngineGlobalApi:
         Returns:
         dict: Information about the deletion result.
         """
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": -1, "method": "DeleteApp", "params": [app_name]})
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": -1, "method": "DeleteApp",
+                          "params": {"qAppId": app_name}})
         response = json.loads(
             self.engine_socket.send_call(self.engine_socket, msg))
         try:

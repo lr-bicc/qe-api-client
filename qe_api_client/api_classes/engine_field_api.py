@@ -18,77 +18,87 @@ class EngineFieldApi:
         """
         self.engine_socket = socket
 
-    def select(self, fld_handle, value):
+    def select(self, fld_handle, value, soft_lock = False, excluded_values_mode = 0):
         """
-        Selects a specific value in a field.
+        Selects field values matching a search string.
 
         Args:
             fld_handle (int): The handle of the field.
-            value (str): The value to select.
+            value (str): String to search for. Can contain wild cards or numeric search criteria.
+            soft_lock (bool): Set to true to ignore locks; in that case, locked fields can be selected.
+            excluded_values_mode (int): Include excluded values in search.
 
         Returns:
             dict: The response from the engine, containing the result or an error message.
         """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": fld_handle, "method": "Select",
-                          "params": [value, False, 0]})
+                          "params": {"qMatch": value, "qSoftLock": soft_lock,
+                                     "qExcludedValuesMode": excluded_values_mode}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response
         except KeyError:
             return response["error"]
 
-    def select_values(self, fld_handle, values=None):
+    def select_values(self, fld_handle, values, toggle_mode = False, soft_lock = False):
         """
         Selects multiple values in a field.
 
         Args:
             fld_handle (int): The handle of the field.
-            values (list, optional): A list of values to select. Defaults to an empty list.
+            values (list): A list of field values to select. Mandatory field.
+            toggle_mode (bool): The default value is false.
+            soft_lock (bool): Set to true to ignore locks; in that case, locked fields can be selected.
+            The default value is false.
 
         Returns:
             dict: The response from the engine, containing the result or an error message.
         """
-        if values is None:
-            values = []
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": fld_handle, "method": "SelectValues",
-                          "params": [values, False, False]})
+                          "params": {"qFieldValues": values, "qToggleMode": toggle_mode, "qSoftLock": soft_lock}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response
         except KeyError:
             return response["error"]
 
-    def select_excluded(self, fld_handle):
+    def select_excluded(self, fld_handle, soft_lock=False):
         """
-        Selects all excluded values in a field.
+        Inverts the current selections.
 
         Args:
             fld_handle (int): The handle of the field.
+            soft_lock (bool): Set to true to ignore locks; in that case, locked fields can be selected.
+            The default value is false.
 
         Returns:
-            dict: The response from the engine, containing the result or an error message.
+            bool: true/false. The operation is successful if qReturn is set to true.
         """
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": fld_handle, "method": "SelectExcluded", "params": []})
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": fld_handle, "method": "SelectExcluded",
+                          "params": {"qSoftLock": soft_lock}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response["result"]
+            return response["result"]["qReturn"]
         except KeyError:
             return response["error"]
 
-    def select_possible(self, fld_handle):
+    def select_possible(self, fld_handle, soft_lock=False):
         """
         Selects all possible values in a field.
 
         Args:
             fld_handle (int): The handle of the field.
+            soft_lock (bool): Set to true to ignore locks; in that case, locked fields can be selected.
+            The default value is false.
 
         Returns:
-            dict: The response from the engine, containing the result or an error message.
+            bool: true/false. The operation is successful if qReturn is set to true.
         """
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": fld_handle, "method": "SelectPossible", "params": []})
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": fld_handle, "method": "SelectPossible",
+                          "params": {"qSoftLock": soft_lock}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response["result"]
+            return response["result"]["qReturn"]
         except KeyError:
             return response["error"]
 
@@ -102,7 +112,7 @@ class EngineFieldApi:
         Returns:
             dict: The response from the engine, containing the result or an error message.
         """
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": fld_handle, "method": "Clear", "params": []})
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": fld_handle, "method": "Clear", "params": {}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response["result"]
@@ -119,9 +129,9 @@ class EngineFieldApi:
         Returns:
             int: The number of distinct values in the field, or an error message.
         """
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": fld_handle, "method": "GetCardinal", "params": []})
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": fld_handle, "method": "GetCardinal", "params": {}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response["result"]
+            return response["result"]["qReturn"]
         except KeyError:
             return response["error"]

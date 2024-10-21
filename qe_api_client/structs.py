@@ -56,3 +56,6 @@ def generic_object_properties(info, prop_name, prop_def, extends_id="", state_na
 def sort_criteria(state=0, freq=0, numeric=0, ascii=0, load_order=1):
     return {"qSortByState": state, "qSortByFrequency": freq, "qSortByNumeric": numeric, "qSortByAscii": ascii,
             "qSortByLoadOrder": load_order, "qSortByExpression": 0, "qExpression": {"qv": ""}}
+
+def field_value(text, is_numeric = False, number = 0):
+    return {"qText": text, "qIsNumeric": is_numeric, "qNumber": number}

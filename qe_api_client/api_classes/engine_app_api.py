@@ -141,10 +141,10 @@ class EngineAppApi:
         Parameters:
             doc_handle (int): The handle identifying the app document.
             field_name (str): The name of the field to retrieve.
-            state_name (str): The name of the state. Default is an empty string, indicating the default state.
+            state_name (str): The name of the alternate state. Default state is current selections.
 
         Returns:
-            dict: The retrieved field (qReturn). In case of an error, returns the error information.
+            dict: Object interface.
         """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetField",
                           "params": {"qFieldName": field_name, "qStateName": state_name}})
@@ -160,10 +160,7 @@ class EngineAppApi:
 
         Parameters:
             doc_handle (int): The handle identifying the app document.
-            q_id (str): The ID of the new object. Default is "LB01".
-            q_type (str): The type of the new object. Default is "ListObject".
-            struct_name (str): The name of the structure defining the object. Default is "qListObjectDef".
-            ob_struct (dict): The structure defining the object.
+            prop (dict): Information about the object.
 
         Returns:
             dict: The created object (qReturn). In case of an error, returns the error information.
@@ -223,8 +220,16 @@ class EngineAppApi:
             return response['error']
 
     def clear_all(self, doc_handle, locked_also=False, alt_state=""):
+        """
+        Clear selections in fields for current state. Locked fields are not cleared by default.
+
+        Parameters:
+            doc_handle (int): The handle identifying the app document.
+            locked_also (bool): When true, clears the selection for locked fields.
+            alt_state (str): Alternate state name. When set, applies to alternate state instead of current.
+        """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "ClearAll",
-                          "params": [locked_also, alt_state]})
+                          "params": {"qLockedAlso": locked_also, "qStateName": alt_state}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
