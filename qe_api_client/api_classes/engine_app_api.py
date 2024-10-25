@@ -255,45 +255,24 @@ class EngineAppApi:
     # can contain the same dimension.
     # Parameters:
     # qProp (MANDATORY: send dim_id, dim_title, dim_grouping, dim_field, dim_label, meta_def (optional)  # NOQA
-    def create_master_dim(self, doc_handle, dim_id, dim_title,
-                          dim_grouping="N", dim_field='', dim_label='',
-                          meta_def=""):
+    def create_dimension(self, doc_handle, prop):
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "CreateDimension",
-                          "params": [{
-                                "qInfo": {
-                                    "qId": dim_id,
-                                    "qType": "Dimension"
-                                },
-                                "qDim": {
-                                    "title": dim_title,
-                                    "qGrouping": dim_grouping,
-                                    "qFieldDefs": [
-                                        dim_field
-                                    ],
-                                    "qFieldLabels": [
-                                        dim_label
-                                    ]
-                                },
-                                "qMetaDef": {
-                                    "title": meta_def
-                                }
-                            }]
-                          })
+                          "params": {"qProp": prop}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response['result']
+            return response["result"]["qReturn"]
         except KeyError:
             return response['error']
 
     # DestroyDimension method: Removes a dimension
-    def destroy_dim(self, doc_handle, dim_id):
+    def destroy_dimension(self, doc_handle, dim_id):
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "DestroyDimension",
-                          "params": [{dim_id}]})
+                          "params": {"qId": dim_id}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response['result']
+            return response["result"]["qSuccess"]
         except KeyError:
-            return response['error']
+            return response["error"]
 
     # DestroyMeasure method: Removes a measure
     def destroy_measure(self, doc_handle, measure_id):
@@ -352,25 +331,12 @@ class EngineAppApi:
     # can contain the same dimension.
     # Parameters:
     # qProp (MANDATORY: send dim_id, dim_title, dim_grouping, dim_field, dim_label, meta_def (optional)  # NOQA
-    def create_master_measure(self, doc_handle, measure_id, measure_title, measure_expr, meta_def=""):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
-                          "method": "CreateMeasure", "params": [{
-                                "qInfo": {
-                                    "qId": measure_id,
-                                    "qType": "Measure"
-                                },
-                                "qMeasure": {
-                                    "qLabel": measure_title,
-                                    "qDef": measure_expr
-                                },
-                                "qMetaDef": {
-                                    "title": measure_title
-                                }
-                            }]
-                          })
+    def create_measure(self, doc_handle, prop):
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "CreateMeasure",
+                          "params": {"qProp": prop}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response['result']
+            return response["result"]["qReturn"]
         except KeyError:
             return response['error']
 

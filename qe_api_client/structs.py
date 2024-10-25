@@ -49,3 +49,21 @@ def sort_criteria(state=0, freq=0, numeric=0, ascii=0, load_order=1):
 
 def field_value(text, is_numeric = False, number = 0):
     return {"qText": text, "qIsNumeric": is_numeric, "qNumber": number}
+
+def generic_dimension_properties(info, lb_dim_def, dim_title):
+    return {"qInfo": info, "qDim": lb_dim_def, "qMetaDef": {"title": dim_title}}
+
+def nx_library_dimension_def(grouping="N", field_definitions=[], field_labels=[""], label_expression=""):
+    return {"qGrouping": grouping, "qFieldDefs": field_definitions, "qFieldLabels": field_labels,
+            "qLabelExpression": label_expression}
+
+def nx_library_measure_def(label, mes_def, grouping="N", expressions=[], active_expression=0, label_expression="",
+                           num_format={}):
+    return {"qLabel": label, "qDef": mes_def,"qGrouping": grouping, "qExpressions": expressions,
+            "qActiveExpression": active_expression, "qLabelExpression": label_expression, "qNumFormat": num_format}
+
+def num_format(type="U", n_dec=10, use_thou=0, fmt="", dec="", thou=""):
+    return {"qType": type, "qnDec": n_dec, "qUseThou": use_thou, "qFmt": fmt, "qDec": dec, "qThou": thou}
+
+def generic_measure_properties(info, lb_meas_def, meas_title):
+    return {"qInfo": info, "qMeasure": lb_meas_def, "qMetaDef": {"title": meas_title}}

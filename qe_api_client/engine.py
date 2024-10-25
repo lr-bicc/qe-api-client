@@ -75,26 +75,26 @@ class QixEngine:
 
         # Create generic object properties structure
         gen_obj_props = self.structs.generic_object_properties(nx_info, "qListObjectDef", lb_def)
-        print(gen_obj_props)
-        # lb_param = {"qInfo": {"qId": "SLB01", "qType": "ListObject"}, "qListObjectDef": lb_def}
-        # print(lb_param)
         listobj = self.eaa.create_session_object(app_handle, gen_obj_props)  # NOQA
-        print(listobj)
         listobj_handle = self.get_handle(listobj)
         val_list = self.egoa.get_layout(listobj_handle)["qListObject"]["qDataPages"][0]["qMatrix"]  # NOQA
-        print(val_list)
         val_n_state_list = []
         for val in val_list:
-            print(val)
             val_n_state_list.append((val[0]["qText"], val[0]["qState"]))
 
-        print(val_n_state_list)
         return val_n_state_list
 
     def clear_selection_in_dimension(self, app_handle, dimension_name):
         lb_field = self.eaa.get_field(app_handle, dimension_name)
         fld_handle = self.get_handle(lb_field)
         return self.efa.clear(fld_handle)
+
+    def create_single_master_dimension(self, app_handle, dim_title, dim_def, dim_label):
+        nx_info = self.structs.nx_info("dimension")
+        lb_dim_def = self.structs.nx_library_dimension_def("N",[dim_def],[""],dim_label)
+        gen_dim_props = self.structs.generic_dimension_properties(nx_info, lb_dim_def, dim_title)
+        master_dim = self.eaa.create_dimension(app_handle, gen_dim_props)
+        return master_dim
 
     def disconnect(self):
         self.conn.close_qvengine_connection(self.conn)
