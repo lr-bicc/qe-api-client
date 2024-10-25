@@ -12,6 +12,12 @@ import pandas as pd
 
 
 class QixEngine:
+    """
+    The class of the client to interact with the Qlik Sense Engine API.
+
+    Methods:
+        select_in_dimension(app_handle, dimension_name, list_of_values): Selects values in a given field.
+    """
 
     def __init__(self, url, user_directory=None, user_id=None, ca_certs=None, certfile=None, keyfile=None, app_id=None):
         self.url = url
@@ -58,15 +64,31 @@ class QixEngine:
     def get_list_object_data(self, app_handle, dimension_name):
         lb_field = self.eaa.get_field(app_handle, dimension_name)
         fld_handle = self.get_handle(lb_field)
+
+        nx_inline_dimension_def = self.structs.nx_inline_dimension_def([dimension_name])
         nx_page = self.structs.nx_page(0, 0, self.efa.get_cardinal(fld_handle))
-        lb_def = self.structs.list_object_def("$", "",[dimension_name], None,
-                                              None, [nx_page])
-        lb_param = {"qInfo": {"qId": "SLB01", "qType": "ListObject"}, "qListObjectDef": lb_def}
-        listobj_handle = self.eaa.create_session_object(app_handle, lb_param)["qHandle"]  # NOQA
+        lb_def = self.structs.list_object_def("$", "", nx_inline_dimension_def,
+                                              [nx_page])
+
+        # Create info structure
+        nx_info = self.structs.nx_info("ListObject", "SLB01")
+
+        # Create generic object properties structure
+        gen_obj_props = self.structs.generic_object_properties(nx_info, "qListObjectDef", lb_def)
+        print(gen_obj_props)
+        # lb_param = {"qInfo": {"qId": "SLB01", "qType": "ListObject"}, "qListObjectDef": lb_def}
+        # print(lb_param)
+        listobj = self.eaa.create_session_object(app_handle, gen_obj_props)  # NOQA
+        print(listobj)
+        listobj_handle = self.get_handle(listobj)
         val_list = self.egoa.get_layout(listobj_handle)["qListObject"]["qDataPages"][0]["qMatrix"]  # NOQA
+        print(val_list)
         val_n_state_list = []
         for val in val_list:
+            print(val)
             val_n_state_list.append((val[0]["qText"], val[0]["qState"]))
+
+        print(val_n_state_list)
         return val_n_state_list
 
     def clear_selection_in_dimension(self, app_handle, dimension_name):

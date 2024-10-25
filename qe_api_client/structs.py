@@ -1,15 +1,5 @@
-def list_object_def(state_name="$", library_id="", field_defs=None, field_labels=None, sort_criterias=None,
-                    initial_data_fetch=None):
-    if initial_data_fetch is None:
-        initial_data_fetch = []
-    if sort_criterias is None:
-        sort_criterias = []
-    if field_labels is None:
-        field_labels = []
-    if field_defs is None:
-        field_defs = []
-    return {"qStateName": state_name, "qLibraryId": library_id,
-            "qDef": {"qFieldDefs": field_defs, "qFieldLabels": field_labels, "qSortCriterias": sort_criterias},
+def list_object_def(state_name="$", library_id="", field_defs=[], initial_data_fetch=[]):
+    return {"qStateName": state_name, "qLibraryId": library_id, "qDef": field_defs,
             "qInitialDataFetch": initial_data_fetch}
 
 def hypercube_def(state_name="$", nx_dims=[], nx_meas=[], nx_page=[], inter_column_sort=[0, 1, 2], suppress_zero=False,

@@ -58,7 +58,7 @@ class EngineFieldApi:
                           "params": {"qFieldValues": values, "qToggleMode": toggle_mode, "qSoftLock": soft_lock}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response
+            return response["result"]["qReturn"]
         except KeyError:
             return response["error"]
 
