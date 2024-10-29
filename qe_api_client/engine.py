@@ -96,6 +96,25 @@ class QixEngine:
         master_dim = self.eaa.create_dimension(app_handle, gen_dim_props)
         return master_dim
 
+    def get_app_lineage_info(self, app_handle):
+        """
+        Gets the lineage information of the app. The lineage information includes the LOAD and STORE statements from
+        the data load script associated with this app.
+
+        Parameters:
+            app_handle (int): The handle of the app.
+
+        Returns:
+        DataFrame: Information about the lineage of the data in the app.
+        """
+        # Lineage-Daten aus der API holen
+        lineage_info = self.eaa.get_lineage(app_handle)
+
+        # Erstelle den DataFrame und fülle fehlende Werte mit ""
+        df_lineage_info = pd.DataFrame(lineage_info)
+        df_lineage_info = df_lineage_info[(df_lineage_info["qDiscriminator"].notna()) | (df_lineage_info["qStatement"].notna())].fillna("")
+        return df_lineage_info
+
     def disconnect(self):
         self.conn.close_qvengine_connection(self.conn)
 

@@ -666,7 +666,17 @@ class EngineAppApi:
 
     # GetAllInfos method: Get the identifier and the type of any generic object in an app by using the GetAllInfos method.  # NOQA
     def get_lineage(self, doc_handle):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetLineage", "params": []})
+        """
+        Gets the lineage information of the app. The lineage information includes the LOAD and STORE statements from
+        the data load script associated with this app.
+
+        Parameters:
+            doc_handle (int): The handle identifying the app document.
+
+        Returns:
+            list: Information about the lineage of the data in the app.
+        """
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetLineage", "params": {}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']['qLineage']

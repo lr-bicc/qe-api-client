@@ -1,13 +1,5 @@
 import unittest
-
-from qe_api_client.api_classes.engine_app_api import EngineAppApi
-from qe_api_client.engine_communicator import EngineCommunicator
-from qe_api_client.api_classes.engine_field_api import EngineFieldApi
-from qe_api_client.api_classes.engine_global_api import EngineGlobalApi
-import qe_api_client.structs as structs
 from qe_api_client.engine import QixEngine
-
-from qe_api_client.api_classes.engine_generic_object_api import EngineGenericObjectApi
 
 
 class TestFieldApi(unittest.TestCase):
@@ -24,14 +16,14 @@ class TestFieldApi(unittest.TestCase):
         self.qixe.eaa.do_reload_ex(self.app_handle)
 
         nx_inline_dimension_def = self.qixe.structs.nx_inline_dimension_def(["Alpha"])
-        nx_page_initial = structs.nx_page(0, 0, 1, 26)
-        lb_def = structs.list_object_def("$", "", nx_inline_dimension_def,[nx_page_initial])
+        nx_page_initial = self.qixe.structs.nx_page(0, 0, 1, 26)
+        lb_def = self.qixe.structs.list_object_def("$", "", nx_inline_dimension_def,[nx_page_initial])
 
         # Create info structure
-        nx_info = structs.nx_info("ListObject", "SLB01")
+        nx_info = self.qixe.structs.nx_info("ListObject", "SLB01")
 
         # Create generic object properties structure
-        gen_obj_props = structs.generic_object_properties(nx_info, "qListObjectDef", lb_def)
+        gen_obj_props = self.qixe.structs.generic_object_properties(nx_info, "qListObjectDef", lb_def)
         listobj = self.qixe.eaa.create_session_object(self.app_handle, gen_obj_props)  # NOQA
 
         self.lb_handle = self.qixe.get_handle(listobj)
