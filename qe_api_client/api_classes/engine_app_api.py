@@ -79,7 +79,7 @@ class EngineAppApi:
         except KeyError:
             return response['error']
 
-    def do_reload_ex(self, doc_handle, param_list=[]):
+    def do_reload_ex(self, doc_handle, param_list={}):
         """
         Triggers an extended reload of the app identified by the document handle.
 
@@ -91,10 +91,10 @@ class EngineAppApi:
             dict: The result of the extended reload operation. In case of an error, returns the error information.
         """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "DoReloadEx",
-                          "params": param_list})
+                          "params": {"qParams": param_list}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response['result']
+            return response["result"]["qResult"]
         except KeyError:
             return response['error']
 
@@ -435,8 +435,9 @@ class EngineAppApi:
 
     # DoSave method: Saves an app - All objects and data in the data model are saved.  # NOQA
     # Desktop only - server auto saves
-    def do_save(self, doc_handle):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "DoSave", "params": []})
+    def do_save(self, doc_handle, file_name=""):
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "DoSave",
+                          "params": {"qFileName": file_name}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
