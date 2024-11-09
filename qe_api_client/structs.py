@@ -67,3 +67,7 @@ def num_format(type="U", n_dec=10, use_thou=0, fmt="", dec="", thou=""):
 
 def generic_measure_properties(info, lb_meas_def, meas_title):
     return {"qInfo": info, "qMeasure": lb_meas_def, "qMetaDef": {"title": meas_title}}
+
+def do_reload_ex_params(mode=0, partial=False, debug=False, reload_id="", skip_store=False, row_limit=0):
+    return {"qMode": mode, "qPartial": partial, "qDebug": debug, "qReloadId": reload_id, "qSkipStore": skip_store,
+            "qRowLimit": row_limit}
