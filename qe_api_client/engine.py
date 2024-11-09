@@ -90,11 +90,42 @@ class QixEngine:
         return self.efa.clear(fld_handle)
 
     def create_single_master_dimension(self, app_handle, dim_title, dim_def, dim_label):
+        """
+        Creates a single master dimension.
+
+        Parameters:
+            app_handle (int): The handle of the app.
+            dim_title (str): The title of the dimension.
+            dim_def (str): The definition of the dimension.
+            dim_label (str): The label of the dimension.
+
+        Returns:
+            dict: The handle and Id of the dimension.
+        """
         nx_info = self.structs.nx_info("dimension")
         lb_dim_def = self.structs.nx_library_dimension_def("N",[dim_def],[""],dim_label)
         gen_dim_props = self.structs.generic_dimension_properties(nx_info, lb_dim_def, dim_title)
         master_dim = self.eaa.create_dimension(app_handle, gen_dim_props)
         return master_dim
+
+    def create_master_measure(self, app_handle, mes_title, mes_def, mes_label):
+        """
+        Creates a master measure.
+
+        Parameters:
+            app_handle (int): The handle of the app.
+            mes_title (str): The title of the measure.
+            mes_def (str): The definition of the measure.
+            mes_label (str): The label of the measure.
+
+        Returns:
+            dict: The handle and Id of the measure.
+        """
+        nx_info = self.structs.nx_info("measure")
+        lb_mes_def = self.structs.nx_inline_measure_def(mes_def,mes_label)
+        gen_mes_props = self.structs.generic_measure_properties(nx_info, lb_mes_def, mes_title)
+        master_mes = self.eaa.create_measure(app_handle, gen_mes_props)
+        return master_mes
 
     def get_app_lineage_info(self, app_handle):
         """
