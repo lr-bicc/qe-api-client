@@ -13,7 +13,7 @@ Forked from [jhettler/pyqlikengine](https://github.com/jhettler/pyqlikengine)
 pip install qe-api-client
 ```
 
-## Example of usage on Qlik Sense Enterprise Server
+## Connecting to Qlik Sense Enterprise Server
 You need to export the Qlik Sense certificates in PEM format from the Qlik Sense Enterprise server to a local folder in 
 order to authenticate on the server.
 
@@ -33,7 +33,7 @@ qixe = QixEngine(url=url, user_directory=user_directory, user_id=user_id, ca_cer
 print(qixe.ega.get_doc_list())
 ```
 
-## Example of usage on Qlik Sense Desktop
+## Connecting to Qlik Sense Desktop
 You need to start your Qlik Sense Desktop client on your local PC.
 
 ```python
@@ -45,6 +45,9 @@ qixe = QixEngine(url=url)
 # print all apps in Qlik Server
 print(qixe.ega.get_doc_list())
 ```
+
+## Examples of usage
+Please click on this [link](https://github.com/lr-bicc/qe-api-client/tree/master/examples) to find examples of usage of this client.
 
 ## API reference
 Please click on this [link](https://lr-bicc.github.io/qe-api-client) for full API reference documentation .
