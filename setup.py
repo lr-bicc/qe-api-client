@@ -20,7 +20,8 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        'websocket-client>=0.47.0'
+        'websocket-client>=0.47.0',
+        'pandas>=2.2.0'
     ],
     python_requires='>=3.6',
 )
