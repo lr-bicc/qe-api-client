@@ -22,21 +22,12 @@ class EngineCommunicator:
 
 class SecureEngineCommunicator(EngineCommunicator):
 
-    def __init__(self, url, user_directory,
-                 user_id, ca_certs, certfile,
-                 keyfile, app_id=None
-                 ):
+    def __init__(self, url, user_directory, user_id, ca_certs, certfile, keyfile, app_id=None):
         self.url = "wss://" + url + ":4747/app/" + str(app_id)
-        certs = ({"ca_certs": ca_certs,
-                  "certfile": certfile,
-                  "keyfile": keyfile,
-                  "cert_reqs": ssl.CERT_NONE,
-                  "server_side": False
-                  })
+        certs = ({"ca_certs": ca_certs, "certfile": certfile, "keyfile": keyfile, "cert_reqs": ssl.CERT_NONE,
+                  "server_side": False})
 
         ssl.match_hostname = lambda cert, hostname: True
         header = f'X-Qlik-User: UserDirectory={user_directory}; UserId={user_id}'  # NOQA
-        self.ws = create_connection(
-                self.url, sslopt=certs,
-                cookie=None, header={header})
+        self.ws = create_connection(self.url, sslopt=certs, cookie=None, header={header})
         self.session = self.ws.recv()

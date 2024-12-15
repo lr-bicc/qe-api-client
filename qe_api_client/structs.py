@@ -71,3 +71,8 @@ def generic_measure_properties(info, lb_meas_def, meas_title):
 def do_reload_ex_params(mode=0, partial=False, debug=False, reload_id="", skip_store=False, row_limit=0):
     return {"qMode": mode, "qPartial": partial, "qDebug": debug, "qReloadId": reload_id, "qSkipStore": skip_store,
             "qRowLimit": row_limit}
+
+def dimension_list_def():
+    return {"qInfo": {"qType": "DimensionList"},
+            "qDimensionListDef": {"qType": "dimension",
+            "qData": {"title": "/title", "tags": "/tags", "grouping": "/qDim/qGrouping", "info": "/qDimInfos"}}}
