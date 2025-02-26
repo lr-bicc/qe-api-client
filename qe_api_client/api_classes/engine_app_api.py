@@ -710,3 +710,22 @@ class EngineAppApi:
             return response['result']
         except KeyError:
             return response['error']
+
+    def get_variable_by_id(self, doc_handle, variable_id):
+        """
+        Gets the handle of a variable.
+
+        Parameters:
+            doc_handle (int): The handle identifying the document.
+            variable_id (str): The id of the variable.
+
+        Returns:
+            dict: The handle of the generic variable.
+        """
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetVariableById",
+                          "params": {"qId": variable_id}})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
+        try:
+            return response['result']['qReturn']
+        except KeyError:
+            return response['error']
