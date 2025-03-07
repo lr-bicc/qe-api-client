@@ -39,33 +39,36 @@ class QixEngine:
         self.structs = structs
         self.app_handle = ''
 
-    def select_in_dimension(self, app_handle, dimension_name, list_of_values):
-        lb_field = self.eaa.get_field(app_handle, dimension_name)
+    def select_in_field(self, app_handle, field_name, list_of_values):
+        lb_field = self.eaa.get_field(app_handle, field_name)
         fld_handle = self.get_handle(lb_field)
-        values_to_select = []
-        for val in list_of_values:
-            fld_value = self.structs.field_value(val)
-            values_to_select.append(fld_value)
-        return self.efa.select_values(fld_handle, values_to_select)
+        if fld_handle is None:
+            return "The field name " + field_name + " doesn't exist!"
+        else:
+            values_to_select = []
+            for val in list_of_values:
+                fld_value = self.structs.field_value(val)
+                values_to_select.append(fld_value)
+            return self.efa.select_values(fld_handle, values_to_select)
 
-    def select_excluded_in_dimension(self, app_handle, dimension_name):
-        lb_field = self.eaa.get_field(app_handle, dimension_name)
+    def select_excluded_in_field(self, app_handle, field_name):
+        lb_field = self.eaa.get_field(app_handle, field_name)
         fld_handle = self.get_handle(lb_field)
         return self.efa.select_excluded(fld_handle)
 
-    def select_possible_in_dimension(self, app_handle, dimension_name):
-        lb_field = self.eaa.get_field(app_handle, dimension_name)
+    def select_possible_in_field(self, app_handle, field_name):
+        lb_field = self.eaa.get_field(app_handle, field_name)
         fld_handle = self.get_handle(lb_field)
         return self.efa.select_possible(fld_handle)
 
     # return a list of tuples where first value in tuple is the actual
     # data value and the second tuple value is that
     # values selection state
-    def get_list_object_data(self, app_handle, dimension_name):
-        lb_field = self.eaa.get_field(app_handle, dimension_name)
+    def get_list_object_data(self, app_handle, field_name):
+        lb_field = self.eaa.get_field(app_handle, field_name)
         fld_handle = self.get_handle(lb_field)
 
-        nx_inline_dimension_def = self.structs.nx_inline_dimension_def([dimension_name])
+        nx_inline_dimension_def = self.structs.nx_inline_dimension_def([field_name])
         nx_page = self.structs.nx_page(0, 0, self.efa.get_cardinal(fld_handle))
         lb_def = self.structs.list_object_def("$", "", nx_inline_dimension_def,
                                               [nx_page])

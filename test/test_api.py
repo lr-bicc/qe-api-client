@@ -19,7 +19,7 @@ app_handle = qixe.get_handle(opened_app)
 
 list_of_values = ["A", "C"]
 
-test = qixe.select_in_dimension(app_handle, "Dim1", ["A", "B"])
+test = qixe.select_in_field(app_handle, "Dim1", ["A", "B"])
 print(test)
 
 # field = qixe.eaa.get_field(app_handle, "Dim1")

@@ -5,10 +5,10 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="qe-api-client",
-    version="2.4.0",
+    version="2.5.0",
     author="Rumen Vasilev",
     author_email="R.Vasilev@LRWorld.com",
-    description="Python wrapper around Qlik Engine JSON API",
+    description="Python client for the Qlik Engine JSON API",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/lr-bicc/qe-api-client",

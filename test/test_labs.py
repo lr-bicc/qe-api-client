@@ -14,7 +14,7 @@ class TestLabs(unittest.TestCase):
                            "Qlik", "Sense", "Apps",
                            "Consumer Sales.qvf")
         self.qixe.open_app(app)
-        print(self.qixe.select_in_dimension('Product Sub Group', ['Cheese']))
+        print(self.qixe.select_in_field('Product Sub Group', ['Cheese']))
 
     def tearDown(self):
         pass

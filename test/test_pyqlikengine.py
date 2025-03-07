@@ -15,23 +15,23 @@ class TestQixEngine(unittest.TestCase):
         self.assertTrue(self.qixe.eaa.do_reload_ex(self.app_handle)['qResult']['qSuccess'],'Failed to load script')
 
     def test_select_clear_in_dimension(self):
-        select_result = self.qixe.select_in_dimension(self.app_handle, 'Alpha',['A', 'C', 'E'])
+        select_result = self.qixe.select_in_field(self.app_handle, 'Alpha',['A', 'C', 'E'])
         self.assertTrue(select_result, "Failed to select values")
         self.assertTrue(self.qixe.clear_selection_in_dimension(self.app_handle, 'Alpha'),
                         'Failed to clear selection')
 
     def test_select_clear_all_in_dimension(self):
-        select_result = self.qixe.select_in_dimension(self.app_handle, 'Alpha', ['A', 'C', 'E'])
+        select_result = self.qixe.select_in_field(self.app_handle, 'Alpha', ['A', 'C', 'E'])
         self.assertTrue(select_result, "Failed to select values")
         self.qixe.eaa.clear_all(self.app_handle)
 
     def test_select_excluded(self):
-        self.qixe.select_in_dimension(self.app_handle, 'Alpha',['A', 'C', 'E'])
-        select_result = self.qixe.select_excluded_in_dimension(self.app_handle, 'Alpha')
+        self.qixe.select_in_field(self.app_handle, 'Alpha',['A', 'C', 'E'])
+        select_result = self.qixe.select_excluded_in_field(self.app_handle, 'Alpha')
         self.assertTrue(select_result,'Failed to select excluded')
 
     def test_select_possible(self):
-        select_result = self.qixe.select_possible_in_dimension(self.app_handle, 'Alpha')
+        select_result = self.qixe.select_possible_in_field(self.app_handle, 'Alpha')
         self.assertTrue(select_result,'Failed to select possible')
 
     def test_get_list_object_data(self):
