@@ -9,6 +9,7 @@ import qe_api_client.api_classes.engine_generic_measure_api as engine_generic_me
 import qe_api_client.structs as structs
 import math
 import pandas as pd
+import numpy as np
 
 
 class QixEngine:
@@ -318,7 +319,7 @@ class QixEngine:
             list_of_master_measures (list): A list of master measures.
 
         Returns:
-        DataFrame: A table of the chart content.
+            DataFrame: A table of the chart content.
         """
         # Create dimension property
         hc_dim = []
@@ -384,3 +385,58 @@ class QixEngine:
 
         # Returns the Dataframe
         return df
+
+    def get_apps_list(self):
+        """
+        Retrieves a list with all apps on the server containing meta data.
+
+        Parameters:
+
+        Returns:
+            DataFrame: A table with all server apps.
+        """
+
+        # Get all apps from Qlik Server
+        doc_list = self.ega.get_doc_list()
+
+        # Convert into DataFrame structure
+        df_doc_list = pd.DataFrame(doc_list)
+
+        # Resolve the attribute "qMeta"
+        field_meta = df_doc_list['qMeta'].apply(pd.Series).reindex(columns=["createdDate", "modifiedDate", "published",
+                                                                            "publishTime", "privileges", "description",
+                                                                            "qStaticByteSize", "dynamicColor", "create",
+                                                                            "stream", "canCreateDataConnections"])
+
+        # Concat the resolved attribute and rename the new columns
+        df_doc_list_meta = pd.concat([df_doc_list.drop(['qMeta'], axis=1), field_meta], axis=1)
+        df_doc_list_meta = df_doc_list_meta.rename(columns={"createdDate": "qMeta_createdDate",
+                                                            "modifiedDate": "qMeta_modifiedDate",
+                                                            "published": "qMeta_published",
+                                                            "publishTime": "qMeta_publishTime",
+                                                            "privileges": "qMeta_privileges",
+                                                            "description": "qMeta_description",
+                                                            "qStaticByteSize": "qMeta_qStaticByteSize",
+                                                            "dynamicColor": "qMeta_dynamicColor",
+                                                            "create": "qMeta_create",
+                                                            "stream": "qMeta_stream",
+                                                            "canCreateDataConnections": "qMeta_canCreateDataConnections"})
+
+        # Resolve the attribute "stream"
+        field_meta_stream = df_doc_list_meta['qMeta_stream'].apply(pd.Series).reindex(columns=["id", "name"])
+
+        # Concat the resolved attribute and rename the new columns
+        df_doc_list_meta_stream = pd.concat([df_doc_list_meta.drop(['qMeta_stream'], axis=1), field_meta_stream],
+                                            axis=1)
+        df_doc_list_meta_stream = df_doc_list_meta_stream.rename(
+            columns={"id": "qMeta_stream_id", "name": "qMeta_stream_name"})
+
+        # Resolve the attribute "qThumbnail"
+        field_thumbnail = df_doc_list_meta_stream['qThumbnail'].apply(pd.Series).reindex(columns=["qUrl"])
+
+        ## Concat the resolved attribute and rename the new columns
+        df_doc_list_resolved = pd.concat([df_doc_list_meta_stream.drop(['qThumbnail'], axis=1), field_thumbnail],
+                                         axis=1)
+        df_doc_list_resolved = df_doc_list_resolved.rename(columns={"qUrl": "qThumbnail_qUrl"}).replace(np.nan,'')
+
+        return df_doc_list_resolved
