@@ -48,7 +48,7 @@ class QixEngine:
         else:
             values_to_select = []
             for val in list_of_values:
-                fld_value = self.structs.field_value(val)
+                fld_value = self.structs.field_value(text=val)
                 values_to_select.append(fld_value)
             return self.efa.select_values(fld_handle, values_to_select)
 
@@ -70,15 +70,15 @@ class QixEngine:
         fld_handle = self.get_handle(lb_field)
 
         nx_inline_dimension_def = self.structs.nx_inline_dimension_def([field_name])
-        nx_page = self.structs.nx_page(0, 0, self.efa.get_cardinal(fld_handle))
+        nx_page = self.structs.nx_page(left=0, top=0, width=self.efa.get_cardinal(fld_handle))
         lb_def = self.structs.list_object_def("$", "", nx_inline_dimension_def,
                                               [nx_page])
 
         # Create info structure
-        nx_info = self.structs.nx_info("ListObject", "SLB01")
+        nx_info = self.structs.nx_info(obj_type="ListObject", obj_id="SLB01")
 
         # Create generic object properties structure
-        gen_obj_props = self.structs.generic_object_properties(nx_info, "qListObjectDef", lb_def)
+        gen_obj_props = self.structs.generic_object_properties(info=nx_info, prop_name="qListObjectDef", prop_def=lb_def)
         listobj = self.eaa.create_session_object(app_handle, gen_obj_props)  # NOQA
         listobj_handle = self.get_handle(listobj)
         val_list = self.egoa.get_layout(listobj_handle)["qListObject"]["qDataPages"][0]["qMatrix"]  # NOQA
@@ -106,9 +106,10 @@ class QixEngine:
         Returns:
             dict: The handle and Id of the dimension.
         """
-        nx_info = self.structs.nx_info("dimension")
-        lb_dim_def = self.structs.nx_library_dimension_def("N",[dim_def],[""],dim_label)
-        gen_dim_props = self.structs.generic_dimension_properties(nx_info, lb_dim_def, dim_title)
+        nx_info = self.structs.nx_info(obj_type="dimension")
+        lb_dim_def = self.structs.nx_library_dimension_def(grouping="N", field_definitions=[dim_def], field_labels=[""],
+                                                           label_expression=dim_label)
+        gen_dim_props = self.structs.generic_dimension_properties(info=nx_info, lb_dim_def=lb_dim_def, dim_title=dim_title)
         master_dim = self.eaa.create_dimension(app_handle, gen_dim_props)
         return master_dim
 
@@ -125,9 +126,9 @@ class QixEngine:
         Returns:
             dict: The handle and Id of the measure.
         """
-        nx_info = self.structs.nx_info("measure")
-        lb_mes_def = self.structs.nx_inline_measure_def(mes_def,mes_label)
-        gen_mes_props = self.structs.generic_measure_properties(nx_info, lb_mes_def, mes_title)
+        nx_info = self.structs.nx_info(obj_type="measure")
+        lb_mes_def = self.structs.nx_inline_measure_def(definition=mes_def,label=mes_label)
+        gen_mes_props = self.structs.generic_measure_properties(info=nx_info, lb_meas_def=lb_mes_def, meas_title=mes_title)
         master_mes = self.eaa.create_measure(app_handle, gen_mes_props)
         return master_mes
 
@@ -217,7 +218,7 @@ class QixEngine:
 
             # Retrieves the hypercube data in a loop (because of limitation from 10.000 cells per call)
             while no_of_rows > page * height:
-                nx_page = self.structs.nx_page(0, page * height, width, height)
+                nx_page = self.structs.nx_page(left=0, top=page * height, width=width, height=height)
                 hc_data = self.egoa.get_hypercube_data(obj_handle, '/qHyperCubeDef', nx_page)[
                     'qDataPages'][0]['qMatrix']
                 data_values.extend(hc_data)
@@ -247,7 +248,7 @@ class QixEngine:
 
             # Gets the column headers for the pivot table
             col_headers = []
-            nx_page_top = self.structs.nx_page(0, 0, width, 1)
+            nx_page_top = self.structs.nx_page(left=0, top=0, width=width, height=1)
             hc_top = self.egoa.get_hypercube_pivot_data(obj_handle, '/qHyperCubeDef', nx_page_top)[
                 'qDataPages'][0]['qTop']
             for top_node in hc_top:
@@ -260,7 +261,7 @@ class QixEngine:
 
             # Retrieves the hypercube data in a loop (bacause of limitation from 10.000 cells per call)
             while no_of_rows > page * height:
-                nx_page = self.structs.nx_page(0, page * height, width, height)
+                nx_page = self.structs.nx_page(left=0, top=page * height, width=width, height=height)
 
                 # Retrieves the row headers for the pivot table
                 hc_left = self.egoa.get_hypercube_pivot_data(obj_handle, '/qHyperCubeDef', nx_page)[
@@ -286,7 +287,7 @@ class QixEngine:
         # if the type of the charts has a stacked data structure
         elif obj_layout['qInfo']['qType'] in ['barchart'] and obj_layout['qHyperCube']['qStackedDataPages'] != []:
             max_no_cells = no_of_columns * no_of_rows
-            nx_page = self.structs.nx_page(0, 0, no_of_columns, no_of_rows)
+            nx_page = self.structs.nx_page(left=0, top=0, width=no_of_columns, height=no_of_rows)
             hc_data = self.egoa.get_hypercube_stack_data(obj_handle, '/qHyperCubeDef', nx_page, max_no_cells)[
                 'qDataPages'][0]['qData'][0]['qSubNodes']
 
@@ -324,27 +325,27 @@ class QixEngine:
         # Create dimension property
         hc_dim = []
         for dimension in list_of_dimensions:
-            hc_inline_dim_def = self.structs.nx_inline_dimension_def([dimension])
-            hc_dim.append(self.structs.nx_dimension("", hc_inline_dim_def))
+            hc_inline_dim_def = self.structs.nx_inline_dimension_def(field_definitions=[dimension])
+            hc_dim.append(self.structs.nx_dimension(library_id="", dim_def=hc_inline_dim_def))
         for dimension in list_of_master_dimensions:
-            hc_dim.append(self.structs.nx_dimension(dimension))
+            hc_dim.append(self.structs.nx_dimension(library_id=dimension))
 
         # Create measure property
         hc_mes = []
         for measure in list_of_measures:
-            hc_inline_mes = self.structs.nx_inline_measure_def(measure)
-            hc_mes.append(self.structs.nx_measure("", hc_inline_mes))
+            hc_inline_mes = self.structs.nx_inline_measure_def(definition=measure)
+            hc_mes.append(self.structs.nx_measure(library_id="", mes_def=hc_inline_mes))
         for measure in list_of_master_measures:
-            hc_mes.append(self.structs.nx_measure(measure))
+            hc_mes.append(self.structs.nx_measure(library_id=measure))
 
         # Create hypercube structure
-        hc_def = self.structs.hypercube_def("$", hc_dim, hc_mes)
+        hc_def = self.structs.hypercube_def(state_name="$", nx_dims=hc_dim, nx_meas=hc_mes)
 
         # Create info structure
-        nx_info = self.structs.nx_info("table")
+        nx_info = self.structs.nx_info(obj_type="table")
 
         # Create generic object properties structure
-        gen_obj_props = self.structs.generic_object_properties(nx_info, "qHyperCubeDef", hc_def)
+        gen_obj_props = self.structs.generic_object_properties(info=nx_info, prop_name="qHyperCubeDef", prop_def=hc_def)
 
         # Create session object
         hc_obj = self.eaa.create_session_object(app_handle, gen_obj_props)
@@ -372,7 +373,7 @@ class QixEngine:
 
         # Retrieves the hypercube data in a loop (because of limitation from 10.000 cells per call)
         while no_of_rows > page * height:
-            nx_page = self.structs.nx_page(0, page * height, width, height)
+            nx_page = self.structs.nx_page(left=0, top=page * height, width=width, height=height)
             hc_data = self.egoa.get_hypercube_data(hc_obj_handle, '/qHyperCubeDef', nx_page)['qDataPages'][0]['qMatrix']
             data_values.extend(hc_data)
             page += 1
@@ -440,3 +441,41 @@ class QixEngine:
         df_doc_list_resolved = df_doc_list_resolved.rename(columns={"qUrl": "qThumbnail_qUrl"}).replace(np.nan,'')
 
         return df_doc_list_resolved
+
+
+    def get_fields_list(self, app_handle):
+        """
+        Retrieves a list with all app fields containing meta data.
+
+        Parameters:
+            app_handle (int): The handle of the app.
+
+        Returns:
+            DataFrame: A table with all fields from an app.
+        """
+        # Define the parameters of the session object
+        nx_info = self.structs.nx_info(obj_type="FieldList")
+        field_list_def = self.structs.field_list_def()
+        gen_obj_props = self.structs.generic_object_properties(info=nx_info, prop_name="qFieldListDef",
+                                                               prop_def=field_list_def)
+
+        # Create session object
+        session = self.eaa.create_session_object(app_handle, gen_obj_props)
+
+        # Get session handle
+        session_handle = self.get_handle(session)
+
+        # Get session object data
+        layout = self.egoa.get_layout(session_handle)
+
+        # Get the field list as Dictionary structure
+        fields_list = layout["qFieldList"]["qItems"]
+
+        # Define the DataFrame structure
+        df_fields_list = pd.DataFrame(columns=['qIsHidden', 'qIsSystem', 'qName', 'qCardinal', 'qTags', 'qSrcTables'])
+
+        for fields in fields_list:
+            # Concatenate the field list on the DataFrame structure
+            df_fields_list.loc[len(df_fields_list)] = fields
+
+        return df_fields_list

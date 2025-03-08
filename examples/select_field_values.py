@@ -1,6 +1,7 @@
 # Import engine package
 from qe_api_client.engine import QixEngine
 
+
 # Connect to Qlik Sense Desktop engine
 url = 'ws://localhost:4848/app'
 qixe = QixEngine(url)
