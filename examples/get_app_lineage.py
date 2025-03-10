@@ -28,9 +28,9 @@ script_result = qixe.eaa.set_script(app_handle, app_script)
 # Reload app
 reload_result = qixe.eaa.do_reload_ex(app_handle)
 
-# Retrieves a list with all fields in the app containing field metadata
-fields_list = qixe.get_fields_list(app_handle=app_handle)
-print(fields_list)
+# Retrieves a list with an app lineage data
+app_lineage = qixe.get_app_lineage(app_handle=app_handle)
+print(app_lineage)
 
 # close connection
 QixEngine.disconnect(qixe)

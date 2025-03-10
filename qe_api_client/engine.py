@@ -387,9 +387,9 @@ class QixEngine:
         # Returns the Dataframe
         return df
 
-    def get_apps_list(self):
+    def get_apps(self):
         """
-        Retrieves a list with all apps on the server containing meta data.
+        Retrieves a list with all apps on the server containing metadata.
 
         Parameters:
 
@@ -443,7 +443,7 @@ class QixEngine:
         return df_doc_list_resolved
 
 
-    def get_fields_list(self, app_handle):
+    def get_app_fields(self, app_handle):
         """
         Retrieves a list with all app fields containing meta data.
 
@@ -479,3 +479,157 @@ class QixEngine:
             df_fields_list.loc[len(df_fields_list)] = fields
 
         return df_fields_list
+
+
+    def get_app_dimensions(self, app_handle):
+        """
+        Retrieves a list with all app dimensions containing metadata.
+
+        Parameters:
+            app_handle (int): The handle of the app.
+
+        Returns:
+            DataFrame: A table with all dimensions from an app.
+        """
+        # Define the parameters of the session object
+        nx_info = self.structs.nx_info(obj_type="DimensionList")
+        dimension_list_def = self.structs.dimension_list_def()
+        gen_obj_props = self.structs.generic_object_properties(info=nx_info, prop_name="qDimensionListDef",
+                                                               prop_def=dimension_list_def)
+
+        # Create session object
+        session = self.eaa.create_session_object(app_handle, gen_obj_props)
+
+        # Get session handle
+        session_handle = self.get_handle(session)
+
+        # Get session object data
+        layout = self.egoa.get_layout(session_handle)
+
+        # Get the field list as Dictionary structure
+        dimension_list = layout["qDimensionList"]["qItems"]
+
+        # Define the DataFrame structure
+        df_dimension_list = pd.DataFrame(columns=['qInfo', 'qMeta', 'qData'])
+
+        for dimension in dimension_list:
+            # Concatenate the field list on the DataFrame structure
+            df_dimension_list.loc[len(df_dimension_list)] = dimension
+
+        # Resolve the dictionary structures
+        df_dimension_list['qInfo_qId'] = df_dimension_list['qInfo'].apply(lambda x: x['qId'])
+        df_dimension_list['qInfo_qType'] = df_dimension_list['qInfo'].apply(lambda x: x['qType'])
+        df_dimension_list['qMeta_title'] = df_dimension_list['qMeta'].apply(lambda x: x['title'])
+        try:
+            df_dimension_list['qMeta_description'] = df_dimension_list['qMeta'].apply(lambda x: x['description'])
+        except KeyError:
+            df_dimension_list['qMeta_description'] = ""
+        try:
+            df_dimension_list['qMeta_createdDate'] = df_dimension_list['qMeta'].apply(lambda x: x['createdDate'])
+        except KeyError:
+            df_dimension_list['qMeta_createdDate'] = ""
+        try:
+            df_dimension_list['qMeta_modifiedDate'] = df_dimension_list['qMeta'].apply(lambda x: x['modifiedDate'])
+        except KeyError:
+            df_dimension_list['qMeta_modifiedDate'] = ""
+        try:
+            df_dimension_list['qMeta_published'] = df_dimension_list['qMeta'].apply(lambda x: x['published'])
+        except KeyError:
+            df_dimension_list['qMeta_published'] = ""
+        try:
+            df_dimension_list['qMeta_publishTime'] = df_dimension_list['qMeta'].apply(lambda x: x['publishTime'])
+        except KeyError:
+            df_dimension_list['qMeta_publishTime'] = ""
+        try:
+            df_dimension_list['qMeta_owner'] = df_dimension_list['qMeta'].apply(lambda x: x['owner'])
+        except KeyError:
+            df_dimension_list['qMeta_owner'] = ""
+        try:
+            df_dimension_list['qMeta_owner_id'] = df_dimension_list['qMeta_owner'].apply(lambda x: x['id'])
+        except:
+            df_dimension_list['qMeta_owner_id'] = ""
+        try:
+            df_dimension_list['qMeta_owner_userId'] = df_dimension_list['qMeta_owner'].apply(lambda x: x['userId'])
+        except:
+            df_dimension_list['qMeta_owner_userId'] = ""
+        try:
+            df_dimension_list['qMeta_owner_userDirectory'] = df_dimension_list['qMeta_owner'].apply(
+                 lambda x: x['userDirectory'])
+        except:
+            df_dimension_list['qMeta_owner_userDirectory'] = ""
+        try:
+            df_dimension_list['qMeta_owner_userDirectoryConnectorName'] = df_dimension_list['qMeta_owner'].apply(
+                lambda x: x['userDirectoryConnectorName'])
+        except:
+            df_dimension_list['qMeta_owner_userDirectoryConnectorName'] = ""
+        try:
+            df_dimension_list['qMeta_owner_name'] = df_dimension_list['qMeta_owner'].apply(lambda x: x['name'])
+        except:
+            df_dimension_list['qMeta_owner_name'] = ""
+        try:
+            df_dimension_list['qMeta_owner_privileges'] = df_dimension_list['qMeta_owner'].apply(lambda x: x['privileges'])
+        except:
+            df_dimension_list['qMeta_owner_privileges'] = ""
+        try:
+            df_dimension_list['qMeta_qSize'] = df_dimension_list['qMeta'].apply(lambda x: x['qSize'])
+        except KeyError:
+            df_dimension_list['qMeta_qSize'] = ""
+        try:
+            df_dimension_list['qMeta_sourceObject'] = df_dimension_list['qMeta'].apply(lambda x: x['sourceObject'])
+        except KeyError:
+            df_dimension_list['qMeta_sourceObject'] = ""
+        try:
+            df_dimension_list['qMeta_draftObject'] = df_dimension_list['qMeta'].apply(lambda x: x['draftObject'])
+        except KeyError:
+            df_dimension_list['qMeta_draftObject'] = ""
+        df_dimension_list['qMeta_privileges'] = df_dimension_list['qMeta'].apply(lambda x: x['privileges'])
+        try:
+            df_dimension_list['qMeta_tags'] = df_dimension_list['qMeta'].apply(lambda x: x['tags'])
+        except KeyError:
+            df_dimension_list['qMeta_tags'] = ""
+        df_dimension_list['qData_info'] = df_dimension_list['qData'].apply(lambda x: x['info'])
+        df_dimension_list['qData_title'] = df_dimension_list['qData'].apply(lambda x: x['title'])
+        df_dimension_list['qData_tags'] = df_dimension_list['qData'].apply(lambda x: x['tags'])
+        df_dimension_list['qData_grouping'] = df_dimension_list['qData'].apply(lambda x: x['grouping'])
+
+        # Delete the resolved structures
+        df_dimension_list.drop('qInfo', axis=1, inplace=True)
+        df_dimension_list.drop('qMeta', axis=1, inplace=True)
+        df_dimension_list.drop('qMeta_owner', axis=1, inplace=True)
+        df_dimension_list.drop('qData', axis=1, inplace=True)
+
+        # Die Listenstruktur im Attribut "qData_info" wird aufgelöst.
+        df_dimension_list = df_dimension_list.explode('qData_info')
+
+        # Die Dictionary-Strukturen werden aufgelöst.
+        df_dimension_list['qData_info_qName'] = df_dimension_list['qData_info'].apply(lambda x: x['qName'])
+        df_dimension_list['qData_info_qTags'] = df_dimension_list['qData_info'].apply(lambda x: x['qTags'])
+        df_dimension_list['qData_info_qIsSemantic'] = df_dimension_list['qData_info'].apply(lambda x: x['qIsSemantic'])
+
+        # Die ursprünglichen nicht aufgelösten Felder werden gelöscht.
+        df_dimension_list.drop('qData_info', axis=1, inplace=True)
+
+        return df_dimension_list
+
+
+    def get_app_lineage(self, app_handle):
+        """
+        Retrieves a list with an app lineage data.
+
+        Parameters:
+            app_handle (int): The handle of the app.
+
+        Returns:
+            DataFrame: A table with lineage data from an app.
+        """
+        # Get lineage data from an app
+        lineage_list = self.eaa.get_lineage(app_handle)
+
+        # Define the DataFrame structure
+        df_lineage_list = pd.DataFrame(columns=['qDiscriminator', 'qStatement'])
+
+        for lineage in lineage_list:
+            # Concatenate the lineage row on the DataFrame structure
+            df_lineage_list.loc[len(df_lineage_list)] = lineage
+
+        return df_lineage_list

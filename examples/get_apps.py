@@ -6,7 +6,7 @@ url = 'ws://localhost:4848/app'
 qixe = QixEngine(url)
 
 # Retrieves a list with all apps on the server containing meta data
-apps_list = qixe.get_apps_list()
+apps_list = qixe.get_apps()
 print(apps_list)
 
 # close connection

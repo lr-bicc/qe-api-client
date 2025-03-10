@@ -90,9 +90,8 @@ def do_reload_ex_params(mode=0, partial=False, debug=False, reload_id="", skip_s
 
 
 def dimension_list_def():
-    return {"qInfo": {"qType": "DimensionList"},
-            "qDimensionListDef": {"qType": "dimension",
-            "qData": {"title": "/title", "tags": "/tags", "grouping": "/qDim/qGrouping", "info": "/qDimInfos"}}}
+    return {"qType": "dimension",
+            "qData": {"title": "/title", "tags": "/tags", "grouping": "/qDim/qGrouping", "info": "/qDimInfos"}}
 
 
 def field_list_def(show_system=True, show_hidden=True, show_derived_fields=True, show_semantic=True,
