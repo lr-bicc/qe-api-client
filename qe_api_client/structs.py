@@ -31,7 +31,7 @@ def nx_info(obj_type, obj_id=""):
 
     Parameters:
         obj_type (str): Type of the object. This parameter is mandatory.
-        obj_id (str): Identifier of the object. If the chosen identifier is already in use, the engine automatically
+        obj_id (str, optional): Identifier of the object. If the chosen identifier is already in use, the engine automatically
         sets another one. If an identifier is not set, the engine automatically sets one. This parameter is optional.
 
     Returns:
@@ -61,11 +61,20 @@ def field_value(text, is_numeric = False, number = 0):
     return {"qText": text, "qIsNumeric": is_numeric, "qNumber": number}
 
 
-def generic_dimension_properties(info, lb_dim_def, dim_title):
-    return {"qInfo": info, "qDim": lb_dim_def, "qMetaDef": {"title": dim_title}}
+def generic_dimension_properties(nx_info: dict, nx_library_dimension_def: dict, title: str, description: str = "",
+                                 tags: list = None):
+    if tags is None:
+        tags = []
+    return {"qInfo": nx_info, "qDim": nx_library_dimension_def, "qMetaDef": {"title": title, "description": description,
+                                                                             "tags": tags}}
 
 
-def nx_library_dimension_def(grouping="N", field_definitions=[], field_labels=[""], label_expression=""):
+def nx_library_dimension_def(grouping: str = "N", field_definitions: list = None, field_labels: list = None,
+                             label_expression: str = ""):
+    if field_labels is None:
+        field_labels = []
+    if field_definitions is None:
+        field_definitions = []
     return {"qGrouping": grouping, "qFieldDefs": field_definitions, "qFieldLabels": field_labels,
             "qLabelExpression": label_expression}
 

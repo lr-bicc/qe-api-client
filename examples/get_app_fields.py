@@ -28,6 +28,9 @@ script_result = qixe.eaa.set_script(app_handle, app_script)
 # Reload app
 reload_result = qixe.eaa.do_reload_ex(app_handle)
 
+# Save app
+save_result =qixe.eaa.do_save(app_handle, app_name)
+
 # Retrieves a list with all fields in the app containing field metadata
 fields_list = qixe.get_app_fields(app_handle=app_handle)
 print(fields_list)

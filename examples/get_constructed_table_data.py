@@ -32,9 +32,9 @@ list_of_dimensions = ["Dim1"]
 list_of_measures = ["Sum(Expression1)"]
 
 # Create dimensions and measures
-dim_2 = qixe.create_single_master_dimension(app_handle, "Dimension2", "Dim2", "'Dimension 2'")
+dim_2 = qixe.create_single_master_dimension(app_handle, dim_title="Dimension2", dim_def="Dim2", dim_label="'Dimension 2'")
 dim_2_id = dim_2["qGenericId"]
-dim_3 = qixe.create_single_master_dimension(app_handle, "Dimension3", "Dim3", "'Dimension 3'")
+dim_3 = qixe.create_single_master_dimension(app_handle, dim_title="Dimension3", dim_def="Dim3", dim_label="'Dimension 3'")
 dim_3_id = dim_3["qGenericId"]
 exp_2 = qixe.create_master_measure(app_handle, "Expression2", "Sum(Expression2)", "Expression 2")
 exp_2_id = exp_2["qGenericId"]

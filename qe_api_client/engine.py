@@ -93,7 +93,8 @@ class QixEngine:
         fld_handle = self.get_handle(lb_field)
         return self.efa.clear(fld_handle)
 
-    def create_single_master_dimension(self, app_handle, dim_title, dim_def, dim_label):
+    def create_single_master_dimension(self, app_handle: int, dim_title: str, dim_def: str, dim_label: str = "",
+                                       dim_desc: str = "", dim_tags: list = None):
         """
         Creates a single master dimension.
 
@@ -101,15 +102,22 @@ class QixEngine:
             app_handle (int): The handle of the app.
             dim_title (str): The title of the dimension.
             dim_def (str): The definition of the dimension.
-            dim_label (str): The label of the dimension.
+            dim_label (str, optional): The label of the dimension.
+            dim_desc (str, optional): The description of the dimension.
+            dim_tags (list, optional): The tags of the dimension.
 
         Returns:
             dict: The handle and Id of the dimension.
         """
+        if dim_tags is None:
+            dim_tags = []
         nx_info = self.structs.nx_info(obj_type="dimension")
-        lb_dim_def = self.structs.nx_library_dimension_def(grouping="N", field_definitions=[dim_def], field_labels=[""],
-                                                           label_expression=dim_label)
-        gen_dim_props = self.structs.generic_dimension_properties(info=nx_info, lb_dim_def=lb_dim_def, dim_title=dim_title)
+        nx_library_dimension_def = self.structs.nx_library_dimension_def(grouping="N", field_definitions=[dim_def],
+                                                                         field_labels=[dim_title],
+                                                                         label_expression=dim_label)
+        gen_dim_props = self.structs.generic_dimension_properties(nx_info=nx_info,
+                                                                  nx_library_dimension_def=nx_library_dimension_def,
+                                                                  title=dim_title, description=dim_desc, tags=dim_tags)
         master_dim = self.eaa.create_dimension(app_handle, gen_dim_props)
         return master_dim
 
@@ -510,104 +518,58 @@ class QixEngine:
         dimension_list = layout["qDimensionList"]["qItems"]
 
         # Define the DataFrame structure
-        df_dimension_list = pd.DataFrame(columns=['qInfo', 'qMeta', 'qData'])
+        df_dimension_list = pd.DataFrame(columns=["qInfo", "qMeta", "qDim", "qDimInfos"])
 
         for dimension in dimension_list:
-            # Concatenate the field list on the DataFrame structure
-            df_dimension_list.loc[len(df_dimension_list)] = dimension
+            # Get dimension ID
+            dim_id = dimension["qInfo"]["qId"]
+            # Get dimension
+            dim_result = self.eaa.get_dimension(doc_handle=app_handle, dim_id=dim_id)
+            # Get dimension handle
+            dim_handle = self.get_handle(dim_result)
+            # Get dimension metadata
+            dim_layout = self.egoa.get_layout(dim_handle)
 
-        # Resolve the dictionary structures
-        df_dimension_list['qInfo_qId'] = df_dimension_list['qInfo'].apply(lambda x: x['qId'])
-        df_dimension_list['qInfo_qType'] = df_dimension_list['qInfo'].apply(lambda x: x['qType'])
-        df_dimension_list['qMeta_title'] = df_dimension_list['qMeta'].apply(lambda x: x['title'])
-        try:
-            df_dimension_list['qMeta_description'] = df_dimension_list['qMeta'].apply(lambda x: x['description'])
-        except KeyError:
-            df_dimension_list['qMeta_description'] = ""
-        try:
-            df_dimension_list['qMeta_createdDate'] = df_dimension_list['qMeta'].apply(lambda x: x['createdDate'])
-        except KeyError:
-            df_dimension_list['qMeta_createdDate'] = ""
-        try:
-            df_dimension_list['qMeta_modifiedDate'] = df_dimension_list['qMeta'].apply(lambda x: x['modifiedDate'])
-        except KeyError:
-            df_dimension_list['qMeta_modifiedDate'] = ""
-        try:
-            df_dimension_list['qMeta_published'] = df_dimension_list['qMeta'].apply(lambda x: x['published'])
-        except KeyError:
-            df_dimension_list['qMeta_published'] = ""
-        try:
-            df_dimension_list['qMeta_publishTime'] = df_dimension_list['qMeta'].apply(lambda x: x['publishTime'])
-        except KeyError:
-            df_dimension_list['qMeta_publishTime'] = ""
-        try:
-            df_dimension_list['qMeta_owner'] = df_dimension_list['qMeta'].apply(lambda x: x['owner'])
-        except KeyError:
-            df_dimension_list['qMeta_owner'] = ""
-        try:
-            df_dimension_list['qMeta_owner_id'] = df_dimension_list['qMeta_owner'].apply(lambda x: x['id'])
-        except:
-            df_dimension_list['qMeta_owner_id'] = ""
-        try:
-            df_dimension_list['qMeta_owner_userId'] = df_dimension_list['qMeta_owner'].apply(lambda x: x['userId'])
-        except:
-            df_dimension_list['qMeta_owner_userId'] = ""
-        try:
-            df_dimension_list['qMeta_owner_userDirectory'] = df_dimension_list['qMeta_owner'].apply(
-                 lambda x: x['userDirectory'])
-        except:
-            df_dimension_list['qMeta_owner_userDirectory'] = ""
-        try:
-            df_dimension_list['qMeta_owner_userDirectoryConnectorName'] = df_dimension_list['qMeta_owner'].apply(
-                lambda x: x['userDirectoryConnectorName'])
-        except:
-            df_dimension_list['qMeta_owner_userDirectoryConnectorName'] = ""
-        try:
-            df_dimension_list['qMeta_owner_name'] = df_dimension_list['qMeta_owner'].apply(lambda x: x['name'])
-        except:
-            df_dimension_list['qMeta_owner_name'] = ""
-        try:
-            df_dimension_list['qMeta_owner_privileges'] = df_dimension_list['qMeta_owner'].apply(lambda x: x['privileges'])
-        except:
-            df_dimension_list['qMeta_owner_privileges'] = ""
-        try:
-            df_dimension_list['qMeta_qSize'] = df_dimension_list['qMeta'].apply(lambda x: x['qSize'])
-        except KeyError:
-            df_dimension_list['qMeta_qSize'] = ""
-        try:
-            df_dimension_list['qMeta_sourceObject'] = df_dimension_list['qMeta'].apply(lambda x: x['sourceObject'])
-        except KeyError:
-            df_dimension_list['qMeta_sourceObject'] = ""
-        try:
-            df_dimension_list['qMeta_draftObject'] = df_dimension_list['qMeta'].apply(lambda x: x['draftObject'])
-        except KeyError:
-            df_dimension_list['qMeta_draftObject'] = ""
-        df_dimension_list['qMeta_privileges'] = df_dimension_list['qMeta'].apply(lambda x: x['privileges'])
-        try:
-            df_dimension_list['qMeta_tags'] = df_dimension_list['qMeta'].apply(lambda x: x['tags'])
-        except KeyError:
-            df_dimension_list['qMeta_tags'] = ""
-        df_dimension_list['qData_info'] = df_dimension_list['qData'].apply(lambda x: x['info'])
-        df_dimension_list['qData_title'] = df_dimension_list['qData'].apply(lambda x: x['title'])
-        df_dimension_list['qData_tags'] = df_dimension_list['qData'].apply(lambda x: x['tags'])
-        df_dimension_list['qData_grouping'] = df_dimension_list['qData'].apply(lambda x: x['grouping'])
+            # Concatenate the dimension metadata on the DataFrame structure
+            df_dimension_list.loc[len(df_dimension_list)] = dim_layout
 
-        # Delete the resolved structures
-        df_dimension_list.drop('qInfo', axis=1, inplace=True)
-        df_dimension_list.drop('qMeta', axis=1, inplace=True)
-        df_dimension_list.drop('qMeta_owner', axis=1, inplace=True)
-        df_dimension_list.drop('qData', axis=1, inplace=True)
+        # Resolve the dictionary structure of attribute "qInfo"
+        df_dimension_list_expanded = (df_dimension_list["qInfo"].apply(pd.Series).add_prefix("qInfo_"))
+        df_dimension_list = df_dimension_list.drop(columns=["qInfo"]).join(df_dimension_list_expanded)
 
-        # Die Listenstruktur im Attribut "qData_info" wird aufgelöst.
-        df_dimension_list = df_dimension_list.explode('qData_info')
+        # Resolve the dictionary structure of attribute "qMeta"
+        df_dimension_list_expanded = (df_dimension_list["qMeta"].apply(pd.Series).add_prefix("qMeta_"))
+        df_dimension_list = df_dimension_list.drop(columns=["qMeta"]).join(df_dimension_list_expanded)
 
-        # Die Dictionary-Strukturen werden aufgelöst.
-        df_dimension_list['qData_info_qName'] = df_dimension_list['qData_info'].apply(lambda x: x['qName'])
-        df_dimension_list['qData_info_qTags'] = df_dimension_list['qData_info'].apply(lambda x: x['qTags'])
-        df_dimension_list['qData_info_qIsSemantic'] = df_dimension_list['qData_info'].apply(lambda x: x['qIsSemantic'])
+        # Resolve the dictionary structure of attribute "qDim"
+        df_dimension_list_expanded = (df_dimension_list["qDim"].apply(pd.Series).add_prefix("qDim_"))
+        df_dimension_list = df_dimension_list.drop(columns=["qDim"]).join(df_dimension_list_expanded)
 
-        # Die ursprünglichen nicht aufgelösten Felder werden gelöscht.
-        df_dimension_list.drop('qData_info', axis=1, inplace=True)
+        # Resolve the dictionary structure of attribute "qDim_coloring"
+        try:
+            df_dimension_list_expanded = (
+                df_dimension_list["qDim_coloring"].apply(pd.Series).add_prefix("qDim_coloring_"))
+            df_dimension_list = df_dimension_list.drop(columns=["qDim_coloring"]).join(df_dimension_list_expanded)
+        except KeyError:
+            df_dimension_list["qDim_coloring"] = ""
+
+        # Resolve the dictionary structure of attribute "qDim_coloring_baseColor"
+        try:
+            df_dimension_list_expanded = (
+                df_dimension_list["qDim_coloring_baseColor"].apply(pd.Series).add_prefix("qDim_coloring_baseColor_"))
+            df_dimension_list = df_dimension_list.drop(columns=["qDim_coloring_baseColor"]).join(
+                df_dimension_list_expanded)
+        except KeyError:
+            df_dimension_list["qDim_coloring_baseColor"] = ""
+
+        # Resolve the list structure of attribute
+        df_dimension_list = df_dimension_list.explode(['qDimInfos', 'qDim_qFieldDefs', 'qDim_qFieldLabels'])
+
+        # Resolve the dictionary structure of attribute "qDimInfos"
+        df_dimension_list_expanded = (df_dimension_list["qDimInfos"].apply(pd.Series).add_prefix("qDimInfos_"))
+        index = df_dimension_list_expanded.index
+        df_dimension_list_expanded = df_dimension_list_expanded[~index.duplicated(keep="first")]
+        df_dimension_list = df_dimension_list.drop(columns=["qDimInfos"]).join(df_dimension_list_expanded)
 
         return df_dimension_list
 

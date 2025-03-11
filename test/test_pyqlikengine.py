@@ -39,8 +39,8 @@ class TestQixEngine(unittest.TestCase):
                         'Failed to get value list')
 
     def test_get_constructed_table_data(self):
-        dim_1 = self.qixe.create_single_master_dimension(self.app_handle, "Dim 1", "Dim1", "'Dimension 1'")
-        dim_2 = self.qixe.create_single_master_dimension(self.app_handle, "Dim 2", "Dim2", "'Dimension 2'")
+        dim_1 = self.qixe.create_single_master_dimension(self.app_handle, dim_title="Dim 1", dim_def="Dim1", dim_label="'Dimension 1'")
+        dim_2 = self.qixe.create_single_master_dimension(self.app_handle, dim_title="Dim 2", dim_def="Dim2", dim_label="'Dimension 2'")
         dim_1_id = dim_1["qGenericId"]
         dim_2_id = dim_2["qGenericId"]
 

@@ -14,7 +14,7 @@ app_handle = qixe.get_handle(opened_app)
 # master_dim_1 = qixe.eaa.create_dimension(app_handle, gen_dim_props_1)
 # print(master_dim_1)
 
-dim_1 = qixe.create_single_master_dimension(app_handle, "Dim 1", "Dim1", "'Dimension 1'")
+dim_1 = qixe.create_single_master_dimension(app_handle, dim_title="Dim 1", dim_def="Dim1", dim_label="'Dimension 1'")
 dim_1_id = dim_1["qGenericId"]
 print(dim_1)
 

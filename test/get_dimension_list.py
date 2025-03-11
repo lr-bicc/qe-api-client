@@ -1,5 +1,4 @@
 from qe_api_client.engine import QixEngine
-from qe_api_client.structs import dimension_list_def
 
 url = 'ws://localhost:4848/app'
 qixe = QixEngine(url)
@@ -12,9 +11,9 @@ app_handle = qixe.get_handle(opened_app)
 nx_info = qixe.structs.nx_info("dimension")
 print(nx_info)
 
-dimension_list_def = qixe.structs.dimension_list_def()
+dimension_list_def_ = qixe.structs.dimension_list_def()
 
-generic_object_properties = qixe.structs.generic_object_properties(nx_info, "qDimensionListDef", dimension_list_def)
+generic_object_properties = qixe.structs.generic_object_properties(info=nx_info, prop_name="qDimensionListDef", prop_def=dimension_list_def_)
 print("Generic Object Properties:", generic_object_properties)
 
 dimension_list = qixe.eaa.create_session_object(app_handle, generic_object_properties)
