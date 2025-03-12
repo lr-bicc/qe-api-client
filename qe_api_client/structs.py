@@ -89,12 +89,17 @@ def nx_library_measure_def(label: str, mes_def: str, grouping: str = "N", expres
             "qActiveExpression": active_expression, "qLabelExpression": label_expression, "qNumFormat": num_format}
 
 
-def num_format(type="U", n_dec=10, use_thou=0, fmt="", dec="", thou=""):
+def num_format(type: str = "U", n_dec: int = 10, use_thou:int = 0, fmt: str = "", dec: str = "", thou: str = ""):
     return {"qType": type, "qnDec": n_dec, "qUseThou": use_thou, "qFmt": fmt, "qDec": dec, "qThou": thou}
 
 
-def generic_measure_properties(info, lb_meas_def, meas_title):
-    return {"qInfo": info, "qMeasure": lb_meas_def, "qMetaDef": {"title": meas_title}}
+def generic_measure_properties(nx_info: dict, nx_library_measure_def: dict, title: str, description: str = "",
+                               tags: list = None):
+    if tags is None:
+        tags = []
+    return {"qInfo": nx_info, "qMeasure": nx_library_measure_def, "qMetaDef": {"title": title,
+                                                                               "description": description,
+                                                                               "tags": tags}}
 
 
 def do_reload_ex_params(mode=0, partial=False, debug=False, reload_id="", skip_store=False, row_limit=0):
