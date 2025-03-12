@@ -79,8 +79,12 @@ def nx_library_dimension_def(grouping: str = "N", field_definitions: list = None
             "qLabelExpression": label_expression}
 
 
-def nx_library_measure_def(label, mes_def, grouping="N", expressions=[], active_expression=0, label_expression="",
-                           num_format={}):
+def nx_library_measure_def(label: str, mes_def: str, grouping: str = "N", expressions: list = None,
+                           active_expression: int = 0, label_expression:str = "", num_format: dict = None):
+    if num_format is None:
+        num_format = {}
+    if expressions is None:
+        expressions = []
     return {"qLabel": label, "qDef": mes_def,"qGrouping": grouping, "qExpressions": expressions,
             "qActiveExpression": active_expression, "qLabelExpression": label_expression, "qNumFormat": num_format}
 
@@ -101,6 +105,10 @@ def do_reload_ex_params(mode=0, partial=False, debug=False, reload_id="", skip_s
 def dimension_list_def():
     return {"qType": "dimension",
             "qData": {"title": "/title", "tags": "/tags", "grouping": "/qDim/qGrouping", "info": "/qDimInfos"}}
+
+
+def measure_list_def():
+    return {"qType": "measure", "qData": {"title": "/title", "tags": "/tags"}}
 
 
 def field_list_def(show_system=True, show_hidden=True, show_derived_fields=True, show_semantic=True,

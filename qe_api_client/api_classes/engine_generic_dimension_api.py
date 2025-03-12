@@ -18,18 +18,18 @@ class EngineGenericDimensionApi:
         """
         self.engine_socket = socket
 
-    def get_dimension(self, handle, dimension_id):
+    def get_dimension(self, app_handle: int, dimension_id: str):
         """
         Retrieves the definition of a specific dimension from the Qlik Sense engine.
 
         Parameters:
-            handle (int): The handle identifying the dimension object.
+            app_handle (int): The handle identifying the application.
             dimension_id (str): The unique identifier (qId) of the dimension to retrieve.
 
         Returns:
             dict: The definition of the requested dimension (qReturn). In case of an error, returns the error information.
         """
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "GetDimension",
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": app_handle, "method": "GetDimension",
                           "params": {"qId": dimension_id}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:

@@ -18,18 +18,18 @@ class EngineGenericMeasureApi:
         """
         self.engine_socket = socket
 
-    def get_measure(self, handle, measure_id):
+    def get_measure(self, app_handle: int, measure_id: str):
         """
         Retrieves the definition of a specific measure from the Qlik Sense engine.
 
         Parameters:
-            handle (int): The handle identifying the measure object.
+            app_handle (int): The handle identifying the application.
             measure_id (str): The unique identifier (qId) of the measure to retrieve.
 
         Returns:
             dict: The definition of the requested measure (qReturn). In case of an error, returns the error information.
         """
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "GetMeasure", "params": {"qId": measure_id}})
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": app_handle, "method": "GetMeasure", "params": {"qId": measure_id}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response["result"]["qReturn"]

@@ -556,16 +556,6 @@ class EngineAppApi:
         except KeyError:
             return response['error']
 
-    # GetDimension: Get the handle of a dimension by using the GetDimension method.  # NOQA
-    # Parameter: dimension id
-    def get_dimension(self, doc_handle, dim_id):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetDimension",
-                          "params": [dim_id]})
-        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
-        try:
-            return response['result']['qReturn']
-        except KeyError:
-            return response['error']
 
     # GetEmptyScript: Creates a script that contains one section. This section contains Set statements that give  # NOQA
     # localized information from the regional settings of the computer.

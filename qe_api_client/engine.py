@@ -512,10 +512,10 @@ class QixEngine:
         session_handle = self.get_handle(session)
 
         # Get session object data
-        layout = self.egoa.get_layout(session_handle)
+        session_layout = self.egoa.get_layout(session_handle)
 
-        # Get the field list as Dictionary structure
-        dimension_list = layout["qDimensionList"]["qItems"]
+        # Get the dimension list as Dictionary structure
+        dimension_list = session_layout["qDimensionList"]["qItems"]
 
         # Define the DataFrame structure
         df_dimension_list = pd.DataFrame(columns=["qInfo", "qMeta", "qDim", "qDimInfos"])
@@ -524,13 +524,13 @@ class QixEngine:
             # Get dimension ID
             dim_id = dimension["qInfo"]["qId"]
             # Get dimension
-            dim_result = self.eaa.get_dimension(doc_handle=app_handle, dim_id=dim_id)
+            dim_result = self.egda.get_dimension(app_handle=app_handle, dimension_id=dim_id)
             # Get dimension handle
             dim_handle = self.get_handle(dim_result)
             # Get dimension metadata
             dim_layout = self.egoa.get_layout(dim_handle)
 
-            # Concatenate the dimension metadata on the DataFrame structure
+            # Concatenate the dimension to the DataFrame structure
             df_dimension_list.loc[len(df_dimension_list)] = dim_layout
 
         # Resolve the dictionary structure of attribute "qInfo"
