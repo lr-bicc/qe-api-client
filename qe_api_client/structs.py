@@ -116,7 +116,7 @@ def measure_list_def():
     return {"qType": "measure", "qData": {"title": "/title", "tags": "/tags"}}
 
 
-def field_list_def(show_system=True, show_hidden=True, show_derived_fields=True, show_semantic=True,
-                   show_src_tables=True, show_implicit=True):
+def field_list_def(show_system: bool = True, show_hidden: bool = True, show_derived_fields: bool = True,
+                   show_semantic: bool = True, show_src_tables: bool = True, show_implicit: bool = True):
     return {"qShowSystem": show_system, "qShowHidden": show_hidden,	"qShowDerivedFields": show_derived_fields,
             "qShowSemantic": show_semantic, "qShowSrcTables": show_src_tables, "qShowImplicit": show_implicit}

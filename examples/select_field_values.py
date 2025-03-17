@@ -51,7 +51,6 @@ print("Selection 2:", selection_2)
 print("\n")
 
 
-
 # Put the dimensions and the measures in a dataframe and print the results
 df = qixe.get_constructed_table_data(app_handle=app_handle, list_of_dimensions=list_of_dimensions,
                                      list_of_measures=list_of_measures)
@@ -59,8 +58,8 @@ print("Data set after the selections:")
 print("==============================")
 print(df)
 
-# delete app
-qixe.ega.delete_app(app_id)
+# Save app
+save_result =qixe.eaa.do_save(app_handle, app_name)
 
 # close connection
 QixEngine.disconnect(qixe)
