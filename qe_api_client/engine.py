@@ -111,6 +111,8 @@ class QixEngine:
         """
         if dim_tags is None:
             dim_tags = []
+
+        # Define of the single dimension properties
         nx_info = self.structs.nx_info(obj_type="dimension")
         nx_library_dimension_def = self.structs.nx_library_dimension_def(grouping="N", field_definitions=[dim_def],
                                                                          field_labels=[dim_title],
@@ -118,6 +120,8 @@ class QixEngine:
         gen_dim_props = self.structs.generic_dimension_properties(nx_info=nx_info,
                                                                   nx_library_dimension_def=nx_library_dimension_def,
                                                                   title=dim_title, description=dim_desc, tags=dim_tags)
+
+        # Create the single dimension
         master_dim = self.eaa.create_dimension(app_handle, gen_dim_props)
         return master_dim
 
@@ -139,14 +143,48 @@ class QixEngine:
         """
         if mes_tags is None:
             mes_tags = []
+
+        # Define of the measure properties
         nx_info = self.structs.nx_info(obj_type="measure")
         nx_library_measure_def = self.structs.nx_library_measure_def(label=mes_title, mes_def=mes_def,
                                                                      label_expression=mes_label)
         gen_mes_props = self.structs.generic_measure_properties(nx_info=nx_info,
                                                                 nx_library_measure_def=nx_library_measure_def,
                                                                 title=mes_title, description=mes_desc, tags=mes_tags)
+
+        # Create the measure
         master_mes = self.eaa.create_measure(app_handle, gen_mes_props)
+
         return master_mes
+
+    def create_sheet(self, app_handle: int, sheet_title: str, sheet_desc: str = "", no_of_rows: int = 18):
+        """
+        Creates a sheet.
+
+        Parameters:
+            app_handle (int): The handle of the app.
+            sheet_title (str): The title of the sheet.
+            sheet_desc (str, optional): The description of the sheet.
+            no_of_rows (int, optional): TThe number of the sheet rows. Min. 8 rows and max. 42 rows.
+
+        Returns:
+            dict: The handle and Id of the sheet.
+        """
+        # Define of the sheet properties
+        nx_info = self.structs.nx_info(obj_type="sheet")
+        sheet_def = {"title": sheet_title, "description": sheet_desc}
+        sheet_props = self.structs.generic_object_properties(info=nx_info, prop_name="qMetaDef", prop_def=sheet_def)
+
+        # Add row and column attributes. The number of the row should be between 8 and 42.
+        if no_of_rows not in range(8, 43):
+            no_of_rows = 18
+        no_of_columns = no_of_rows * 2
+        sheet_props.update({"columns": no_of_columns, "rows": no_of_rows})
+
+        # Create the sheet
+        sheet = self.eaa.create_object(app_handle, sheet_props)
+
+        return sheet
 
     def get_app_lineage_info(self, app_handle):
         """
