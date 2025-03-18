@@ -1,0 +1,885 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qe_api_client.engine &mdash; Qlik Engine API Client 2.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=51b770b3"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Qlik Engine API Client
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API Client Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../engine_communicator.html">Engine API Communicator Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../engine_api.html">Engine API Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_classes/index.html">API Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../structs.html">Structs module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Qlik Engine API Client</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">qe_api_client.engine</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for qe_api_client.engine</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">qe_api_client.api_classes.engine_app_api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">engine_app_api</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">qe_api_client.engine_communicator</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">engine_communicator</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">qe_api_client.api_classes.engine_field_api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">engine_field_api</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">qe_api_client.api_classes.engine_generic_object_api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">engine_generic_object_api</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">qe_api_client.api_classes.engine_global_api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">engine_global_api</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">qe_api_client.api_classes.engine_generic_variable_api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">engine_generic_variable_api</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">qe_api_client.api_classes.engine_generic_dimension_api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">engine_generic_dimension_api</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">qe_api_client.api_classes.engine_generic_measure_api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">engine_generic_measure_api</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">qe_api_client.structs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">structs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<div class="viewcode-block" id="QixEngine">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">QixEngine</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The class of the client to interact with the Qlik Sense Engine API.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        select_in_dimension(app_handle, dimension_name, list_of_values): Selects values in a given field.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">user_directory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ca_certs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">certfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">keyfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">app_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span>
+
+        <span class="c1"># Check, if server or local connection available</span>
+        <span class="k">if</span> <span class="n">user_directory</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">user_id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">ca_certs</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">certfile</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">keyfile</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="n">engine_communicator</span><span class="o">.</span><span class="n">EngineCommunicator</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="n">engine_communicator</span><span class="o">.</span><span class="n">SecureEngineCommunicator</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">user_directory</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">ca_certs</span><span class="p">,</span> <span class="n">certfile</span><span class="p">,</span>
+                                                                     <span class="n">keyfile</span><span class="p">,</span> <span class="n">app_id</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ega</span> <span class="o">=</span> <span class="n">engine_global_api</span><span class="o">.</span><span class="n">EngineGlobalApi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eaa</span> <span class="o">=</span> <span class="n">engine_app_api</span><span class="o">.</span><span class="n">EngineAppApi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">egoa</span> <span class="o">=</span> <span class="n">engine_generic_object_api</span><span class="o">.</span><span class="n">EngineGenericObjectApi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">efa</span> <span class="o">=</span> <span class="n">engine_field_api</span><span class="o">.</span><span class="n">EngineFieldApi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">egva</span> <span class="o">=</span> <span class="n">engine_generic_variable_api</span><span class="o">.</span><span class="n">EngineGenericVariableApi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">egda</span> <span class="o">=</span> <span class="n">engine_generic_dimension_api</span><span class="o">.</span><span class="n">EngineGenericDimensionApi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">egma</span> <span class="o">=</span> <span class="n">engine_generic_measure_api</span><span class="o">.</span><span class="n">EngineGenericMeasureApi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">structs</span> <span class="o">=</span> <span class="n">structs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">app_handle</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+<div class="viewcode-block" id="QixEngine.select_in_field">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.select_in_field">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">select_in_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_handle</span><span class="p">,</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">list_of_values</span><span class="p">):</span>
+        <span class="n">lb_field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaa</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="n">app_handle</span><span class="p">,</span> <span class="n">field_name</span><span class="p">)</span>
+        <span class="n">fld_handle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_handle</span><span class="p">(</span><span class="n">lb_field</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">fld_handle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;The field name &quot;</span> <span class="o">+</span> <span class="n">field_name</span> <span class="o">+</span> <span class="s2">&quot; doesn&#39;t exist!&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">values_to_select</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">list_of_values</span><span class="p">:</span>
+                <span class="n">fld_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">field_value</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">val</span><span class="p">)</span>
+                <span class="n">values_to_select</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fld_value</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">efa</span><span class="o">.</span><span class="n">select_values</span><span class="p">(</span><span class="n">fld_handle</span><span class="p">,</span> <span class="n">values_to_select</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="QixEngine.select_excluded_in_field">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.select_excluded_in_field">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">select_excluded_in_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_handle</span><span class="p">,</span> <span class="n">field_name</span><span class="p">):</span>
+        <span class="n">lb_field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaa</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="n">app_handle</span><span class="p">,</span> <span class="n">field_name</span><span class="p">)</span>
+        <span class="n">fld_handle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_handle</span><span class="p">(</span><span class="n">lb_field</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">efa</span><span class="o">.</span><span class="n">select_excluded</span><span class="p">(</span><span class="n">fld_handle</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="QixEngine.select_possible_in_field">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.select_possible_in_field">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">select_possible_in_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_handle</span><span class="p">,</span> <span class="n">field_name</span><span class="p">):</span>
+        <span class="n">lb_field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaa</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="n">app_handle</span><span class="p">,</span> <span class="n">field_name</span><span class="p">)</span>
+        <span class="n">fld_handle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_handle</span><span class="p">(</span><span class="n">lb_field</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">efa</span><span class="o">.</span><span class="n">select_possible</span><span class="p">(</span><span class="n">fld_handle</span><span class="p">)</span></div>
+
+
+    <span class="c1"># return a list of tuples where first value in tuple is the actual</span>
+    <span class="c1"># data value and the second tuple value is that</span>
+    <span class="c1"># values selection state</span>
+<div class="viewcode-block" id="QixEngine.get_list_object_data">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.get_list_object_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_list_object_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_handle</span><span class="p">,</span> <span class="n">field_name</span><span class="p">):</span>
+        <span class="n">lb_field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaa</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="n">app_handle</span><span class="p">,</span> <span class="n">field_name</span><span class="p">)</span>
+        <span class="n">fld_handle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_handle</span><span class="p">(</span><span class="n">lb_field</span><span class="p">)</span>
+
+        <span class="n">nx_inline_dimension_def</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_inline_dimension_def</span><span class="p">([</span><span class="n">field_name</span><span class="p">])</span>
+        <span class="n">nx_page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_page</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">efa</span><span class="o">.</span><span class="n">get_cardinal</span><span class="p">(</span><span class="n">fld_handle</span><span class="p">))</span>
+        <span class="n">lb_def</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">list_object_def</span><span class="p">(</span><span class="s2">&quot;$&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">nx_inline_dimension_def</span><span class="p">,</span>
+                                              <span class="p">[</span><span class="n">nx_page</span><span class="p">])</span>
+
+        <span class="c1"># Create info structure</span>
+        <span class="n">nx_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_info</span><span class="p">(</span><span class="n">obj_type</span><span class="o">=</span><span class="s2">&quot;ListObject&quot;</span><span class="p">,</span> <span class="n">obj_id</span><span class="o">=</span><span class="s2">&quot;SLB01&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Create generic object properties structure</span>
+        <span class="n">gen_obj_props</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">generic_object_properties</span><span class="p">(</span><span class="n">info</span><span class="o">=</span><span class="n">nx_info</span><span class="p">,</span> <span class="n">prop_name</span><span class="o">=</span><span class="s2">&quot;qListObjectDef&quot;</span><span class="p">,</span> <span class="n">prop_def</span><span class="o">=</span><span class="n">lb_def</span><span class="p">)</span>
+        <span class="n">listobj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaa</span><span class="o">.</span><span class="n">create_session_object</span><span class="p">(</span><span class="n">app_handle</span><span class="p">,</span> <span class="n">gen_obj_props</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="n">listobj_handle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_handle</span><span class="p">(</span><span class="n">listobj</span><span class="p">)</span>
+        <span class="n">val_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">egoa</span><span class="o">.</span><span class="n">get_layout</span><span class="p">(</span><span class="n">listobj_handle</span><span class="p">)[</span><span class="s2">&quot;qListObject&quot;</span><span class="p">][</span><span class="s2">&quot;qDataPages&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;qMatrix&quot;</span><span class="p">]</span>  <span class="c1"># NOQA</span>
+        <span class="n">val_n_state_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">val_list</span><span class="p">:</span>
+            <span class="n">val_n_state_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;qText&quot;</span><span class="p">],</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;qState&quot;</span><span class="p">]))</span>
+
+        <span class="k">return</span> <span class="n">val_n_state_list</span></div>
+
+
+<div class="viewcode-block" id="QixEngine.clear_selection_in_dimension">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.clear_selection_in_dimension">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear_selection_in_dimension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_handle</span><span class="p">,</span> <span class="n">dimension_name</span><span class="p">):</span>
+        <span class="n">lb_field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaa</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="n">app_handle</span><span class="p">,</span> <span class="n">dimension_name</span><span class="p">)</span>
+        <span class="n">fld_handle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_handle</span><span class="p">(</span><span class="n">lb_field</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">efa</span><span class="o">.</span><span class="n">clear</span><span class="p">(</span><span class="n">fld_handle</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="QixEngine.create_single_master_dimension">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.create_single_master_dimension">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_single_master_dimension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_handle</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dim_title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dim_def</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dim_label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                                       <span class="n">dim_desc</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dim_tags</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a single master dimension.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            app_handle (int): The handle of the app.</span>
+<span class="sd">            dim_title (str): The title of the dimension.</span>
+<span class="sd">            dim_def (str): The definition of the dimension.</span>
+<span class="sd">            dim_label (str, optional): The label of the dimension.</span>
+<span class="sd">            dim_desc (str, optional): The description of the dimension.</span>
+<span class="sd">            dim_tags (list, optional): The tags of the dimension.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The handle and Id of the dimension.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">dim_tags</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">dim_tags</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Define of the single dimension properties</span>
+        <span class="n">nx_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_info</span><span class="p">(</span><span class="n">obj_type</span><span class="o">=</span><span class="s2">&quot;dimension&quot;</span><span class="p">)</span>
+        <span class="n">nx_library_dimension_def</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_library_dimension_def</span><span class="p">(</span><span class="n">grouping</span><span class="o">=</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="n">field_definitions</span><span class="o">=</span><span class="p">[</span><span class="n">dim_def</span><span class="p">],</span>
+                                                                         <span class="n">field_labels</span><span class="o">=</span><span class="p">[</span><span class="n">dim_title</span><span class="p">],</span>
+                                                                         <span class="n">label_expression</span><span class="o">=</span><span class="n">dim_label</span><span class="p">)</span>
+        <span class="n">gen_dim_props</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">generic_dimension_properties</span><span class="p">(</span><span class="n">nx_info</span><span class="o">=</span><span class="n">nx_info</span><span class="p">,</span>
+                                                                  <span class="n">nx_library_dimension_def</span><span class="o">=</span><span class="n">nx_library_dimension_def</span><span class="p">,</span>
+                                                                  <span class="n">title</span><span class="o">=</span><span class="n">dim_title</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">dim_desc</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="n">dim_tags</span><span class="p">)</span>
+
+        <span class="c1"># Create the single dimension</span>
+        <span class="n">master_dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaa</span><span class="o">.</span><span class="n">create_dimension</span><span class="p">(</span><span class="n">app_handle</span><span class="p">,</span> <span class="n">gen_dim_props</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">master_dim</span></div>
+
+
+<div class="viewcode-block" id="QixEngine.create_master_measure">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.create_master_measure">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_master_measure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_handle</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mes_title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mes_def</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mes_label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                              <span class="n">mes_desc</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">mes_tags</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a master measure.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            app_handle (int): The handle of the app.</span>
+<span class="sd">            mes_title (str): The title of the measure.</span>
+<span class="sd">            mes_def (str): The definition of the measure.</span>
+<span class="sd">            mes_label (str, optional): The label of the measure.</span>
+<span class="sd">            mes_desc (str, optional): The description of the measure.</span>
+<span class="sd">            mes_tags (list, optional): The tags of the measure.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The handle and Id of the measure.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">mes_tags</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mes_tags</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Define of the measure properties</span>
+        <span class="n">nx_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_info</span><span class="p">(</span><span class="n">obj_type</span><span class="o">=</span><span class="s2">&quot;measure&quot;</span><span class="p">)</span>
+        <span class="n">nx_library_measure_def</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_library_measure_def</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">mes_title</span><span class="p">,</span> <span class="n">mes_def</span><span class="o">=</span><span class="n">mes_def</span><span class="p">,</span>
+                                                                     <span class="n">label_expression</span><span class="o">=</span><span class="n">mes_label</span><span class="p">)</span>
+        <span class="n">gen_mes_props</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">generic_measure_properties</span><span class="p">(</span><span class="n">nx_info</span><span class="o">=</span><span class="n">nx_info</span><span class="p">,</span>
+                                                                <span class="n">nx_library_measure_def</span><span class="o">=</span><span class="n">nx_library_measure_def</span><span class="p">,</span>
+                                                                <span class="n">title</span><span class="o">=</span><span class="n">mes_title</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">mes_desc</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="n">mes_tags</span><span class="p">)</span>
+
+        <span class="c1"># Create the measure</span>
+        <span class="n">master_mes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaa</span><span class="o">.</span><span class="n">create_measure</span><span class="p">(</span><span class="n">app_handle</span><span class="p">,</span> <span class="n">gen_mes_props</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">master_mes</span></div>
+
+
+<div class="viewcode-block" id="QixEngine.create_sheet">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.create_sheet">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_sheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_handle</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sheet_title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sheet_desc</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">no_of_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">18</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a sheet.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            app_handle (int): The handle of the app.</span>
+<span class="sd">            sheet_title (str): The title of the sheet.</span>
+<span class="sd">            sheet_desc (str, optional): The description of the sheet.</span>
+<span class="sd">            no_of_rows (int, optional): TThe number of the sheet rows. Min. 8 rows and max. 42 rows.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The handle and Id of the sheet.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Define of the sheet properties</span>
+        <span class="n">nx_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_info</span><span class="p">(</span><span class="n">obj_type</span><span class="o">=</span><span class="s2">&quot;sheet&quot;</span><span class="p">)</span>
+        <span class="n">sheet_def</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">sheet_title</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">sheet_desc</span><span class="p">}</span>
+        <span class="n">sheet_props</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">generic_object_properties</span><span class="p">(</span><span class="n">info</span><span class="o">=</span><span class="n">nx_info</span><span class="p">,</span> <span class="n">prop_name</span><span class="o">=</span><span class="s2">&quot;qMetaDef&quot;</span><span class="p">,</span> <span class="n">prop_def</span><span class="o">=</span><span class="n">sheet_def</span><span class="p">)</span>
+
+        <span class="c1"># Add row and column attributes. The number of the row should be between 8 and 42.</span>
+        <span class="k">if</span> <span class="n">no_of_rows</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">43</span><span class="p">):</span>
+            <span class="n">no_of_rows</span> <span class="o">=</span> <span class="mi">18</span>
+        <span class="n">no_of_columns</span> <span class="o">=</span> <span class="n">no_of_rows</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="n">sheet_props</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="n">no_of_columns</span><span class="p">,</span> <span class="s2">&quot;rows&quot;</span><span class="p">:</span> <span class="n">no_of_rows</span><span class="p">})</span>
+
+        <span class="c1"># Create the sheet</span>
+        <span class="n">sheet</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaa</span><span class="o">.</span><span class="n">create_object</span><span class="p">(</span><span class="n">app_handle</span><span class="p">,</span> <span class="n">sheet_props</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">sheet</span></div>
+
+
+<div class="viewcode-block" id="QixEngine.get_app_lineage_info">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.get_app_lineage_info">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_app_lineage_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_handle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the lineage information of the app. The lineage information includes the LOAD and STORE statements from</span>
+<span class="sd">        the data load script associated with this app.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            app_handle (int): The handle of the app.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        DataFrame: Information about the lineage of the data in the app.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Lineage-Daten aus der API holen</span>
+        <span class="n">lineage_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaa</span><span class="o">.</span><span class="n">get_lineage</span><span class="p">(</span><span class="n">app_handle</span><span class="p">)</span>
+
+        <span class="c1"># Erstelle den DataFrame und fülle fehlende Werte mit &quot;&quot;</span>
+        <span class="n">df_lineage_info</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lineage_info</span><span class="p">)</span>
+        <span class="n">df_lineage_info</span> <span class="o">=</span> <span class="n">df_lineage_info</span><span class="p">[(</span><span class="n">df_lineage_info</span><span class="p">[</span><span class="s2">&quot;qDiscriminator&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">())</span> <span class="o">|</span> <span class="p">(</span><span class="n">df_lineage_info</span><span class="p">[</span><span class="s2">&quot;qStatement&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">())]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df_lineage_info</span></div>
+
+
+<div class="viewcode-block" id="QixEngine.disconnect">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.disconnect">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">close_qvengine_connection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="QixEngine.get_handle">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.get_handle">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_handle</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the handle from a given object.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        obj : dict</span>
+<span class="sd">            The object containing the handle.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        int: The handle value.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">        ValueError: If the handle value is invalid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="p">[</span><span class="s2">&quot;qHandle&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;Bad handle value in &quot;</span> <span class="o">+</span> <span class="n">obj</span></div>
+
+
+<div class="viewcode-block" id="QixEngine.get_chart_data">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.get_chart_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_chart_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_handle</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the data from a given chart object.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            app_handle (int): The handle of the app.</span>
+<span class="sd">            obj_id (str): The ID of the chart object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        DataFrame: A table of the chart content.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Get object ID</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaa</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="n">app_handle</span><span class="p">,</span> <span class="n">obj_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">obj</span><span class="p">[</span><span class="s1">&#39;qType&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;Chart ID does not exists!&#39;</span>
+
+
+        <span class="c1"># Get object handle</span>
+        <span class="n">obj_handle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_handle</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="c1"># Get object layout</span>
+        <span class="n">obj_layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">egoa</span><span class="o">.</span><span class="n">get_layout</span><span class="p">(</span><span class="n">obj_handle</span><span class="p">)</span>
+
+        <span class="c1"># Determine the number of the columns and the rows the table has and splits in certain circumstances the table</span>
+        <span class="c1"># calls</span>
+        <span class="n">no_of_columns</span> <span class="o">=</span> <span class="n">obj_layout</span><span class="p">[</span><span class="s1">&#39;qHyperCube&#39;</span><span class="p">][</span><span class="s1">&#39;qSize&#39;</span><span class="p">][</span><span class="s1">&#39;qcx&#39;</span><span class="p">]</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="n">no_of_columns</span>
+        <span class="n">no_of_rows</span> <span class="o">=</span> <span class="n">obj_layout</span><span class="p">[</span><span class="s1">&#39;qHyperCube&#39;</span><span class="p">][</span><span class="s1">&#39;qSize&#39;</span><span class="p">][</span><span class="s1">&#39;qcy&#39;</span><span class="p">]</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="mi">10000</span> <span class="o">/</span> <span class="n">no_of_columns</span><span class="p">))</span>
+
+        <span class="c1"># Extract the dimension and measure titles and concat them to column names.</span>
+        <span class="n">dimension_titles</span> <span class="o">=</span> <span class="p">[</span><span class="n">dim</span><span class="p">[</span><span class="s1">&#39;qFallbackTitle&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">obj_layout</span><span class="p">[</span><span class="s1">&#39;qHyperCube&#39;</span><span class="p">][</span><span class="s1">&#39;qDimensionInfo&#39;</span><span class="p">]]</span>
+        <span class="n">measure_titles</span> <span class="o">=</span> <span class="p">[</span><span class="n">measure</span><span class="p">[</span><span class="s1">&#39;qFallbackTitle&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">obj_layout</span><span class="p">[</span><span class="s1">&#39;qHyperCube&#39;</span><span class="p">][</span><span class="s1">&#39;qMeasureInfo&#39;</span><span class="p">]]</span>
+        <span class="n">column_names</span> <span class="o">=</span> <span class="n">dimension_titles</span> <span class="o">+</span> <span class="n">measure_titles</span>
+
+        <span class="c1"># if the type of the charts has a straight data structure</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">obj_layout</span><span class="p">[</span><span class="s1">&#39;qInfo&#39;</span><span class="p">][</span><span class="s1">&#39;qType&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;table&#39;</span><span class="p">,</span> <span class="s1">&#39;sn-table&#39;</span><span class="p">,</span> <span class="s1">&#39;piechart&#39;</span><span class="p">,</span> <span class="s1">&#39;scatterplot&#39;</span><span class="p">,</span> <span class="s1">&#39;combochart&#39;</span><span class="p">,</span> <span class="s1">&#39;barchart&#39;</span><span class="p">]</span>
+                <span class="ow">and</span> <span class="n">obj_layout</span><span class="p">[</span><span class="s1">&#39;qHyperCube&#39;</span><span class="p">][</span><span class="s1">&#39;qDataPages&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="p">[]):</span>
+
+            <span class="c1"># Paging variables</span>
+            <span class="n">page</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">data_values</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="c1"># Retrieves the hypercube data in a loop (because of limitation from 10.000 cells per call)</span>
+            <span class="k">while</span> <span class="n">no_of_rows</span> <span class="o">&gt;</span> <span class="n">page</span> <span class="o">*</span> <span class="n">height</span><span class="p">:</span>
+                <span class="n">nx_page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_page</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="n">page</span> <span class="o">*</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span>
+                <span class="n">hc_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">egoa</span><span class="o">.</span><span class="n">get_hypercube_data</span><span class="p">(</span><span class="n">obj_handle</span><span class="p">,</span> <span class="s1">&#39;/qHyperCubeDef&#39;</span><span class="p">,</span> <span class="n">nx_page</span><span class="p">)[</span>
+                    <span class="s1">&#39;qDataPages&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;qMatrix&#39;</span><span class="p">]</span>
+                <span class="n">data_values</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">hc_data</span><span class="p">)</span>
+                <span class="n">page</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># Creates Dataframe from the content of the attribute &#39;qText&#39;.</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;qText&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">data_values</span><span class="p">])</span>
+
+            <span class="c1"># Assign titles zu Dataframe columns</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">column_names</span>
+
+        <span class="c1"># if the type of the charts has a pivot data structure</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">obj_layout</span><span class="p">[</span><span class="s1">&#39;qInfo&#39;</span><span class="p">][</span><span class="s1">&#39;qType&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;pivot-table&#39;</span><span class="p">,</span> <span class="s1">&#39;sn-pivot-table&#39;</span><span class="p">]</span>
+              <span class="ow">and</span> <span class="n">obj_layout</span><span class="p">[</span><span class="s1">&#39;qHyperCube&#39;</span><span class="p">][</span><span class="s1">&#39;qPivotDataPages&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="p">[]):</span>
+
+            <span class="c1"># Supporting function to traverse all subnodes to get all dimensions</span>
+            <span class="k">def</span><span class="w"> </span><span class="nf">get_all_dimensions</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+                <span class="n">dimensions</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="p">[</span><span class="s1">&#39;qText&#39;</span><span class="p">]]</span>
+                <span class="c1"># if &#39;qSubNodes&#39; in node and node[&#39;qSubNodes&#39;]:</span>
+                <span class="k">if</span> <span class="n">node</span><span class="p">[</span><span class="s1">&#39;qSubNodes&#39;</span><span class="p">]:</span>
+                    <span class="n">sub_dimensions</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">sub_node</span> <span class="ow">in</span> <span class="n">node</span><span class="p">[</span><span class="s1">&#39;qSubNodes&#39;</span><span class="p">]:</span>
+                        <span class="n">sub_dimensions</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">dimensions</span> <span class="o">+</span> <span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">get_all_dimensions</span><span class="p">(</span><span class="n">sub_node</span><span class="p">)])</span>
+                    <span class="k">return</span> <span class="n">sub_dimensions</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">[</span><span class="n">dimensions</span><span class="p">]</span>
+
+            <span class="c1"># Gets the column headers for the pivot table</span>
+            <span class="n">col_headers</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">nx_page_top</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_page</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">hc_top</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">egoa</span><span class="o">.</span><span class="n">get_hypercube_pivot_data</span><span class="p">(</span><span class="n">obj_handle</span><span class="p">,</span> <span class="s1">&#39;/qHyperCubeDef&#39;</span><span class="p">,</span> <span class="n">nx_page_top</span><span class="p">)[</span>
+                <span class="s1">&#39;qDataPages&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;qTop&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">top_node</span> <span class="ow">in</span> <span class="n">hc_top</span><span class="p">:</span>
+                <span class="n">col_headers</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">get_all_dimensions</span><span class="p">(</span><span class="n">top_node</span><span class="p">))</span>
+
+            <span class="c1"># Paging variables</span>
+            <span class="n">page</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">row_headers</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">data_values</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="c1"># Retrieves the hypercube data in a loop (bacause of limitation from 10.000 cells per call)</span>
+            <span class="k">while</span> <span class="n">no_of_rows</span> <span class="o">&gt;</span> <span class="n">page</span> <span class="o">*</span> <span class="n">height</span><span class="p">:</span>
+                <span class="n">nx_page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_page</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="n">page</span> <span class="o">*</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span>
+
+                <span class="c1"># Retrieves the row headers for the pivot table</span>
+                <span class="n">hc_left</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">egoa</span><span class="o">.</span><span class="n">get_hypercube_pivot_data</span><span class="p">(</span><span class="n">obj_handle</span><span class="p">,</span> <span class="s1">&#39;/qHyperCubeDef&#39;</span><span class="p">,</span> <span class="n">nx_page</span><span class="p">)[</span>
+                    <span class="s1">&#39;qDataPages&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;qLeft&#39;</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">left_node</span> <span class="ow">in</span> <span class="n">hc_left</span><span class="p">:</span>
+                    <span class="n">row_headers</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">get_all_dimensions</span><span class="p">(</span><span class="n">left_node</span><span class="p">))</span>
+
+                <span class="c1"># Retrieves the data for the pivot table</span>
+                <span class="n">hc_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">egoa</span><span class="o">.</span><span class="n">get_hypercube_pivot_data</span><span class="p">(</span><span class="n">obj_handle</span><span class="p">,</span> <span class="s1">&#39;/qHyperCubeDef&#39;</span><span class="p">,</span> <span class="n">nx_page</span><span class="p">)[</span>
+                    <span class="s1">&#39;qDataPages&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;qData&#39;</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">hc_data</span><span class="p">:</span>
+                    <span class="n">data_values</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">cell</span><span class="p">[</span><span class="s1">&#39;qText&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="p">])</span>
+
+                <span class="n">page</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># Creates multi indes for rows and columns</span>
+            <span class="n">row_index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_tuples</span><span class="p">(</span><span class="n">row_headers</span><span class="p">)</span>
+            <span class="n">col_index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_tuples</span><span class="p">(</span><span class="n">col_headers</span><span class="p">)</span>
+
+            <span class="c1"># Creates the Dataframe</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_values</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">row_index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">col_index</span><span class="p">)</span>
+
+        <span class="c1"># if the type of the charts has a stacked data structure</span>
+        <span class="k">elif</span> <span class="n">obj_layout</span><span class="p">[</span><span class="s1">&#39;qInfo&#39;</span><span class="p">][</span><span class="s1">&#39;qType&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;barchart&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">obj_layout</span><span class="p">[</span><span class="s1">&#39;qHyperCube&#39;</span><span class="p">][</span><span class="s1">&#39;qStackedDataPages&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="p">[]:</span>
+            <span class="n">max_no_cells</span> <span class="o">=</span> <span class="n">no_of_columns</span> <span class="o">*</span> <span class="n">no_of_rows</span>
+            <span class="n">nx_page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_page</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">no_of_columns</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">no_of_rows</span><span class="p">)</span>
+            <span class="n">hc_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">egoa</span><span class="o">.</span><span class="n">get_hypercube_stack_data</span><span class="p">(</span><span class="n">obj_handle</span><span class="p">,</span> <span class="s1">&#39;/qHyperCubeDef&#39;</span><span class="p">,</span> <span class="n">nx_page</span><span class="p">,</span> <span class="n">max_no_cells</span><span class="p">)[</span>
+                <span class="s1">&#39;qDataPages&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;qData&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;qSubNodes&#39;</span><span class="p">]</span>
+
+            <span class="c1"># Transform the nested structure into a flat DataFrame</span>
+            <span class="n">data_values</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">hc_data</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">sub_node</span> <span class="ow">in</span> <span class="n">node</span><span class="p">[</span><span class="s1">&#39;qSubNodes&#39;</span><span class="p">]:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">sub_node</span><span class="p">[</span><span class="s1">&#39;qSubNodes&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;qValue&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">sub_node</span><span class="p">[</span><span class="s1">&#39;qSubNodes&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span>
+                    <span class="n">data_values</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">node</span><span class="p">[</span><span class="s1">&#39;qText&#39;</span><span class="p">],</span> <span class="n">sub_node</span><span class="p">[</span><span class="s1">&#39;qText&#39;</span><span class="p">],</span> <span class="n">value</span><span class="p">])</span>
+
+            <span class="c1"># Creates the Dataframe</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_values</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">column_names</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;Chart type not supported.&#39;</span>
+
+        <span class="c1"># Returns the Dataframe</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="QixEngine.get_constructed_table_data">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.get_constructed_table_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_constructed_table_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_handle</span><span class="p">,</span> <span class="n">list_of_dimensions</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">list_of_measures</span> <span class="o">=</span> <span class="p">[],</span>
+                                  <span class="n">list_of_master_dimensions</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">list_of_master_measures</span> <span class="o">=</span> <span class="p">[]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a table from given fields, expressions, dimensions or measures and retrieves the data from it.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            app_handle (int): The handle of the app.</span>
+<span class="sd">            list_of_dimensions (list): A list of dimensions.</span>
+<span class="sd">            list_of_measures (list): A list of measures.</span>
+<span class="sd">            list_of_master_dimensions (list): A list of master dimensions.</span>
+<span class="sd">            list_of_master_measures (list): A list of master measures.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame: A table of the chart content.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Create dimension property</span>
+        <span class="n">hc_dim</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">dimension</span> <span class="ow">in</span> <span class="n">list_of_dimensions</span><span class="p">:</span>
+            <span class="n">hc_inline_dim_def</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_inline_dimension_def</span><span class="p">(</span><span class="n">field_definitions</span><span class="o">=</span><span class="p">[</span><span class="n">dimension</span><span class="p">])</span>
+            <span class="n">hc_dim</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_dimension</span><span class="p">(</span><span class="n">library_id</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dim_def</span><span class="o">=</span><span class="n">hc_inline_dim_def</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">dimension</span> <span class="ow">in</span> <span class="n">list_of_master_dimensions</span><span class="p">:</span>
+            <span class="n">hc_dim</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_dimension</span><span class="p">(</span><span class="n">library_id</span><span class="o">=</span><span class="n">dimension</span><span class="p">))</span>
+
+        <span class="c1"># Create measure property</span>
+        <span class="n">hc_mes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">list_of_measures</span><span class="p">:</span>
+            <span class="n">hc_inline_mes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_inline_measure_def</span><span class="p">(</span><span class="n">definition</span><span class="o">=</span><span class="n">measure</span><span class="p">)</span>
+            <span class="n">hc_mes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_measure</span><span class="p">(</span><span class="n">library_id</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">mes_def</span><span class="o">=</span><span class="n">hc_inline_mes</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">list_of_master_measures</span><span class="p">:</span>
+            <span class="n">hc_mes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_measure</span><span class="p">(</span><span class="n">library_id</span><span class="o">=</span><span class="n">measure</span><span class="p">))</span>
+
+        <span class="c1"># Create hypercube structure</span>
+        <span class="n">hc_def</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">hypercube_def</span><span class="p">(</span><span class="n">state_name</span><span class="o">=</span><span class="s2">&quot;$&quot;</span><span class="p">,</span> <span class="n">nx_dims</span><span class="o">=</span><span class="n">hc_dim</span><span class="p">,</span> <span class="n">nx_meas</span><span class="o">=</span><span class="n">hc_mes</span><span class="p">)</span>
+
+        <span class="c1"># Create info structure</span>
+        <span class="n">nx_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_info</span><span class="p">(</span><span class="n">obj_type</span><span class="o">=</span><span class="s2">&quot;table&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Create generic object properties structure</span>
+        <span class="n">gen_obj_props</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">generic_object_properties</span><span class="p">(</span><span class="n">info</span><span class="o">=</span><span class="n">nx_info</span><span class="p">,</span> <span class="n">prop_name</span><span class="o">=</span><span class="s2">&quot;qHyperCubeDef&quot;</span><span class="p">,</span> <span class="n">prop_def</span><span class="o">=</span><span class="n">hc_def</span><span class="p">)</span>
+
+        <span class="c1"># Create session object</span>
+        <span class="n">hc_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaa</span><span class="o">.</span><span class="n">create_session_object</span><span class="p">(</span><span class="n">app_handle</span><span class="p">,</span> <span class="n">gen_obj_props</span><span class="p">)</span>
+
+        <span class="c1"># Get object handle</span>
+        <span class="n">hc_obj_handle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_handle</span><span class="p">(</span><span class="n">hc_obj</span><span class="p">)</span>
+
+        <span class="c1"># Get object layout</span>
+        <span class="n">hc_obj_layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">egoa</span><span class="o">.</span><span class="n">get_layout</span><span class="p">(</span><span class="n">hc_obj_handle</span><span class="p">)</span>
+
+        <span class="c1"># Determine the number of the columns and the rows the table has and splits in certain circumstances the table calls</span>
+        <span class="n">no_of_columns</span> <span class="o">=</span> <span class="n">hc_obj_layout</span><span class="p">[</span><span class="s1">&#39;qHyperCube&#39;</span><span class="p">][</span><span class="s1">&#39;qSize&#39;</span><span class="p">][</span><span class="s1">&#39;qcx&#39;</span><span class="p">]</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="n">no_of_columns</span>
+        <span class="n">no_of_rows</span> <span class="o">=</span> <span class="n">hc_obj_layout</span><span class="p">[</span><span class="s1">&#39;qHyperCube&#39;</span><span class="p">][</span><span class="s1">&#39;qSize&#39;</span><span class="p">][</span><span class="s1">&#39;qcy&#39;</span><span class="p">]</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="mi">10000</span> <span class="o">/</span> <span class="n">no_of_columns</span><span class="p">))</span>
+
+        <span class="c1"># Extract the dimension and measure titles and concat them to column names.</span>
+        <span class="n">dimension_titles</span> <span class="o">=</span> <span class="p">[</span><span class="n">dim</span><span class="p">[</span><span class="s1">&#39;qFallbackTitle&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">hc_obj_layout</span><span class="p">[</span><span class="s1">&#39;qHyperCube&#39;</span><span class="p">][</span><span class="s1">&#39;qDimensionInfo&#39;</span><span class="p">]]</span>
+        <span class="n">measure_titles</span> <span class="o">=</span> <span class="p">[</span><span class="n">measure</span><span class="p">[</span><span class="s1">&#39;qFallbackTitle&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">hc_obj_layout</span><span class="p">[</span><span class="s1">&#39;qHyperCube&#39;</span><span class="p">][</span><span class="s1">&#39;qMeasureInfo&#39;</span><span class="p">]]</span>
+        <span class="n">column_names</span> <span class="o">=</span> <span class="n">dimension_titles</span> <span class="o">+</span> <span class="n">measure_titles</span>
+
+        <span class="c1"># Paging variables</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">data_values</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Retrieves the hypercube data in a loop (because of limitation from 10.000 cells per call)</span>
+        <span class="k">while</span> <span class="n">no_of_rows</span> <span class="o">&gt;</span> <span class="n">page</span> <span class="o">*</span> <span class="n">height</span><span class="p">:</span>
+            <span class="n">nx_page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_page</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="n">page</span> <span class="o">*</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">)</span>
+            <span class="n">hc_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">egoa</span><span class="o">.</span><span class="n">get_hypercube_data</span><span class="p">(</span><span class="n">hc_obj_handle</span><span class="p">,</span> <span class="s1">&#39;/qHyperCubeDef&#39;</span><span class="p">,</span> <span class="n">nx_page</span><span class="p">)[</span><span class="s1">&#39;qDataPages&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;qMatrix&#39;</span><span class="p">]</span>
+            <span class="n">data_values</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">hc_data</span><span class="p">)</span>
+            <span class="n">page</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Creates Dataframe from the content of the attribute &#39;qText&#39;.</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;qText&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">data_values</span><span class="p">])</span>
+
+        <span class="c1"># Assign titles zu Dataframe columns</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">column_names</span>
+
+        <span class="c1"># Returns the Dataframe</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="QixEngine.get_apps">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.get_apps">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_apps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves a list with all apps on the server containing metadata.</span>
+
+<span class="sd">        Parameters:</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame: A table with all server apps.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Get all apps from Qlik Server</span>
+        <span class="n">doc_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ega</span><span class="o">.</span><span class="n">get_doc_list</span><span class="p">()</span>
+
+        <span class="c1"># Convert into DataFrame structure</span>
+        <span class="n">df_doc_list</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">doc_list</span><span class="p">)</span>
+
+        <span class="c1"># Resolve the attribute &quot;qMeta&quot;</span>
+        <span class="n">field_meta</span> <span class="o">=</span> <span class="n">df_doc_list</span><span class="p">[</span><span class="s1">&#39;qMeta&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;createdDate&quot;</span><span class="p">,</span> <span class="s2">&quot;modifiedDate&quot;</span><span class="p">,</span> <span class="s2">&quot;published&quot;</span><span class="p">,</span>
+                                                                            <span class="s2">&quot;publishTime&quot;</span><span class="p">,</span> <span class="s2">&quot;privileges&quot;</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">,</span>
+                                                                            <span class="s2">&quot;qStaticByteSize&quot;</span><span class="p">,</span> <span class="s2">&quot;dynamicColor&quot;</span><span class="p">,</span> <span class="s2">&quot;create&quot;</span><span class="p">,</span>
+                                                                            <span class="s2">&quot;stream&quot;</span><span class="p">,</span> <span class="s2">&quot;canCreateDataConnections&quot;</span><span class="p">])</span>
+
+        <span class="c1"># Concat the resolved attribute and rename the new columns</span>
+        <span class="n">df_doc_list_meta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_doc_list</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;qMeta&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">field_meta</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">df_doc_list_meta</span> <span class="o">=</span> <span class="n">df_doc_list_meta</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;createdDate&quot;</span><span class="p">:</span> <span class="s2">&quot;qMeta_createdDate&quot;</span><span class="p">,</span>
+                                                            <span class="s2">&quot;modifiedDate&quot;</span><span class="p">:</span> <span class="s2">&quot;qMeta_modifiedDate&quot;</span><span class="p">,</span>
+                                                            <span class="s2">&quot;published&quot;</span><span class="p">:</span> <span class="s2">&quot;qMeta_published&quot;</span><span class="p">,</span>
+                                                            <span class="s2">&quot;publishTime&quot;</span><span class="p">:</span> <span class="s2">&quot;qMeta_publishTime&quot;</span><span class="p">,</span>
+                                                            <span class="s2">&quot;privileges&quot;</span><span class="p">:</span> <span class="s2">&quot;qMeta_privileges&quot;</span><span class="p">,</span>
+                                                            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;qMeta_description&quot;</span><span class="p">,</span>
+                                                            <span class="s2">&quot;qStaticByteSize&quot;</span><span class="p">:</span> <span class="s2">&quot;qMeta_qStaticByteSize&quot;</span><span class="p">,</span>
+                                                            <span class="s2">&quot;dynamicColor&quot;</span><span class="p">:</span> <span class="s2">&quot;qMeta_dynamicColor&quot;</span><span class="p">,</span>
+                                                            <span class="s2">&quot;create&quot;</span><span class="p">:</span> <span class="s2">&quot;qMeta_create&quot;</span><span class="p">,</span>
+                                                            <span class="s2">&quot;stream&quot;</span><span class="p">:</span> <span class="s2">&quot;qMeta_stream&quot;</span><span class="p">,</span>
+                                                            <span class="s2">&quot;canCreateDataConnections&quot;</span><span class="p">:</span> <span class="s2">&quot;qMeta_canCreateDataConnections&quot;</span><span class="p">})</span>
+
+        <span class="c1"># Resolve the attribute &quot;stream&quot;</span>
+        <span class="n">field_meta_stream</span> <span class="o">=</span> <span class="n">df_doc_list_meta</span><span class="p">[</span><span class="s1">&#39;qMeta_stream&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">])</span>
+
+        <span class="c1"># Concat the resolved attribute and rename the new columns</span>
+        <span class="n">df_doc_list_meta_stream</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_doc_list_meta</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;qMeta_stream&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">field_meta_stream</span><span class="p">],</span>
+                                            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">df_doc_list_meta_stream</span> <span class="o">=</span> <span class="n">df_doc_list_meta_stream</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+            <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;qMeta_stream_id&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;qMeta_stream_name&quot;</span><span class="p">})</span>
+
+        <span class="c1"># Resolve the attribute &quot;qThumbnail&quot;</span>
+        <span class="n">field_thumbnail</span> <span class="o">=</span> <span class="n">df_doc_list_meta_stream</span><span class="p">[</span><span class="s1">&#39;qThumbnail&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qUrl&quot;</span><span class="p">])</span>
+
+        <span class="c1">## Concat the resolved attribute and rename the new columns</span>
+        <span class="n">df_doc_list_resolved</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_doc_list_meta_stream</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;qThumbnail&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">field_thumbnail</span><span class="p">],</span>
+                                         <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">df_doc_list_resolved</span> <span class="o">=</span> <span class="n">df_doc_list_resolved</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;qUrl&quot;</span><span class="p">:</span> <span class="s2">&quot;qThumbnail_qUrl&quot;</span><span class="p">})</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">df_doc_list_resolved</span></div>
+
+
+
+<div class="viewcode-block" id="QixEngine.get_app_fields">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.get_app_fields">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_app_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_handle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves a list with all app fields containing meta data.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            app_handle (int): The handle of the app.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame: A table with all fields from an app.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Define the parameters of the session object</span>
+        <span class="n">nx_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_info</span><span class="p">(</span><span class="n">obj_type</span><span class="o">=</span><span class="s2">&quot;FieldList&quot;</span><span class="p">)</span>
+        <span class="n">field_list_def</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">field_list_def</span><span class="p">()</span>
+        <span class="n">gen_obj_props</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">generic_object_properties</span><span class="p">(</span><span class="n">info</span><span class="o">=</span><span class="n">nx_info</span><span class="p">,</span> <span class="n">prop_name</span><span class="o">=</span><span class="s2">&quot;qFieldListDef&quot;</span><span class="p">,</span>
+                                                               <span class="n">prop_def</span><span class="o">=</span><span class="n">field_list_def</span><span class="p">)</span>
+
+        <span class="c1"># Create session object</span>
+        <span class="n">session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaa</span><span class="o">.</span><span class="n">create_session_object</span><span class="p">(</span><span class="n">app_handle</span><span class="p">,</span> <span class="n">gen_obj_props</span><span class="p">)</span>
+
+        <span class="c1"># Get session handle</span>
+        <span class="n">session_handle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_handle</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+
+        <span class="c1"># Get session object data</span>
+        <span class="n">layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">egoa</span><span class="o">.</span><span class="n">get_layout</span><span class="p">(</span><span class="n">session_handle</span><span class="p">)</span>
+
+        <span class="c1"># Get the field list as Dictionary structure</span>
+        <span class="n">fields_list</span> <span class="o">=</span> <span class="n">layout</span><span class="p">[</span><span class="s2">&quot;qFieldList&quot;</span><span class="p">][</span><span class="s2">&quot;qItems&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Define the DataFrame structure</span>
+        <span class="n">df_fields_list</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;qIsHidden&#39;</span><span class="p">,</span> <span class="s1">&#39;qIsSystem&#39;</span><span class="p">,</span> <span class="s1">&#39;qName&#39;</span><span class="p">,</span> <span class="s1">&#39;qCardinal&#39;</span><span class="p">,</span> <span class="s1">&#39;qTags&#39;</span><span class="p">,</span> <span class="s1">&#39;qSrcTables&#39;</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">fields</span> <span class="ow">in</span> <span class="n">fields_list</span><span class="p">:</span>
+            <span class="c1"># Concatenate the field list on the DataFrame structure</span>
+            <span class="n">df_fields_list</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">df_fields_list</span><span class="p">)]</span> <span class="o">=</span> <span class="n">fields</span>
+
+        <span class="k">return</span> <span class="n">df_fields_list</span></div>
+
+
+
+<div class="viewcode-block" id="QixEngine.get_app_dimensions">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.get_app_dimensions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_app_dimensions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_handle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves a list with all app dimensions containing metadata.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            app_handle (int): The handle of the app.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame: A table with all dimensions from an app.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Define the parameters of the session object</span>
+        <span class="n">nx_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_info</span><span class="p">(</span><span class="n">obj_type</span><span class="o">=</span><span class="s2">&quot;DimensionList&quot;</span><span class="p">)</span>
+        <span class="n">dimension_list_def</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">dimension_list_def</span><span class="p">()</span>
+        <span class="n">gen_obj_props</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">generic_object_properties</span><span class="p">(</span><span class="n">info</span><span class="o">=</span><span class="n">nx_info</span><span class="p">,</span> <span class="n">prop_name</span><span class="o">=</span><span class="s2">&quot;qDimensionListDef&quot;</span><span class="p">,</span>
+                                                               <span class="n">prop_def</span><span class="o">=</span><span class="n">dimension_list_def</span><span class="p">)</span>
+
+        <span class="c1"># Create session object</span>
+        <span class="n">session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaa</span><span class="o">.</span><span class="n">create_session_object</span><span class="p">(</span><span class="n">app_handle</span><span class="p">,</span> <span class="n">gen_obj_props</span><span class="p">)</span>
+
+        <span class="c1"># Get session handle</span>
+        <span class="n">session_handle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_handle</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+
+        <span class="c1"># Get session object data</span>
+        <span class="n">session_layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">egoa</span><span class="o">.</span><span class="n">get_layout</span><span class="p">(</span><span class="n">session_handle</span><span class="p">)</span>
+
+        <span class="c1"># Get the dimension list as Dictionary structure</span>
+        <span class="n">dimension_list</span> <span class="o">=</span> <span class="n">session_layout</span><span class="p">[</span><span class="s2">&quot;qDimensionList&quot;</span><span class="p">][</span><span class="s2">&quot;qItems&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Define the DataFrame structure</span>
+        <span class="n">df_dimension_list</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qInfo&quot;</span><span class="p">,</span> <span class="s2">&quot;qMeta&quot;</span><span class="p">,</span> <span class="s2">&quot;qDim&quot;</span><span class="p">,</span> <span class="s2">&quot;qDimInfos&quot;</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">dimension</span> <span class="ow">in</span> <span class="n">dimension_list</span><span class="p">:</span>
+            <span class="c1"># Get dimension ID</span>
+            <span class="n">dim_id</span> <span class="o">=</span> <span class="n">dimension</span><span class="p">[</span><span class="s2">&quot;qInfo&quot;</span><span class="p">][</span><span class="s2">&quot;qId&quot;</span><span class="p">]</span>
+            <span class="c1"># Get dimension</span>
+            <span class="n">dim_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">egda</span><span class="o">.</span><span class="n">get_dimension</span><span class="p">(</span><span class="n">app_handle</span><span class="o">=</span><span class="n">app_handle</span><span class="p">,</span> <span class="n">dimension_id</span><span class="o">=</span><span class="n">dim_id</span><span class="p">)</span>
+            <span class="c1"># Get dimension handle</span>
+            <span class="n">dim_handle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_handle</span><span class="p">(</span><span class="n">dim_result</span><span class="p">)</span>
+            <span class="c1"># Get dimension metadata</span>
+            <span class="n">dim_layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">egoa</span><span class="o">.</span><span class="n">get_layout</span><span class="p">(</span><span class="n">dim_handle</span><span class="p">)</span>
+
+            <span class="c1"># Concatenate the dimension to the DataFrame structure</span>
+            <span class="n">df_dimension_list</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">df_dimension_list</span><span class="p">)]</span> <span class="o">=</span> <span class="n">dim_layout</span>
+
+        <span class="c1"># Resolve the dictionary structure of attribute &quot;qInfo&quot;</span>
+        <span class="n">df_dimension_list_expanded</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_dimension_list</span><span class="p">[</span><span class="s2">&quot;qInfo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s2">&quot;qInfo_&quot;</span><span class="p">))</span>
+        <span class="n">df_dimension_list</span> <span class="o">=</span> <span class="n">df_dimension_list</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qInfo&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df_dimension_list_expanded</span><span class="p">)</span>
+
+        <span class="c1"># Resolve the dictionary structure of attribute &quot;qMeta&quot;</span>
+        <span class="n">df_dimension_list_expanded</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_dimension_list</span><span class="p">[</span><span class="s2">&quot;qMeta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s2">&quot;qMeta_&quot;</span><span class="p">))</span>
+        <span class="n">df_dimension_list</span> <span class="o">=</span> <span class="n">df_dimension_list</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qMeta&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df_dimension_list_expanded</span><span class="p">)</span>
+
+        <span class="c1"># Resolve the dictionary structure of attribute &quot;qDim&quot;</span>
+        <span class="n">df_dimension_list_expanded</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_dimension_list</span><span class="p">[</span><span class="s2">&quot;qDim&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s2">&quot;qDim_&quot;</span><span class="p">))</span>
+        <span class="n">df_dimension_list</span> <span class="o">=</span> <span class="n">df_dimension_list</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qDim&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df_dimension_list_expanded</span><span class="p">)</span>
+
+        <span class="c1"># Resolve the dictionary structure of attribute &quot;qDim_coloring&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">df_dimension_list_expanded</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">df_dimension_list</span><span class="p">[</span><span class="s2">&quot;qDim_coloring&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s2">&quot;qDim_coloring_&quot;</span><span class="p">))</span>
+            <span class="n">df_dimension_list</span> <span class="o">=</span> <span class="n">df_dimension_list</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qDim_coloring&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df_dimension_list_expanded</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">df_dimension_list</span><span class="p">[</span><span class="s2">&quot;qDim_coloring&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="c1"># Resolve the dictionary structure of attribute &quot;qDim_coloring_baseColor&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">df_dimension_list_expanded</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">df_dimension_list</span><span class="p">[</span><span class="s2">&quot;qDim_coloring_baseColor&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s2">&quot;qDim_coloring_baseColor_&quot;</span><span class="p">))</span>
+            <span class="n">df_dimension_list</span> <span class="o">=</span> <span class="n">df_dimension_list</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qDim_coloring_baseColor&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">df_dimension_list_expanded</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">df_dimension_list</span><span class="p">[</span><span class="s2">&quot;qDim_coloring_baseColor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="c1"># Resolve the list structure of attribute</span>
+        <span class="n">df_dimension_list</span> <span class="o">=</span> <span class="n">df_dimension_list</span><span class="o">.</span><span class="n">explode</span><span class="p">([</span><span class="s1">&#39;qDimInfos&#39;</span><span class="p">,</span> <span class="s1">&#39;qDim_qFieldDefs&#39;</span><span class="p">,</span> <span class="s1">&#39;qDim_qFieldLabels&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Resolve the dictionary structure of attribute &quot;qDimInfos&quot;</span>
+        <span class="n">df_dimension_list_expanded</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_dimension_list</span><span class="p">[</span><span class="s2">&quot;qDimInfos&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s2">&quot;qDimInfos_&quot;</span><span class="p">))</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">df_dimension_list_expanded</span><span class="o">.</span><span class="n">index</span>
+        <span class="n">df_dimension_list_expanded</span> <span class="o">=</span> <span class="n">df_dimension_list_expanded</span><span class="p">[</span><span class="o">~</span><span class="n">index</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s2">&quot;first&quot;</span><span class="p">)]</span>
+        <span class="n">df_dimension_list</span> <span class="o">=</span> <span class="n">df_dimension_list</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qDimInfos&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df_dimension_list_expanded</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">df_dimension_list</span></div>
+
+
+
+<div class="viewcode-block" id="QixEngine.get_app_measures">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.get_app_measures">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_app_measures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_handle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves a list with all app measures containing metadata.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            app_handle (int): The handle of the app.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame: A table with all measures from an app.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Define the parameters of the session object</span>
+        <span class="n">nx_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">nx_info</span><span class="p">(</span><span class="n">obj_type</span><span class="o">=</span><span class="s2">&quot;MeasureList&quot;</span><span class="p">)</span>
+        <span class="n">measure_list_def</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">measure_list_def</span><span class="p">()</span>
+        <span class="n">gen_obj_props</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">generic_object_properties</span><span class="p">(</span><span class="n">info</span><span class="o">=</span><span class="n">nx_info</span><span class="p">,</span> <span class="n">prop_name</span><span class="o">=</span><span class="s2">&quot;qMeasureListDef&quot;</span><span class="p">,</span>
+                                                               <span class="n">prop_def</span><span class="o">=</span><span class="n">measure_list_def</span><span class="p">)</span>
+
+        <span class="c1"># Create session object</span>
+        <span class="n">session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaa</span><span class="o">.</span><span class="n">create_session_object</span><span class="p">(</span><span class="n">app_handle</span><span class="p">,</span> <span class="n">gen_obj_props</span><span class="p">)</span>
+
+        <span class="c1"># Get session handle</span>
+        <span class="n">session_handle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_handle</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+
+        <span class="c1"># Get session object data</span>
+        <span class="n">session_layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">egoa</span><span class="o">.</span><span class="n">get_layout</span><span class="p">(</span><span class="n">session_handle</span><span class="p">)</span>
+
+        <span class="c1"># Get the measure list as Dictionary structure</span>
+        <span class="n">measure_list</span> <span class="o">=</span> <span class="n">session_layout</span><span class="p">[</span><span class="s2">&quot;qMeasureList&quot;</span><span class="p">][</span><span class="s2">&quot;qItems&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Define the DataFrame structure</span>
+        <span class="n">df_measure_list</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qInfo&quot;</span><span class="p">,</span> <span class="s2">&quot;qMeasure&quot;</span><span class="p">,</span> <span class="s2">&quot;qMeta&quot;</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">measure</span> <span class="ow">in</span> <span class="n">measure_list</span><span class="p">:</span>
+            <span class="c1"># Get measure ID</span>
+            <span class="n">measure_id</span> <span class="o">=</span> <span class="n">measure</span><span class="p">[</span><span class="s2">&quot;qInfo&quot;</span><span class="p">][</span><span class="s2">&quot;qId&quot;</span><span class="p">]</span>
+            <span class="c1"># Get measure</span>
+            <span class="n">measure_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">egma</span><span class="o">.</span><span class="n">get_measure</span><span class="p">(</span><span class="n">app_handle</span><span class="o">=</span><span class="n">app_handle</span><span class="p">,</span> <span class="n">measure_id</span><span class="o">=</span><span class="n">measure_id</span><span class="p">)</span>
+            <span class="c1"># Get measure handle</span>
+            <span class="n">measure_handle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_handle</span><span class="p">(</span><span class="n">measure_result</span><span class="p">)</span>
+            <span class="c1"># Get session object data</span>
+            <span class="n">measure_layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">egoa</span><span class="o">.</span><span class="n">get_layout</span><span class="p">(</span><span class="n">measure_handle</span><span class="p">)</span>
+
+            <span class="c1"># Concatenate the measure metadata to the DataFrame structure</span>
+            <span class="n">df_measure_list</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">df_measure_list</span><span class="p">)]</span> <span class="o">=</span> <span class="n">measure_layout</span>
+
+        <span class="c1"># Resolve the dictionary structure of attribute &quot;qInfo&quot;</span>
+        <span class="n">df_measure_list_expanded</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_measure_list</span><span class="p">[</span><span class="s2">&quot;qInfo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s2">&quot;qInfo_&quot;</span><span class="p">))</span>
+        <span class="n">df_measure_list</span> <span class="o">=</span> <span class="n">df_measure_list</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qInfo&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df_measure_list_expanded</span><span class="p">)</span>
+
+        <span class="c1"># Resolve the dictionary structure of attribute &quot;qMeasure&quot;</span>
+        <span class="n">df_measure_list_expanded</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_measure_list</span><span class="p">[</span><span class="s2">&quot;qMeasure&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s2">&quot;qMeasure_&quot;</span><span class="p">))</span>
+        <span class="n">df_measure_list</span> <span class="o">=</span> <span class="n">df_measure_list</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qMeasure&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df_measure_list_expanded</span><span class="p">)</span>
+
+        <span class="c1"># Resolve the dictionary structure of attribute &quot;qMeta&quot;</span>
+        <span class="n">df_measure_list_expanded</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_measure_list</span><span class="p">[</span><span class="s2">&quot;qMeta&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s2">&quot;qMeta_&quot;</span><span class="p">))</span>
+        <span class="n">df_measure_list</span> <span class="o">=</span> <span class="n">df_measure_list</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qMeta&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df_measure_list_expanded</span><span class="p">)</span>
+
+        <span class="c1"># Resolve the dictionary structure of attribute &quot;qMeasure_qNumFormat&quot;</span>
+        <span class="n">df_measure_list_expanded</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">df_measure_list</span><span class="p">[</span><span class="s2">&quot;qMeasure_qNumFormat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s2">&quot;qMeasure_qNumFormat_&quot;</span><span class="p">))</span>
+        <span class="n">df_measure_list</span> <span class="o">=</span> <span class="n">df_measure_list</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qMeasure_qNumFormat&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df_measure_list_expanded</span><span class="p">)</span>
+
+        <span class="c1"># Resolve the dictionary structure of attribute &quot;qMeasure_coloring&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">df_measure_list_expanded</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">df_measure_list</span><span class="p">[</span><span class="s2">&quot;qMeasure_coloring&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span><span class="s2">&quot;qMeasure_coloring_&quot;</span><span class="p">))</span>
+            <span class="n">df_measure_list</span> <span class="o">=</span> <span class="n">df_measure_list</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qMeasure_coloring&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df_measure_list_expanded</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">df_measure_list</span><span class="p">[</span><span class="s2">&quot;qMeasure_coloring&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="c1"># Resolve the dictionary structure of attribute &quot;qMeasure_coloring_baseColor&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">df_measure_list_expanded</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_measure_list</span><span class="p">[</span><span class="s2">&quot;qMeasure_coloring_baseColor&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span><span class="o">.</span><span class="n">add_prefix</span><span class="p">(</span>
+                <span class="s2">&quot;qMeasure_coloring_baseColor_&quot;</span><span class="p">))</span>
+            <span class="n">df_measure_list</span> <span class="o">=</span> <span class="n">df_measure_list</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;qMeasure_coloring_baseColor&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="n">df_measure_list_expanded</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">df_measure_list</span><span class="p">[</span><span class="s2">&quot;qMeasure_coloring_baseColor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">df_measure_list</span></div>
+
+
+
+<div class="viewcode-block" id="QixEngine.get_app_lineage">
+<a class="viewcode-back" href="../../engine_api.html#qe_api_client.engine.QixEngine.get_app_lineage">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_app_lineage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_handle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves a list with an app lineage data.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            app_handle (int): The handle of the app.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DataFrame: A table with lineage data from an app.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Get lineage data from an app</span>
+        <span class="n">lineage_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eaa</span><span class="o">.</span><span class="n">get_lineage</span><span class="p">(</span><span class="n">app_handle</span><span class="p">)</span>
+
+        <span class="c1"># Define the DataFrame structure</span>
+        <span class="n">df_lineage_list</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;qDiscriminator&#39;</span><span class="p">,</span> <span class="s1">&#39;qStatement&#39;</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">lineage</span> <span class="ow">in</span> <span class="n">lineage_list</span><span class="p">:</span>
+            <span class="c1"># Concatenate the lineage row on the DataFrame structure</span>
+            <span class="n">df_lineage_list</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">df_lineage_list</span><span class="p">)]</span> <span class="o">=</span> <span class="n">lineage</span>
+
+        <span class="k">return</span> <span class="n">df_lineage_list</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Rumen Vasilev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
