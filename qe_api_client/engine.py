@@ -179,7 +179,25 @@ class QixEngine:
         if no_of_rows not in range(8, 43):
             no_of_rows = 18
         no_of_columns = no_of_rows * 2
-        sheet_props.update({"columns": no_of_columns, "rows": no_of_rows})
+
+        # Derive the grid_resolution property
+        if no_of_rows == 12:
+            grid_resolution = "small"
+        elif no_of_rows == 15:
+            grid_resolution = "medium"
+        elif no_of_rows == 18:
+            grid_resolution = "large"
+        else:
+            grid_resolution = "customrows"
+
+        # Add new properties
+        sheet_props.update(
+            {
+                "thumbnail": {"qStaticContentUrlDef": {"qUrl": ""}}, "columns": no_of_columns, "rows": no_of_rows,
+                "customRowBase": no_of_rows, "gridResolution": grid_resolution, "layoutOptions": {"mobileLayout": "LIST"},
+                "qChildListDef": {"qData": {"title": "/title"}}
+            }
+        )
 
         # Create the sheet
         sheet = self.eaa.create_object(app_handle, sheet_props)
@@ -227,6 +245,26 @@ class QixEngine:
             return obj["qHandle"]
         except ValueError:
             return "Bad handle value in " + obj
+
+    @staticmethod
+    def get_id(obj):
+        """
+        Retrieves the id from a given object.
+
+        Parameters:
+        obj : dict
+            The object containing the handle.
+
+        Returns:
+        int: The handle value.
+
+        Raises:
+        ValueError: If the handle value is invalid.
+        """
+        try:
+            return obj["qGenericId"]
+        except ValueError:
+            return "Bad id value in " + obj
 
     def get_chart_data(self, app_handle, obj_id):
         """

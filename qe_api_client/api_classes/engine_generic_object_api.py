@@ -24,21 +24,51 @@ class EngineGenericObjectApi:
             socket (object): The socket connection to the Qlik Sense engine.
         """
         self.engine_socket = socket
-    def create_child(self, handle, params):
+
+    def apply_patches(self, handle: int, patches: list, soft_patch: bool = False):
         """
-        Retrieves the layout structure of a specific generic object.
+        Applies a patch to the properties of an object. Allows an update to some of the properties. It is possible to
+        apply a patch to the properties of a generic object, that is not persistent. Such a patch is called a soft patch.
+        In that case, the result of the operation on the properties (add, remove or delete) is not shown when doing
+        GetProperties, and only a GetLayout call shows the result of the operation. Properties that are not persistent
+        are called soft properties. Once the engine session is over, soft properties are cleared. It should not be
+        possible to patch "/qInfo/qId", and it will be forbidden in the near future.
 
         Parameters:
             handle (int): The handle identifying the generic object.
-            params (str): The parameters of the generic object.
+            patches (list): List of patches.
+            soft_patch (bool, optional): If set to true, it means that the properties to be applied are not persistent.
+            The patch is a soft patch. The default value is false.
+
+        Returns:
+            dict: Operation succeeded.
+        """
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "ApplyPatches",
+                          "params": {"qPatches": patches, "qSoftPatch": soft_patch}})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
+        try:
+            return response["result"]
+        except KeyError:
+            return response["error"]
+
+    def create_child(self, handle: int, prop: dict, prop_for_this: dict = None):
+        """
+        Creates a generic object that is a child of another generic object.
+
+        Parameters:
+            handle (int): The handle identifying the generic object.
+            prop (dict): Information about the child. It is possible to create a child that is linked to another object.
+            prop_for_this (dict, optional): Identifier of the parent's object. Should be set to update the properties of
+            the parent's object at the same time the child is created.
 
         Returns:
             dict: The layout structure of the generic object (qLayout). In case of an error, returns the error information.
         """
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "CreateChild", "params": [params]})
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "CreateChild",
+                          "params": {"qProp": prop, "qPropForThis": prop_for_this}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
-            return response["result"]
+            return response["result"]["qReturn"]
         except KeyError:
             return response["error"]
 

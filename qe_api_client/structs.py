@@ -1,6 +1,28 @@
-def list_object_def(state_name="$", library_id="", field_defs=[], initial_data_fetch=[]):
-    return {"qStateName": state_name, "qLibraryId": library_id, "qDef": field_defs,
-            "qInitialDataFetch": initial_data_fetch}
+def list_object_def(state_name: str = "$", library_id: str = "", definition: dict = None,
+                    auto_sort_by_state: dict = None, frequency_mode: str = "N", show_alternatives: bool = False,
+                    initial_data_fetch: list = None, expressions: list = None,
+                    direct_query_simplified_view: bool = False, show_titles: bool = True, title: str = "",
+                    subtitle: str = "", footnote: str = "", disable_nav_menu: bool = False, show_details: bool = True,
+                    show_details_expression: bool = False, other_total_spec: dict = None):
+
+    if other_total_spec is None:
+        other_total_spec = {}
+    if expressions is None:
+        expressions = []
+    if initial_data_fetch is None:
+        initial_data_fetch = []
+    if auto_sort_by_state is None:
+        auto_sort_by_state = {}
+    if definition is None:
+        definition = {}
+
+    return {"qStateName": state_name, "qLibraryId": library_id, "qDef": definition,
+            "qAutoSortByState": auto_sort_by_state, "qFrequencyMode": frequency_mode,
+            "qShowAlternatives": show_alternatives, "qInitialDataFetch": initial_data_fetch,
+            "qExpressions": expressions, "qDirectQuerySimplifiedView": direct_query_simplified_view,
+            "showTitles": show_titles, "title": title, "subtitle": subtitle, "footnote": footnote,
+			"disableNavMenu": disable_nav_menu, "showDetails": show_details,
+            "showDetailsExpression": show_details_expression, "qOtherTotalSpec": other_total_spec}
 
 
 def hypercube_def(state_name="$", nx_dims=[], nx_meas=[], nx_page=[], inter_column_sort=[0, 1, 2], suppress_zero=False,
@@ -12,9 +34,20 @@ def hypercube_def(state_name="$", nx_dims=[], nx_meas=[], nx_page=[], inter_colu
             "qShowTotalsAbove": False, "qIndentMode": False, "qCalcCond": "", "qSortbyYValue": 0}
 
 
-def nx_inline_dimension_def(field_definitions=[], field_labels=[], sort_criterias=[], grouping='N'):
+def nx_inline_dimension_def(grouping: str = "N", field_definitions: list = None, field_labels: list = None,
+                            sort_criterias: list = None, number_presentations: list = None, reverse_sort: bool = False,
+                            active_field: int = 0, label_expression: str = "", alias: str = ""):
+    if number_presentations is None:
+        number_presentations = []
+    if sort_criterias is None:
+        sort_criterias = []
+    if field_labels is None:
+        field_labels = []
+    if field_definitions is None:
+        field_definitions = []
     return {"qGrouping": grouping, "qFieldDefs": field_definitions, "qFieldLabels": field_labels,
-            "qSortCriterias": sort_criterias, "qReverseSort": False}
+            "qSortCriterias": sort_criterias, "qNumberPresentations": number_presentations, "qReverseSort": reverse_sort,
+            "qActiveField": active_field, "qLabelExpression": label_expression, "qAlias": alias}
 
 
 def nx_inline_measure_def(definition, label="", description="", tags=[], grouping="N"):
@@ -48,13 +81,26 @@ def nx_measure(library_id="", mes_def={}, sort_by={}):
     return {"qLibraryId": library_id, "qDef": mes_def, "qSortBy": sort_by}
 
 
-def generic_object_properties(info, prop_name, prop_def, extends_id="", state_name="$"):
+def generic_object_properties(info: dict, prop_name: str, prop_def:dict = None, extends_id: str = "",
+                              state_name: str = "$"):
+    if prop_def is None:
+        prop_def = {}
     return {"qInfo": info, "qExtendsId": extends_id, prop_name: prop_def, "qStateName": state_name}
 
 
-def sort_criteria(state=0, freq=0, numeric=0, ascii=0, load_order=1):
-    return {"qSortByState": state, "qSortByFrequency": freq, "qSortByNumeric": numeric, "qSortByAscii": ascii,
-            "qSortByLoadOrder": load_order, "qSortByExpression": 0, "qExpression": {"qv": ""}}
+def sort_criteria(sort_by_state: int = 1, sort_by_frequency:int = 0, sort_by_numeric: int = 1, sort_by_ascii: int = 1,
+                  sort_by_load_order: int = 1, sort_by_load_expression: int = 0, expression=None,
+                  sort_by_load_greyness: int = 0):
+    if expression is None:
+        expression = {}
+    return {"qSortByState": sort_by_state, "qSortByFrequency": sort_by_frequency, "qSortByNumeric": sort_by_numeric,
+            "qSortByAscii": sort_by_ascii, "qSortByLoadOrder": sort_by_load_order,
+            "qSortByExpression": sort_by_load_expression, "qExpression": expression,
+            "qSortByGreyness": sort_by_load_greyness}
+
+
+def value_expr(qv: str = ""):
+    return {"qv": qv}
 
 
 def field_value(text, is_numeric = False, number = 0):
@@ -89,7 +135,7 @@ def nx_library_measure_def(label: str, mes_def: str, grouping: str = "N", expres
             "qActiveExpression": active_expression, "qLabelExpression": label_expression, "qNumFormat": num_format}
 
 
-def num_format(type: str = "U", n_dec: int = 10, use_thou:int = 0, fmt: str = "", dec: str = "", thou: str = ""):
+def field_attributes(type: str = "U", n_dec: int = 10, use_thou:int = 0, fmt: str = "", dec: str = "", thou: str = ""):
     return {"qType": type, "qnDec": n_dec, "qUseThou": use_thou, "qFmt": fmt, "qDec": dec, "qThou": thou}
 
 
@@ -120,3 +166,6 @@ def field_list_def(show_system: bool = True, show_hidden: bool = True, show_deri
                    show_semantic: bool = True, show_src_tables: bool = True, show_implicit: bool = True):
     return {"qShowSystem": show_system, "qShowHidden": show_hidden,	"qShowDerivedFields": show_derived_fields,
             "qShowSemantic": show_semantic, "qShowSrcTables": show_src_tables, "qShowImplicit": show_implicit}
+
+def nx_patch(op: str, path: str, value: str):
+    return {"qOp": op, "qPath": path, "qValue": value}

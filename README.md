@@ -1,6 +1,6 @@
 # Qlik Engine API Client
 
-Python wrapper around [Qlik Engine JSON API](https://help.qlik.com/en-US/sense-developer/February2024/Subsystems/EngineAPI/Content/Sense_EngineAPI/introducing-engine-API.htm)
+Python client for the [Qlik Engine JSON API](https://help.qlik.com/en-US/sense-developer/November2024/Subsystems/EngineAPI/Content/Sense_EngineAPI/introducing-engine-API.htm)
 
 Forked from [jhettler/pyqlikengine](https://github.com/jhettler/pyqlikengine)
 
