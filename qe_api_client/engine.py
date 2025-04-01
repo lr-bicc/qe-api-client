@@ -204,6 +204,27 @@ class QixEngine:
 
         return sheet
 
+    def create_list_object(self, handle: int, dim_id: str = "", field_def: str = "", field_title: str = ""):
+
+        if field_def is None:
+            field_def = []
+
+        nx_info = self.structs.nx_info(obj_type="listbox")
+        sort_criterias = self.structs.sort_criteria()
+
+        nx_library_dimension_def = self.structs.nx_inline_dimension_def(grouping="N", field_definitions=[field_def],
+                                                                          field_labels=[field_def],
+                                                                          sort_criterias=[sort_criterias])
+        list_object_def = self.structs.list_object_def(library_id=dim_id, definition=nx_library_dimension_def)
+        list_object_props = self.structs.generic_object_properties(info=nx_info, prop_name="qListObjectDef",
+                                                                   prop_def=list_object_def)
+        list_object_props.update(
+            {"showTitles": True, "title": field_title, "subtitle": "", "footnote": "", "disableNavMenu": False,
+             "showDetails": True, "showDetailsExpression": False, "visualization": "listbox"})
+        list_object = self.egoa.create_child(handle=handle, prop=list_object_props)
+        # print(list_object)
+        return list_object
+
     def get_app_lineage_info(self, app_handle):
         """
         Gets the lineage information of the app. The lineage information includes the LOAD and STORE statements from

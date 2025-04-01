@@ -36,7 +36,7 @@ def hypercube_def(state_name="$", nx_dims=[], nx_meas=[], nx_page=[], inter_colu
 
 def nx_inline_dimension_def(grouping: str = "N", field_definitions: list = None, field_labels: list = None,
                             sort_criterias: list = None, number_presentations: list = None, reverse_sort: bool = False,
-                            active_field: int = 0, label_expression: str = "", alias: str = ""):
+                            active_field: int = 0, label_expression: str = "", alias: str = "", auto_sort: bool = True):
     if number_presentations is None:
         number_presentations = []
     if sort_criterias is None:
@@ -47,7 +47,7 @@ def nx_inline_dimension_def(grouping: str = "N", field_definitions: list = None,
         field_definitions = []
     return {"qGrouping": grouping, "qFieldDefs": field_definitions, "qFieldLabels": field_labels,
             "qSortCriterias": sort_criterias, "qNumberPresentations": number_presentations, "qReverseSort": reverse_sort,
-            "qActiveField": active_field, "qLabelExpression": label_expression, "qAlias": alias}
+            "qActiveField": active_field, "qLabelExpression": label_expression, "qAlias": alias, "autoSort": auto_sort}
 
 
 def nx_inline_measure_def(definition, label="", description="", tags=[], grouping="N"):
