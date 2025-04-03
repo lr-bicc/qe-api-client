@@ -1,32 +1,12 @@
-# Import engine package
-from qe_api_client.engine import QixEngine
+# Import utilities
+import utilities as utils
 
 
 # Connect to Qlik Sense Desktop engine
-url = 'ws://localhost:4848/app'
-qixe = QixEngine(url)
+conn = utils.create_connection()
 
-# Create an app
-app_name = "TestApp"
-try:
-    app_id = qixe.ega.create_app(app_name)['qAppId']
-except KeyError:
-    qixe.ega.delete_app(app_name)
-    app_id = qixe.ega.create_app(app_name)['qAppId']
-
-# Open app
-opened_app = qixe.ega.open_doc(app_name)
-
-# Get app handle
-app_handle = qixe.get_handle(opened_app)
-
-# Set script
-with open('../test/test_data/ctrl00_script.qvs') as f:
-    app_script = f.read()
-script_result = qixe.eaa.set_script(app_handle, app_script)
-
-# Reload app
-reload_result = qixe.eaa.do_reload_ex(app_handle)
+# Create a sample app
+app_handle = utils.create_sample_app(conn)
 
 # Define dimensions and measures
 list_of_dimensions = ["Dim1", "Dim2", "Dim3"]
@@ -34,7 +14,7 @@ list_of_measures = ["Sum(Expression1)"]
 
 
 # Put the dimensions and the measures in a dataframe and print the results
-df = qixe.get_constructed_table_data(app_handle=app_handle, list_of_dimensions=list_of_dimensions,
+df = conn.get_constructed_table_data(app_handle=app_handle, list_of_dimensions=list_of_dimensions,
                                      list_of_measures=list_of_measures)
 print("Data set before the selections:")
 print("===============================")
@@ -42,8 +22,8 @@ print(df)
 print("\n")
 
 # Select values
-selection_1 = qixe.select_in_field(app_handle=app_handle, field_name="Dim1", list_of_values=["A", "B"])
-selection_2 = qixe.select_in_field(app_handle=app_handle, field_name="Dim3", list_of_values=["Z"])
+selection_1 = conn.select_in_field(app_handle=app_handle, field_name="Dim1", list_of_values=["A", "B"])
+selection_2 = conn.select_in_field(app_handle=app_handle, field_name="Dim3", list_of_values=["Z"])
 print("Selections:")
 print("===========")
 print("Selection 1:", selection_1)
@@ -52,14 +32,14 @@ print("\n")
 
 
 # Put the dimensions and the measures in a dataframe and print the results
-df = qixe.get_constructed_table_data(app_handle=app_handle, list_of_dimensions=list_of_dimensions,
+df = conn.get_constructed_table_data(app_handle=app_handle, list_of_dimensions=list_of_dimensions,
                                      list_of_measures=list_of_measures)
 print("Data set after the selections:")
 print("==============================")
 print(df)
 
 # Save app
-save_result =qixe.eaa.do_save(app_handle, app_name)
+utils.save_sample_app(conn, app_handle)
 
-# close connection
-QixEngine.disconnect(qixe)
+# close engine connection
+utils.close_connection(conn)

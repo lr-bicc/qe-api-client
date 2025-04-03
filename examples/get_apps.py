@@ -1,13 +1,13 @@
-from qe_api_client.engine import QixEngine
+# Import utilities
+import utilities as utils
 
 
 # Connect to Qlik Sense Desktop engine
-url = 'ws://localhost:4848/app'
-qixe = QixEngine(url)
+conn = utils.create_connection()
 
 # Retrieves a list with all apps on the server containing meta data
-apps_list = qixe.get_apps()
+apps_list = conn.get_apps()
 print(apps_list)
 
-# close connection
-QixEngine.disconnect(qixe)
+# close engine connection
+utils.close_connection(conn)
