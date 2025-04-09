@@ -167,5 +167,39 @@ def field_list_def(show_system: bool = True, show_hidden: bool = True, show_deri
     return {"qShowSystem": show_system, "qShowHidden": show_hidden,	"qShowDerivedFields": show_derived_fields,
             "qShowSemantic": show_semantic, "qShowSrcTables": show_src_tables, "qShowImplicit": show_implicit}
 
+
 def nx_patch(op: str, path: str, value: str):
     return {"qOp": op, "qPath": path, "qValue": value}
+
+
+def sheet_list_def():
+    return {
+        "qType": "sheet",
+        "qData": {
+            "title": "/qMetaDef/title",
+            "description": "/qMetaDef/description",
+            "thumbnail": "/thumbnail",
+            "cells": "/cells",
+            "rank": "/rank",
+            "columns": "/columns",
+            "rows": "/rows"
+        }
+    }
+
+
+def object_position_size(obj_id: str, obj_type: str, col: int, row: int, colspan: int, rowspan: int, y: float, x: float,
+                         width: float, height: float):
+    return {
+        "name": obj_id,
+        "type": obj_type,
+        "col": col,
+        "row": row,
+        "colspan": colspan,
+        "rowspan": rowspan,
+        "bounds": {
+            "y": y,
+            "x": x,
+            "width": width,
+            "height": height
+        }
+    }

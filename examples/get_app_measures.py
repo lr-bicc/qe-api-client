@@ -8,9 +8,6 @@ conn = utils.create_connection()
 # Create a sample app
 app_handle = utils.create_sample_app(conn)
 
-# Create sample master measures
-utils.create_sample_master_measures(conn, app_handle)
-
 # Retrieves a list with all dimensions in the app containing dimension metadata
 measure_list = conn.get_app_measures(app_handle)
 print(measure_list.to_string())

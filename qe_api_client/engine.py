@@ -205,7 +205,18 @@ class QixEngine:
         return sheet
 
     def create_list_object(self, handle: int, dim_id: str = "", field_def: str = "", field_title: str = ""):
+        """
+        Creates a list object.
 
+        Parameters:
+            handle (int): The handle of the parent object.
+            dim_id (str, optional): The ID of the master dimension.  Let this parameter empty, if you passed the "field_def".
+            field_def (str, optional): The definition of the field. Let this parameter empty, if you passed the "dim_id".
+            field_title (int, optional): The title of the field. Let this parameter empty, if you passed the "dim_id".
+
+        Returns:
+            dict: The handle and Id of the list object.
+        """
         if field_def is None:
             field_def = []
 
@@ -224,6 +235,49 @@ class QixEngine:
         list_object = self.egoa.create_child(handle=handle, prop=list_object_props)
         # print(list_object)
         return list_object
+
+    def create_filterpane_frame(self, handle: int, no_of_rows_sheet: int, col: int, row: int, colspan: int, rowspan: int):
+        nx_info = self.structs.nx_info(obj_type="filterpane")
+        filterpane_props = self.structs.generic_object_properties(info=nx_info, prop_name="qMetaDef")
+        filterpane_props.update({"qChildListDef": {"qData": {}}})
+        filterpane = self.egoa.create_child(handle=handle, prop=filterpane_props)
+
+        filterpane_id = self.get_id(filterpane)
+
+        no_of_cols_sheet = no_of_rows_sheet * 2
+        width = colspan / no_of_cols_sheet * 100
+        height = rowspan / no_of_rows_sheet * 100
+        y = row / no_of_rows_sheet * 100
+        x = col / no_of_cols_sheet * 100
+
+        if col >= 0 and colspan > 0 and no_of_cols_sheet >= col + colspan and row >= 0 and rowspan > 0 and no_of_rows_sheet >= row + rowspan:
+
+            # filterpane_layout_string = '{"name": "' + filterpane_id + '", "type": "filterpane", "col": ' + str(
+            #     col) + ', "row": ' + str(row) + ', "colspan": ' + str(col_span) + ', "rowspan": ' + str(
+            #     row_span) + ', "bounds": {"y": ' + str(y) + ', "x": ' + str(x) + ', "width": ' + str(
+            #     width) + ', "height": ' + str(height) + '}}'
+            # filterpane_layout = json.loads(filterpane_layout_string)
+            filterpane_layout = self.structs.object_position_size(obj_id=filterpane_id, obj_type="filterpane",
+                                                                         col=col, row=row, colspan=colspan,
+                                                                         rowspan=rowspan, y=y, x=x, width=width,
+                                                                         height=height)
+
+            sheet_layout = self.egoa.get_layout(handle=handle)
+
+            if "cells" not in sheet_layout:
+                patch_value = str([filterpane_layout]).replace("'", "\"")
+                patch_cell = self.structs.nx_patch(op="add", path="/cells", value=patch_value)
+            else:
+                cells = sheet_layout["cells"]
+                cells.append(filterpane_layout)
+                patch_value = str(cells).replace("'", "\"")
+                patch_cell = self.structs.nx_patch(op="replace", path="/cells", value=patch_value)
+
+            self.egoa.apply_patches(handle=handle, patches=[patch_cell])
+        else:
+            print("The position of filterpane \"" + filterpane_id + "\" is out of range. This one will not be created.")
+
+        return filterpane
 
     def get_app_lineage_info(self, app_handle):
         """
