@@ -1,0 +1,381 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qe_api_client.structs &mdash; Qlik Engine API Client 2.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=51b770b3"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Qlik Engine API Client
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API Client Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../engine_communicator.html">Engine API Communicator Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../engine_api.html">Engine API Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_classes/index.html">API Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../structs.html">Structs module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Qlik Engine API Client</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">qe_api_client.structs</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for qe_api_client.structs</h1><div class="highlight"><pre>
+<div class="viewcode-block" id="list_object_def">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.list_object_def">[docs]</a>
+<span></span><span class="k">def</span><span class="w"> </span><span class="nf">list_object_def</span><span class="p">(</span><span class="n">state_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;$&quot;</span><span class="p">,</span> <span class="n">library_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">definition</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">auto_sort_by_state</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">frequency_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="n">show_alternatives</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                    <span class="n">initial_data_fetch</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">expressions</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">direct_query_simplified_view</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">show_titles</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                    <span class="n">subtitle</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">footnote</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">disable_nav_menu</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">show_details</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                    <span class="n">show_details_expression</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">other_total_spec</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">other_total_spec</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">other_total_spec</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">expressions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">expressions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">initial_data_fetch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">initial_data_fetch</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">auto_sort_by_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">auto_sort_by_state</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">definition</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">definition</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qStateName&quot;</span><span class="p">:</span> <span class="n">state_name</span><span class="p">,</span> <span class="s2">&quot;qLibraryId&quot;</span><span class="p">:</span> <span class="n">library_id</span><span class="p">,</span> <span class="s2">&quot;qDef&quot;</span><span class="p">:</span> <span class="n">definition</span><span class="p">,</span>
+            <span class="s2">&quot;qAutoSortByState&quot;</span><span class="p">:</span> <span class="n">auto_sort_by_state</span><span class="p">,</span> <span class="s2">&quot;qFrequencyMode&quot;</span><span class="p">:</span> <span class="n">frequency_mode</span><span class="p">,</span>
+            <span class="s2">&quot;qShowAlternatives&quot;</span><span class="p">:</span> <span class="n">show_alternatives</span><span class="p">,</span> <span class="s2">&quot;qInitialDataFetch&quot;</span><span class="p">:</span> <span class="n">initial_data_fetch</span><span class="p">,</span>
+            <span class="s2">&quot;qExpressions&quot;</span><span class="p">:</span> <span class="n">expressions</span><span class="p">,</span> <span class="s2">&quot;qDirectQuerySimplifiedView&quot;</span><span class="p">:</span> <span class="n">direct_query_simplified_view</span><span class="p">,</span>
+            <span class="s2">&quot;showTitles&quot;</span><span class="p">:</span> <span class="n">show_titles</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span> <span class="s2">&quot;subtitle&quot;</span><span class="p">:</span> <span class="n">subtitle</span><span class="p">,</span> <span class="s2">&quot;footnote&quot;</span><span class="p">:</span> <span class="n">footnote</span><span class="p">,</span>
+			<span class="s2">&quot;disableNavMenu&quot;</span><span class="p">:</span> <span class="n">disable_nav_menu</span><span class="p">,</span> <span class="s2">&quot;showDetails&quot;</span><span class="p">:</span> <span class="n">show_details</span><span class="p">,</span>
+            <span class="s2">&quot;showDetailsExpression&quot;</span><span class="p">:</span> <span class="n">show_details_expression</span><span class="p">,</span> <span class="s2">&quot;qOtherTotalSpec&quot;</span><span class="p">:</span> <span class="n">other_total_spec</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="hypercube_def">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.hypercube_def">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">hypercube_def</span><span class="p">(</span><span class="n">state_name</span><span class="o">=</span><span class="s2">&quot;$&quot;</span><span class="p">,</span> <span class="n">nx_dims</span><span class="o">=</span><span class="p">[],</span> <span class="n">nx_meas</span><span class="o">=</span><span class="p">[],</span> <span class="n">nx_page</span><span class="o">=</span><span class="p">[],</span> <span class="n">inter_column_sort</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">suppress_zero</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                  <span class="n">suppress_missing</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qStateName&quot;</span><span class="p">:</span> <span class="n">state_name</span><span class="p">,</span> <span class="s2">&quot;qDimensions&quot;</span><span class="p">:</span> <span class="n">nx_dims</span><span class="p">,</span> <span class="s2">&quot;qMeasures&quot;</span><span class="p">:</span> <span class="n">nx_meas</span><span class="p">,</span>
+            <span class="s2">&quot;qInterColumnSortOrder&quot;</span><span class="p">:</span> <span class="n">inter_column_sort</span><span class="p">,</span> <span class="s2">&quot;qSuppressZero&quot;</span><span class="p">:</span> <span class="n">suppress_zero</span><span class="p">,</span>
+            <span class="s2">&quot;qSuppressMissing&quot;</span><span class="p">:</span> <span class="n">suppress_missing</span><span class="p">,</span> <span class="s2">&quot;qInitialDataFetch&quot;</span><span class="p">:</span> <span class="n">nx_page</span><span class="p">,</span> <span class="s2">&quot;qMode&quot;</span><span class="p">:</span> <span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="s2">&quot;qNoOfLeftDims&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;qAlwaysFullyExpanded&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;qMaxStackedCells&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span> <span class="s2">&quot;qPopulateMissing&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;qShowTotalsAbove&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;qIndentMode&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;qCalcCond&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;qSortbyYValue&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="nx_inline_dimension_def">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.nx_inline_dimension_def">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">nx_inline_dimension_def</span><span class="p">(</span><span class="n">grouping</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="n">field_definitions</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">field_labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                            <span class="n">sort_criterias</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">number_presentations</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">reverse_sort</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                            <span class="n">active_field</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">label_expression</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">alias</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">auto_sort</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">number_presentations</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">number_presentations</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">sort_criterias</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sort_criterias</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">field_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">field_labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">field_definitions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">field_definitions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qGrouping&quot;</span><span class="p">:</span> <span class="n">grouping</span><span class="p">,</span> <span class="s2">&quot;qFieldDefs&quot;</span><span class="p">:</span> <span class="n">field_definitions</span><span class="p">,</span> <span class="s2">&quot;qFieldLabels&quot;</span><span class="p">:</span> <span class="n">field_labels</span><span class="p">,</span>
+            <span class="s2">&quot;qSortCriterias&quot;</span><span class="p">:</span> <span class="n">sort_criterias</span><span class="p">,</span> <span class="s2">&quot;qNumberPresentations&quot;</span><span class="p">:</span> <span class="n">number_presentations</span><span class="p">,</span> <span class="s2">&quot;qReverseSort&quot;</span><span class="p">:</span> <span class="n">reverse_sort</span><span class="p">,</span>
+            <span class="s2">&quot;qActiveField&quot;</span><span class="p">:</span> <span class="n">active_field</span><span class="p">,</span> <span class="s2">&quot;qLabelExpression&quot;</span><span class="p">:</span> <span class="n">label_expression</span><span class="p">,</span> <span class="s2">&quot;qAlias&quot;</span><span class="p">:</span> <span class="n">alias</span><span class="p">,</span> <span class="s2">&quot;autoSort&quot;</span><span class="p">:</span> <span class="n">auto_sort</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="nx_inline_measure_def">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.nx_inline_measure_def">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">nx_inline_measure_def</span><span class="p">(</span><span class="n">definition</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[],</span> <span class="n">grouping</span><span class="o">=</span><span class="s2">&quot;N&quot;</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qLabel&quot;</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span> <span class="s2">&quot;qDescription&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span> <span class="s2">&quot;qTags&quot;</span><span class="p">:</span> <span class="n">tags</span><span class="p">,</span> <span class="s2">&quot;qGrouping&quot;</span><span class="p">:</span> <span class="n">grouping</span><span class="p">,</span> <span class="s2">&quot;qDef&quot;</span><span class="p">:</span>	<span class="n">definition</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="nx_page">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.nx_page">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">nx_page</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qLeft&quot;</span><span class="p">:</span> <span class="n">left</span><span class="p">,</span> <span class="s2">&quot;qTop&quot;</span><span class="p">:</span> <span class="n">top</span><span class="p">,</span> <span class="s2">&quot;qWidth&quot;</span><span class="p">:</span> <span class="n">width</span><span class="p">,</span> <span class="s2">&quot;qHeight&quot;</span><span class="p">:</span> <span class="n">height</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="nx_info">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.nx_info">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">nx_info</span><span class="p">(</span><span class="n">obj_type</span><span class="p">,</span> <span class="n">obj_id</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieves the data from a specific list object in a generic object.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        obj_type (str): Type of the object. This parameter is mandatory.</span>
+<span class="sd">        obj_id (str, optional): Identifier of the object. If the chosen identifier is already in use, the engine automatically</span>
+<span class="sd">        sets another one. If an identifier is not set, the engine automatically sets one. This parameter is optional.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: Struct &quot;nxInfo&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qId&quot;</span><span class="p">:</span> <span class="n">obj_id</span><span class="p">,</span> <span class="s2">&quot;qType&quot;</span><span class="p">:</span> <span class="n">obj_type</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="nx_dimension">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.nx_dimension">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">nx_dimension</span><span class="p">(</span><span class="n">library_id</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dim_def</span><span class="o">=</span><span class="p">{},</span> <span class="n">null_suppression</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qLibraryId&quot;</span><span class="p">:</span> <span class="n">library_id</span><span class="p">,</span> <span class="s2">&quot;qDef&quot;</span><span class="p">:</span> <span class="n">dim_def</span><span class="p">,</span> <span class="s2">&quot;qNullSuppression&quot;</span><span class="p">:</span> <span class="n">null_suppression</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="nx_measure">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.nx_measure">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">nx_measure</span><span class="p">(</span><span class="n">library_id</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">mes_def</span><span class="o">=</span><span class="p">{},</span> <span class="n">sort_by</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qLibraryId&quot;</span><span class="p">:</span> <span class="n">library_id</span><span class="p">,</span> <span class="s2">&quot;qDef&quot;</span><span class="p">:</span> <span class="n">mes_def</span><span class="p">,</span> <span class="s2">&quot;qSortBy&quot;</span><span class="p">:</span> <span class="n">sort_by</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="generic_object_properties">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.generic_object_properties">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generic_object_properties</span><span class="p">(</span><span class="n">info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prop_def</span><span class="p">:</span><span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">extends_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                              <span class="n">state_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;$&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">prop_def</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">prop_def</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qInfo&quot;</span><span class="p">:</span> <span class="n">info</span><span class="p">,</span> <span class="s2">&quot;qExtendsId&quot;</span><span class="p">:</span> <span class="n">extends_id</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">:</span> <span class="n">prop_def</span><span class="p">,</span> <span class="s2">&quot;qStateName&quot;</span><span class="p">:</span> <span class="n">state_name</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="sort_criteria">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.sort_criteria">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sort_criteria</span><span class="p">(</span><span class="n">sort_by_state</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sort_by_frequency</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sort_by_numeric</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sort_by_ascii</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                  <span class="n">sort_by_load_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sort_by_load_expression</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">expression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">sort_by_load_greyness</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">expression</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">expression</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qSortByState&quot;</span><span class="p">:</span> <span class="n">sort_by_state</span><span class="p">,</span> <span class="s2">&quot;qSortByFrequency&quot;</span><span class="p">:</span> <span class="n">sort_by_frequency</span><span class="p">,</span> <span class="s2">&quot;qSortByNumeric&quot;</span><span class="p">:</span> <span class="n">sort_by_numeric</span><span class="p">,</span>
+            <span class="s2">&quot;qSortByAscii&quot;</span><span class="p">:</span> <span class="n">sort_by_ascii</span><span class="p">,</span> <span class="s2">&quot;qSortByLoadOrder&quot;</span><span class="p">:</span> <span class="n">sort_by_load_order</span><span class="p">,</span>
+            <span class="s2">&quot;qSortByExpression&quot;</span><span class="p">:</span> <span class="n">sort_by_load_expression</span><span class="p">,</span> <span class="s2">&quot;qExpression&quot;</span><span class="p">:</span> <span class="n">expression</span><span class="p">,</span>
+            <span class="s2">&quot;qSortByGreyness&quot;</span><span class="p">:</span> <span class="n">sort_by_load_greyness</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="value_expr">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.value_expr">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">value_expr</span><span class="p">(</span><span class="n">qv</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qv&quot;</span><span class="p">:</span> <span class="n">qv</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="field_value">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.field_value">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">field_value</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">is_numeric</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">number</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qText&quot;</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="s2">&quot;qIsNumeric&quot;</span><span class="p">:</span> <span class="n">is_numeric</span><span class="p">,</span> <span class="s2">&quot;qNumber&quot;</span><span class="p">:</span> <span class="n">number</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="generic_dimension_properties">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.generic_dimension_properties">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generic_dimension_properties</span><span class="p">(</span><span class="n">nx_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">nx_library_dimension_def</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                                 <span class="n">tags</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">tags</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tags</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qInfo&quot;</span><span class="p">:</span> <span class="n">nx_info</span><span class="p">,</span> <span class="s2">&quot;qDim&quot;</span><span class="p">:</span> <span class="n">nx_library_dimension_def</span><span class="p">,</span> <span class="s2">&quot;qMetaDef&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+                                                                             <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="n">tags</span><span class="p">}}</span></div>
+
+
+
+<div class="viewcode-block" id="nx_library_dimension_def">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.nx_library_dimension_def">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">nx_library_dimension_def</span><span class="p">(</span><span class="n">grouping</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="n">field_definitions</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">field_labels</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                             <span class="n">label_expression</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">field_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">field_labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">field_definitions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">field_definitions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qGrouping&quot;</span><span class="p">:</span> <span class="n">grouping</span><span class="p">,</span> <span class="s2">&quot;qFieldDefs&quot;</span><span class="p">:</span> <span class="n">field_definitions</span><span class="p">,</span> <span class="s2">&quot;qFieldLabels&quot;</span><span class="p">:</span> <span class="n">field_labels</span><span class="p">,</span>
+            <span class="s2">&quot;qLabelExpression&quot;</span><span class="p">:</span> <span class="n">label_expression</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="nx_library_measure_def">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.nx_library_measure_def">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">nx_library_measure_def</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mes_def</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">grouping</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="n">expressions</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                           <span class="n">active_expression</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">label_expression</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">num_format</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">num_format</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">num_format</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">expressions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">expressions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qLabel&quot;</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span> <span class="s2">&quot;qDef&quot;</span><span class="p">:</span> <span class="n">mes_def</span><span class="p">,</span><span class="s2">&quot;qGrouping&quot;</span><span class="p">:</span> <span class="n">grouping</span><span class="p">,</span> <span class="s2">&quot;qExpressions&quot;</span><span class="p">:</span> <span class="n">expressions</span><span class="p">,</span>
+            <span class="s2">&quot;qActiveExpression&quot;</span><span class="p">:</span> <span class="n">active_expression</span><span class="p">,</span> <span class="s2">&quot;qLabelExpression&quot;</span><span class="p">:</span> <span class="n">label_expression</span><span class="p">,</span> <span class="s2">&quot;qNumFormat&quot;</span><span class="p">:</span> <span class="n">num_format</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="field_attributes">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.field_attributes">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">field_attributes</span><span class="p">(</span><span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="n">n_dec</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">use_thou</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">dec</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">thou</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qType&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="s2">&quot;qnDec&quot;</span><span class="p">:</span> <span class="n">n_dec</span><span class="p">,</span> <span class="s2">&quot;qUseThou&quot;</span><span class="p">:</span> <span class="n">use_thou</span><span class="p">,</span> <span class="s2">&quot;qFmt&quot;</span><span class="p">:</span> <span class="n">fmt</span><span class="p">,</span> <span class="s2">&quot;qDec&quot;</span><span class="p">:</span> <span class="n">dec</span><span class="p">,</span> <span class="s2">&quot;qThou&quot;</span><span class="p">:</span> <span class="n">thou</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="generic_measure_properties">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.generic_measure_properties">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generic_measure_properties</span><span class="p">(</span><span class="n">nx_info</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">nx_library_measure_def</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                               <span class="n">tags</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">tags</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tags</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qInfo&quot;</span><span class="p">:</span> <span class="n">nx_info</span><span class="p">,</span> <span class="s2">&quot;qMeasure&quot;</span><span class="p">:</span> <span class="n">nx_library_measure_def</span><span class="p">,</span> <span class="s2">&quot;qMetaDef&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+                                                                               <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+                                                                               <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="n">tags</span><span class="p">}}</span></div>
+
+
+
+<div class="viewcode-block" id="do_reload_ex_params">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.do_reload_ex_params">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">do_reload_ex_params</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">partial</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reload_id</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">skip_store</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">row_limit</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qMode&quot;</span><span class="p">:</span> <span class="n">mode</span><span class="p">,</span> <span class="s2">&quot;qPartial&quot;</span><span class="p">:</span> <span class="n">partial</span><span class="p">,</span> <span class="s2">&quot;qDebug&quot;</span><span class="p">:</span> <span class="n">debug</span><span class="p">,</span> <span class="s2">&quot;qReloadId&quot;</span><span class="p">:</span> <span class="n">reload_id</span><span class="p">,</span> <span class="s2">&quot;qSkipStore&quot;</span><span class="p">:</span> <span class="n">skip_store</span><span class="p">,</span>
+            <span class="s2">&quot;qRowLimit&quot;</span><span class="p">:</span> <span class="n">row_limit</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="dimension_list_def">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.dimension_list_def">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">dimension_list_def</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qType&quot;</span><span class="p">:</span> <span class="s2">&quot;dimension&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;qData&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;/title&quot;</span><span class="p">,</span> <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="s2">&quot;/tags&quot;</span><span class="p">,</span> <span class="s2">&quot;grouping&quot;</span><span class="p">:</span> <span class="s2">&quot;/qDim/qGrouping&quot;</span><span class="p">,</span> <span class="s2">&quot;info&quot;</span><span class="p">:</span> <span class="s2">&quot;/qDimInfos&quot;</span><span class="p">}}</span></div>
+
+
+
+<div class="viewcode-block" id="measure_list_def">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.measure_list_def">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">measure_list_def</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qType&quot;</span><span class="p">:</span> <span class="s2">&quot;measure&quot;</span><span class="p">,</span> <span class="s2">&quot;qData&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;/title&quot;</span><span class="p">,</span> <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="s2">&quot;/tags&quot;</span><span class="p">}}</span></div>
+
+
+
+<div class="viewcode-block" id="field_list_def">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.field_list_def">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">field_list_def</span><span class="p">(</span><span class="n">show_system</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">show_hidden</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">show_derived_fields</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                   <span class="n">show_semantic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">show_src_tables</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">show_implicit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qShowSystem&quot;</span><span class="p">:</span> <span class="n">show_system</span><span class="p">,</span> <span class="s2">&quot;qShowHidden&quot;</span><span class="p">:</span> <span class="n">show_hidden</span><span class="p">,</span>	<span class="s2">&quot;qShowDerivedFields&quot;</span><span class="p">:</span> <span class="n">show_derived_fields</span><span class="p">,</span>
+            <span class="s2">&quot;qShowSemantic&quot;</span><span class="p">:</span> <span class="n">show_semantic</span><span class="p">,</span> <span class="s2">&quot;qShowSrcTables&quot;</span><span class="p">:</span> <span class="n">show_src_tables</span><span class="p">,</span> <span class="s2">&quot;qShowImplicit&quot;</span><span class="p">:</span> <span class="n">show_implicit</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="nx_patch">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.nx_patch">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">nx_patch</span><span class="p">(</span><span class="n">op</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;qOp&quot;</span><span class="p">:</span> <span class="n">op</span><span class="p">,</span> <span class="s2">&quot;qPath&quot;</span><span class="p">:</span> <span class="n">path</span><span class="p">,</span> <span class="s2">&quot;qValue&quot;</span><span class="p">:</span> <span class="n">value</span><span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="sheet_list_def">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.sheet_list_def">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sheet_list_def</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;qType&quot;</span><span class="p">:</span> <span class="s2">&quot;sheet&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;qData&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;/qMetaDef/title&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;/qMetaDef/description&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;thumbnail&quot;</span><span class="p">:</span> <span class="s2">&quot;/thumbnail&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cells&quot;</span><span class="p">:</span> <span class="s2">&quot;/cells&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;rank&quot;</span><span class="p">:</span> <span class="s2">&quot;/rank&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="s2">&quot;/columns&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;rows&quot;</span><span class="p">:</span> <span class="s2">&quot;/rows&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span></div>
+
+
+
+<div class="viewcode-block" id="object_position_size">
+<a class="viewcode-back" href="../../structs.html#qe_api_client.structs.object_position_size">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">object_position_size</span><span class="p">(</span><span class="n">obj_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">obj_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">row</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">colspan</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rowspan</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                         <span class="n">width</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">obj_id</span><span class="p">,</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">obj_type</span><span class="p">,</span>
+        <span class="s2">&quot;col&quot;</span><span class="p">:</span> <span class="n">col</span><span class="p">,</span>
+        <span class="s2">&quot;row&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">,</span>
+        <span class="s2">&quot;colspan&quot;</span><span class="p">:</span> <span class="n">colspan</span><span class="p">,</span>
+        <span class="s2">&quot;rowspan&quot;</span><span class="p">:</span> <span class="n">rowspan</span><span class="p">,</span>
+        <span class="s2">&quot;bounds&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">,</span>
+            <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
+            <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="n">width</span><span class="p">,</span>
+            <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="n">height</span>
+        <span class="p">}</span>
+    <span class="p">}</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Rumen Vasilev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
