@@ -233,10 +233,10 @@ class QixEngine:
             {"showTitles": True, "title": field_title, "subtitle": "", "footnote": "", "disableNavMenu": False,
              "showDetails": True, "showDetailsExpression": False, "visualization": "listbox"})
         list_object = self.egoa.create_child(handle=handle, prop=list_object_props)
-        # print(list_object)
+
         return list_object
 
-    def create_filterpane_frame(self, handle: int, no_of_rows_sheet: int, col: int, row: int, colspan: int, rowspan: int):
+    def create_filterpane_frame(self, handle: int, no_of_rows_sheet: int, col: int, row: int, colspan: int,rowspan: int):
         nx_info = self.structs.nx_info(obj_type="filterpane")
         filterpane_props = self.structs.generic_object_properties(info=nx_info, prop_name="qMetaDef")
         filterpane_props.update({"qChildListDef": {"qData": {}}})
@@ -251,12 +251,6 @@ class QixEngine:
         x = col / no_of_cols_sheet * 100
 
         if col >= 0 and colspan > 0 and no_of_cols_sheet >= col + colspan and row >= 0 and rowspan > 0 and no_of_rows_sheet >= row + rowspan:
-
-            # filterpane_layout_string = '{"name": "' + filterpane_id + '", "type": "filterpane", "col": ' + str(
-            #     col) + ', "row": ' + str(row) + ', "colspan": ' + str(col_span) + ', "rowspan": ' + str(
-            #     row_span) + ', "bounds": {"y": ' + str(y) + ', "x": ' + str(x) + ', "width": ' + str(
-            #     width) + ', "height": ' + str(height) + '}}'
-            # filterpane_layout = json.loads(filterpane_layout_string)
             filterpane_layout = self.structs.object_position_size(obj_id=filterpane_id, obj_type="filterpane",
                                                                          col=col, row=row, colspan=colspan,
                                                                          rowspan=rowspan, y=y, x=x, width=width,
@@ -278,6 +272,44 @@ class QixEngine:
             print("The position of filterpane \"" + filterpane_id + "\" is out of range. This one will not be created.")
 
         return filterpane
+
+
+    def create_chart(self, handle: int, obj_type: str, hypercube_def: dict, no_of_rows_sheet: int, col: int, row: int,
+                     colspan: int, rowspan: int):
+        nx_info = self.structs.nx_info(obj_type=obj_type)
+        table_props = self.structs.table_properties(info=nx_info, hypercube_def=hypercube_def)
+        table = self.egoa.create_child(handle=handle, prop=table_props)
+
+        table_id = self.get_id(table)
+
+        no_of_cols_sheet = no_of_rows_sheet * 2
+        width = colspan / no_of_cols_sheet * 100
+        height = rowspan / no_of_rows_sheet * 100
+        y = row / no_of_rows_sheet * 100
+        x = col / no_of_cols_sheet * 100
+
+        if col >= 0 and colspan > 0 and no_of_cols_sheet >= col + colspan and row >= 0 and rowspan > 0 and no_of_rows_sheet >= row + rowspan:
+            table_layout = self.structs.object_position_size(obj_id=table_id, obj_type=obj_type, col=col, row=row,
+                                                             colspan=colspan, rowspan=rowspan, y=y, x=x, width=width,
+                                                             height=height)
+
+            sheet_layout = self.egoa.get_layout(handle=handle)
+
+            if "cells" not in sheet_layout:
+                patch_value = str([table_layout]).replace("'", "\"")
+                patch_cell = self.structs.nx_patch(op="add", path="/cells", value=patch_value)
+            else:
+                cells = sheet_layout["cells"]
+                cells.append(table_layout)
+                patch_value = str(cells).replace("'", "\"")
+                patch_cell = self.structs.nx_patch(op="replace", path="/cells", value=patch_value)
+
+            self.egoa.apply_patches(handle=handle, patches=[patch_cell])
+        else:
+            print("The position of table \"" + table_id + "\" is out of range. This one will not be created.")
+
+        return table
+
 
     def get_app_lineage_info(self, app_handle):
         """
@@ -506,7 +538,7 @@ class QixEngine:
             hc_mes.append(self.structs.nx_measure(library_id=measure))
 
         # Create hypercube structure
-        hc_def = self.structs.hypercube_def(state_name="$", nx_dims=hc_dim, nx_meas=hc_mes)
+        hc_def = self.structs.hypercube_def(state_name="$", dimensions=hc_dim, measures=hc_mes)
 
         # Create info structure
         nx_info = self.structs.nx_info(obj_type="table")
