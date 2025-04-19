@@ -1,3 +1,6 @@
+import uuid
+
+
 def list_object_def(state_name: str = "$", library_id: str = "", definition: dict = None,
                     auto_sort_by_state: dict = None, frequency_mode: str = "N", show_alternatives: bool = False,
                     initial_data_fetch: list = None, expressions: list = None,
@@ -25,14 +28,17 @@ def list_object_def(state_name: str = "$", library_id: str = "", definition: dic
     }
 
 
-def hypercube_def(state_name: str = "", dimensions: list = None, measures: list = None, inter_column_sort_order: list = None,
-                  suppress_zero: bool = False, suppress_missing: bool = False, initial_data_fetch: list = None,
-                  reduction_mode: str = "N", mode: str = "S", pseudo_dim_pos: int = -1, no_of_left_dims: int = -1,
-                  always_fully_expanded: bool = False, max_stacked_cells: int = 5000, populate_missing: bool = False,
-                  show_totals_above: bool = False, indent_mode: bool = False, calc_cond: dict = None,
-                  sort_by_y_value: int = 0, title: dict = None, calc_condition: dict = None, column_order: list = None,
-                  expansion_state: list = None, dynamic_script: list = None, context_set_expression: str = "",
-                  suppress_measure_totals: bool = False, column_widths: list = None):
+def hypercube_def(
+        state_name: str = "", dimensions: list = None, measures: list = None, inter_column_sort_order: list = None,
+        suppress_zero: bool = False, suppress_missing: bool = False, initial_data_fetch: list = None,
+        reduction_mode: str = "N", mode: str = "S", pseudo_dim_pos: int = -1, no_of_left_dims: int = -1,
+        always_fully_expanded: bool = False, max_stacked_cells: int = 5000, populate_missing: bool = False,
+        show_totals_above: bool = False, indent_mode: bool = False, calc_cond: dict = None, sort_by_y_value: int = 0,
+        title: dict = None, calc_condition: dict = None, column_order: list = None, expansion_state: list = None,
+        dynamic_script: list = None, context_set_expression: str = "", suppress_measure_totals: bool = False,
+        column_widths: list = None
+):
+
     if column_widths is None:
         column_widths = []
     if dynamic_script is None:
@@ -55,6 +61,7 @@ def hypercube_def(state_name: str = "", dimensions: list = None, measures: list 
         measures = []
     if dimensions is None:
         dimensions = []
+
     return {
         "qStateName": state_name, "qDimensions": dimensions, "qMeasures": measures,
         "qInterColumnSortOrder": inter_column_sort_order, "qSuppressZero": suppress_zero,
@@ -70,10 +77,14 @@ def hypercube_def(state_name: str = "", dimensions: list = None, measures: list 
     }
 
 
-def nx_inline_dimension_def(grouping: str = "N", field_definitions: list = None, field_labels: list = None,
-                            sort_criterias: list = None, number_presentations: list = None, reverse_sort: bool = False,
-                            active_field: int = 0, label_expression: str = "", alias: str = "", auto_sort: bool = True,
-                            id: str = "", others_label: str = "Others"):
+def nx_inline_dimension_def(
+        grouping: str = "N", field_definitions: list = None, field_labels: list = None, sort_criterias: list = None,
+        number_presentations: list = None, reverse_sort: bool = False, active_field: int = 0, label_expression: str = "",
+        alias: str = "", auto_sort: bool = True, id = None, others_label: str = "Others"
+):
+
+    if id is None:
+        id = str(uuid.uuid4())
     if number_presentations is None:
         number_presentations = []
     if sort_criterias is None:
@@ -82,6 +93,7 @@ def nx_inline_dimension_def(grouping: str = "N", field_definitions: list = None,
         field_labels = []
     if field_definitions is None:
         field_definitions = []
+
     return {
         "qGrouping": grouping, "qFieldDefs": field_definitions, "qFieldLabels": field_labels,
         "qSortCriterias": sort_criterias, "qNumberPresentations": number_presentations, "qReverseSort": reverse_sort,
@@ -90,8 +102,29 @@ def nx_inline_dimension_def(grouping: str = "N", field_definitions: list = None,
     }
 
 
-def nx_inline_measure_def(definition, label="", description="", tags=[], grouping="N"):
-    return {"qLabel": label, "qDescription": description, "qTags": tags, "qGrouping": grouping, "qDef":	definition}
+def nx_inline_measure_def(
+        label: str = "", description: str = "", tags: list = None, grouping="N", definition: str = "",
+        num_format: dict = None, relative: bool = False, brutal_sum: bool = False, aggr_func: str = "Expr",
+        accumulate: int = 0, reverse_sort: bool = False, active_expression: int = 0, expressions: list = None,
+        label_expression: str = "", auto_sort: bool = True, id = None, num_format_from_template: bool = True
+):
+
+    if id is None:
+        id = str(uuid.uuid4())
+    if tags is None:
+        tags = []
+    if expressions is None:
+        expressions = []
+    if num_format is None:
+        num_format = {}
+
+    return {
+        "qLabel": label, "qDescription": description, "qTags": tags, "qGrouping": grouping, "qDef":	definition,
+        "qNumFormat": num_format, "qRelative": relative, "qBrutalSum": brutal_sum, "qAggrFunc": aggr_func,
+        "qAccumulate": accumulate, "qReverseSort": reverse_sort, "qActiveExpression": active_expression,
+        "qExpressions": expressions, "qLabelExpression": label_expression, "autoSort": auto_sort, "cId": id,
+        "numFormatFromTemplate": num_format_from_template
+    }
 
 
 def nx_page(left=0, top=0, width=2, height=2):
@@ -113,11 +146,13 @@ def nx_info(obj_type, obj_id=""):
     return {"qId": obj_id, "qType": obj_type}
 
 
-def nx_dimension(library_id: str = "", dim_def: dict = None, null_suppression: bool = False,
-                 include_elem_value: bool = False, other_total_spec: dict = None, show_total: bool = False,
-                 show_all: bool = False, other_label: dict = None, total_label: dict = None, calc_cond: dict = None,
-                 attribute_expressions: list = None, attribute_dimensions: list = None, calc_condition: dict = None,
-                 title: str = "", others_label: str = "Others"):
+def nx_dimension(
+        library_id: str = "", dim_def: dict = None, null_suppression: bool = False, include_elem_value: bool = False,
+        other_total_spec: dict = None, show_total: bool = False, show_all: bool = False, other_label: dict = None,
+        total_label: dict = None, calc_cond: dict = None, attribute_expressions: list = None,
+        attribute_dimensions: list = None, calc_condition: dict = None
+):
+
     if calc_condition is None:
         calc_condition = {}
     if attribute_dimensions is None:
@@ -134,6 +169,7 @@ def nx_dimension(library_id: str = "", dim_def: dict = None, null_suppression: b
         other_total_spec = {}
     if dim_def is None:
         dim_def = {}
+
     return {
         "qLibraryId": library_id, "qDef": dim_def, "qNullSuppression": null_suppression,
         "qIncludeElemValue": include_elem_value, "qOtherTotalSpec": other_total_spec, "qShowTotal": show_total,
@@ -143,8 +179,31 @@ def nx_dimension(library_id: str = "", dim_def: dict = None, null_suppression: b
     }
 
 
-def nx_measure(library_id="", mes_def={}, sort_by={}):
-    return {"qLibraryId": library_id, "qDef": mes_def, "qSortBy": sort_by}
+def nx_measure(
+        library_id: str = "", mes_def: dict = None, sort_by: dict = None, attribute_expressions: list = None,
+        attribute_dimensions: list = None, calc_cond: dict = None, calc_condition: dict = None, trend_lines: list = None
+):
+
+    if trend_lines is None:
+        trend_lines = []
+    if calc_condition is None:
+        calc_condition = nx_calc_cond()
+    if calc_cond is None:
+        calc_cond = value_expr()
+    if attribute_dimensions is None:
+        attribute_dimensions = []
+    if attribute_expressions is None:
+        attribute_expressions = []
+    if sort_by is None:
+        sort_by = {}
+    if mes_def is None:
+        mes_def = {}
+
+    return {
+        "qLibraryId": library_id, "qDef": mes_def, "qSortBy": sort_by, "qAttributeExpressions": attribute_expressions,
+        "qAttributeDimensions": attribute_dimensions, "qCalcCond": calc_cond, "qCalcCondition": calc_condition,
+        "qTrendLines": trend_lines
+    }
 
 
 def generic_object_properties(info: dict, prop_name: str, prop_def:dict = None, extends_id: str = "",
@@ -177,9 +236,9 @@ def string_expr(qv: str = ""):
 
 def nx_calc_cond(cond: dict = None, msg: dict = None):
     if msg is None:
-        msg = {}
+        msg = string_expr()
     if cond is None:
-        cond = {}
+        cond = value_expr()
     return {"qCond": cond, "qMsg": msg}
 
 
@@ -301,16 +360,18 @@ def nx_attr_expr_def(expression: str = "", library_id: str = "", attribute: bool
         "qLabelExpression": label_expression
     }
 
-def table_properties(info: dict, hypercube_def: dict, prop_def: dict = None, extends_id: str = "", state_name: str = "",
-                 script: str = "", search_sorting: str = "auto", show_titles: bool = True, title: str = "",
-                 subtitle: str = "", footnote: str = "", disable_nav_menu: bool = False, totals_show: bool = True,
-                 totals_position: str = "noTotals", totals_label: str = "Totals", scrolling_horizontal: bool = True,
-                 scrolling_keep_first_column_in_view: bool = False, scrolling_keep_first_column_in_view_touch: bool = False,
-                 multiline_wrap_text_in_headers: bool = True, multiline_wrap_text_in_cells: bool = True):
-    if hypercube_def is None:
-        hypercube_def = {}
+def table_properties(
+        info: dict, hypercube_def: dict, prop_def: dict = None, extends_id: str = "", state_name: str = "",
+        script: str = "", search_sorting: str = "auto", show_titles: bool = True, title: str = "", subtitle: str = "",
+        footnote: str = "", disable_nav_menu: bool = False, totals_show: bool = True, totals_position: str = "noTotals",
+        totals_label: str = "Totals", scrolling_horizontal: bool = True, scrolling_keep_first_column_in_view: bool = False,
+        scrolling_keep_first_column_in_view_touch: bool = False, multiline_wrap_text_in_headers: bool = True,
+        multiline_wrap_text_in_cells: bool = True
+):
+
     if prop_def is None:
         prop_def = {}
+
     return {
         "qInfo": info, "qExtendsId": extends_id, "qMetaDef": prop_def, "qStateName": state_name,
         "qHyperCubeDef": hypercube_def, "script": script, "search": {"sorting": search_sorting},

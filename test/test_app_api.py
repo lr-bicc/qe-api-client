@@ -30,8 +30,8 @@ class TestAppApi(unittest.TestCase):
         hc_mes_sort = self.qixe.structs.sort_criteria()
 
         # Create the measure structures
-        hc_inline_mes1 = self.qixe.structs.nx_inline_measure_def("Sum(Expression1)")
-        hc_inline_mes2 = self.qixe.structs.nx_inline_measure_def("Sum(Expression2)")
+        hc_inline_mes1 = self.qixe.structs.nx_inline_measure_def(definition="Sum(Expression1)")
+        hc_inline_mes2 = self.qixe.structs.nx_inline_measure_def(definition="Sum(Expression2)")
 
         # Create hypercube dimensions from the inline dimension structures
         hc_dim1 = self.qixe.structs.nx_dimension("", hc_inline_dim1)
