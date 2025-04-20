@@ -276,11 +276,18 @@ class QixEngine:
 
     def create_chart(self, handle: int, obj_type: str, hypercube_def: dict, no_of_rows_sheet: int, col: int, row: int,
                      colspan: int, rowspan: int):
-        nx_info = self.structs.nx_info(obj_type=obj_type)
-        table_props = self.structs.table_properties(info=nx_info, hypercube_def=hypercube_def)
-        table = self.egoa.create_child(handle=handle, prop=table_props)
 
-        table_id = self.get_id(table)
+        nx_info = self.structs.nx_info(obj_type=obj_type)
+        if obj_type == "table":
+            chart_props = self.structs.table_properties(info=nx_info, hypercube_def=hypercube_def)
+        elif obj_type == "pivot-table":
+            chart_props = self.structs.pivot_table_properties(info=nx_info, hypercube_def=hypercube_def)
+        else:
+            print("Not valid object type.")
+
+        chart = self.egoa.create_child(handle=handle, prop=chart_props)
+
+        chart_id = self.get_id(chart)
 
         no_of_cols_sheet = no_of_rows_sheet * 2
         width = colspan / no_of_cols_sheet * 100
@@ -289,26 +296,26 @@ class QixEngine:
         x = col / no_of_cols_sheet * 100
 
         if col >= 0 and colspan > 0 and no_of_cols_sheet >= col + colspan and row >= 0 and rowspan > 0 and no_of_rows_sheet >= row + rowspan:
-            table_layout = self.structs.object_position_size(obj_id=table_id, obj_type=obj_type, col=col, row=row,
+            chart_layout = self.structs.object_position_size(obj_id=chart_id, obj_type=obj_type, col=col, row=row,
                                                              colspan=colspan, rowspan=rowspan, y=y, x=x, width=width,
                                                              height=height)
 
             sheet_layout = self.egoa.get_layout(handle=handle)
 
             if "cells" not in sheet_layout:
-                patch_value = str([table_layout]).replace("'", "\"")
+                patch_value = str([chart_layout]).replace("'", "\"")
                 patch_cell = self.structs.nx_patch(op="add", path="/cells", value=patch_value)
             else:
                 cells = sheet_layout["cells"]
-                cells.append(table_layout)
+                cells.append(chart_layout)
                 patch_value = str(cells).replace("'", "\"")
                 patch_cell = self.structs.nx_patch(op="replace", path="/cells", value=patch_value)
 
             self.egoa.apply_patches(handle=handle, patches=[patch_cell])
         else:
-            print("The position of table \"" + table_id + "\" is out of range. This one will not be created.")
+            print("The position of chart \"" + chart_id + "\" is out of range. This one will not be created.")
 
-        return table
+        return chart
 
 
     def get_app_lineage_info(self, app_handle):
