@@ -6,7 +6,10 @@ import utilities as utils
 conn = utils.create_connection()
 
 # Create a sample app
-app_handle = utils.create_sample_app(conn)
+sample_app = utils.create_sample_app(conn)
+
+# Get app handle
+app_handle = sample_app[0]
 
 # Retrieves a list with an app lineage data
 app_lineage = conn.get_app_lineage(app_handle)

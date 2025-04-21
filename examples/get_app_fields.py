@@ -6,7 +6,10 @@ import utilities as utils
 conn = utils.create_connection()
 
 # Create a sample app
-app_handle = utils.create_sample_app(conn)
+sample_app = utils.create_sample_app(conn)
+
+# Get app handle
+app_handle = sample_app[0]
 
 # Retrieves a list with all fields in the app containing field metadata
 fields_list = conn.get_app_fields(app_handle=app_handle)

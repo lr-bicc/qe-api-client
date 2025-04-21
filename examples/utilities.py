@@ -124,25 +124,25 @@ def create_sample_app(qixe):
     # ------------------------------------------------------------------------------------------------------------------
 
     # Create the structure of tne dimensions
-    nx_inline_dimension_def_1 = qixe.structs.nx_inline_dimension_def()
-    nx_inline_dimension_def_2 = qixe.structs.nx_inline_dimension_def()
-    nx_inline_dimension_def_3 = qixe.structs.nx_inline_dimension_def()
-    dimension_1 = qixe.structs.nx_dimension(library_id=dim_1_id, dim_def=nx_inline_dimension_def_1)
-    dimension_2 = qixe.structs.nx_dimension(library_id=dim_2_id, dim_def=nx_inline_dimension_def_2)
-    dimension_3 = qixe.structs.nx_dimension(library_id=dim_3_id, dim_def=nx_inline_dimension_def_3)
-    dimensions = [dimension_1, dimension_2, dimension_3]
+    table_nx_inline_dimension_def_1 = qixe.structs.nx_inline_dimension_def()
+    table_nx_inline_dimension_def_2 = qixe.structs.nx_inline_dimension_def()
+    table_nx_inline_dimension_def_3 = qixe.structs.nx_inline_dimension_def()
+    table_hc_dim_1 = qixe.structs.nx_dimension(library_id=dim_1_id, dim_def=table_nx_inline_dimension_def_1)
+    table_hc_dim_2 = qixe.structs.nx_dimension(library_id=dim_2_id, dim_def=table_nx_inline_dimension_def_2)
+    table_hc_dim_3 = qixe.structs.nx_dimension(library_id=dim_3_id, dim_def=table_nx_inline_dimension_def_3)
+    table_hc_dim_list = [table_hc_dim_1, table_hc_dim_2, table_hc_dim_3]
 
     # Create the structure of tne measures
-    nx_inline_measure_def_1 = qixe.structs.nx_inline_measure_def()
-    nx_inline_measure_def_2 = qixe.structs.nx_inline_measure_def()
-    nx_inline_measure_def_3 = qixe.structs.nx_inline_measure_def()
-    measure_1 = qixe.structs.nx_measure(library_id=measure_1_id, mes_def=nx_inline_measure_def_1)
-    measure_2 = qixe.structs.nx_measure(library_id=measure_2_id, mes_def=nx_inline_measure_def_2)
-    measure_3 = qixe.structs.nx_measure(library_id=measure_3_id, mes_def=nx_inline_measure_def_3)
-    measures = [measure_1, measure_2, measure_3]
+    table_nx_inline_measure_def_1 = qixe.structs.nx_inline_measure_def()
+    table_nx_inline_measure_def_2 = qixe.structs.nx_inline_measure_def()
+    table_nx_inline_measure_def_3 = qixe.structs.nx_inline_measure_def()
+    table_hc_mes_1 = qixe.structs.nx_measure(library_id=measure_1_id, mes_def=table_nx_inline_measure_def_1)
+    table_hc_mes_2 = qixe.structs.nx_measure(library_id=measure_2_id, mes_def=table_nx_inline_measure_def_2)
+    table_hc_mes_3 = qixe.structs.nx_measure(library_id=measure_3_id, mes_def=table_nx_inline_measure_def_3)
+    table_hc_mes_list = [table_hc_mes_1, table_hc_mes_2, table_hc_mes_3]
 
     # Create hypercube structure for table
-    hypercube_def_table = qixe.structs.hypercube_def(dimensions=dimensions, measures=measures,
+    hypercube_def_table = qixe.structs.hypercube_def(dimensions=table_hc_dim_list, measures=table_hc_mes_list,
                                                      column_order=[0, 1, 2, 3, 4, 5],
                                                      column_widths=[-1, -1, -1, -1, -1, -1])
 
@@ -178,25 +178,25 @@ def create_sample_app(qixe):
     # ------------------------------------------------------------------------------------------------------------------
 
     # Create the structure of tne dimensions
-    nx_inline_dimension_def_1 = qixe.structs.nx_inline_dimension_def()
-    nx_inline_dimension_def_2 = qixe.structs.nx_inline_dimension_def()
-    nx_inline_dimension_def_3 = qixe.structs.nx_inline_dimension_def()
-    dimension_1 = qixe.structs.nx_dimension(library_id=dim_1_id, dim_def=nx_inline_dimension_def_1)
-    dimension_2 = qixe.structs.nx_dimension(library_id=dim_2_id, dim_def=nx_inline_dimension_def_2)
-    dimension_3 = qixe.structs.nx_dimension(library_id=dim_3_id, dim_def=nx_inline_dimension_def_3)
-    dimensions = [dimension_1, dimension_2, dimension_3]
+    pivot_table_nx_inline_dimension_def_1 = qixe.structs.nx_inline_dimension_def()
+    pivot_table_nx_inline_dimension_def_2 = qixe.structs.nx_inline_dimension_def()
+    pivot_table_nx_inline_dimension_def_3 = qixe.structs.nx_inline_dimension_def()
+    pivot_table_hc_dim_1 = qixe.structs.nx_dimension(library_id=dim_1_id, dim_def=pivot_table_nx_inline_dimension_def_1)
+    pivot_table_hc_dim_2 = qixe.structs.nx_dimension(library_id=dim_2_id, dim_def=pivot_table_nx_inline_dimension_def_2)
+    pivot_table_hc_dim_3 = qixe.structs.nx_dimension(library_id=dim_3_id, dim_def=pivot_table_nx_inline_dimension_def_3)
+    pivot_table_hc_dim_list = [pivot_table_hc_dim_1, pivot_table_hc_dim_2, pivot_table_hc_dim_3]
 
     # Create the structure of tne measures
-    nx_inline_measure_def_1 = qixe.structs.nx_inline_measure_def()
-    nx_inline_measure_def_2 = qixe.structs.nx_inline_measure_def()
-    nx_inline_measure_def_3 = qixe.structs.nx_inline_measure_def()
-    measure_1 = qixe.structs.nx_measure(library_id=measure_1_id, mes_def=nx_inline_measure_def_1)
-    measure_2 = qixe.structs.nx_measure(library_id=measure_2_id, mes_def=nx_inline_measure_def_2)
-    measure_3 = qixe.structs.nx_measure(library_id=measure_3_id, mes_def=nx_inline_measure_def_3)
-    measures = [measure_1, measure_2, measure_3]
+    pivot_table_nx_inline_measure_def_1 = qixe.structs.nx_inline_measure_def()
+    pivot_table_nx_inline_measure_def_2 = qixe.structs.nx_inline_measure_def()
+    pivot_table_nx_inline_measure_def_3 = qixe.structs.nx_inline_measure_def()
+    pivot_table_hc_mes_1 = qixe.structs.nx_measure(library_id=measure_1_id, mes_def=pivot_table_nx_inline_measure_def_1)
+    pivot_table_hc_mes_2 = qixe.structs.nx_measure(library_id=measure_2_id, mes_def=pivot_table_nx_inline_measure_def_2)
+    pivot_table_hc_mes_3 = qixe.structs.nx_measure(library_id=measure_3_id, mes_def=pivot_table_nx_inline_measure_def_3)
+    pivot_table_hc_mes_list = [pivot_table_hc_mes_1, pivot_table_hc_mes_2, pivot_table_hc_mes_3]
 
     # Create hypercube structure for pivot table
-    hypercube_def_pivot_table = qixe.structs.hypercube_def(dimensions=dimensions, measures=measures,
+    hypercube_def_pivot_table = qixe.structs.hypercube_def(dimensions=pivot_table_hc_dim_list, measures=pivot_table_hc_mes_list,
                                                            inter_column_sort_order=[0, 1, 2, -1], mode="P")
 
     # Create pivot table
@@ -207,7 +207,7 @@ def create_sample_app(qixe):
     # Save app
     save_sample_app(qixe, app_handle)
 
-    return app_handle
+    return app_handle, dim_1_id, dim_2_id, dim_3_id, measure_1_id, measure_2_id, measure_3_id
 
 
 def save_sample_app(qixe, app_handle: int):

@@ -210,7 +210,7 @@ class QixEngine:
 
         Parameters:
             handle (int): The handle of the parent object.
-            dim_id (str, optional): The ID of the master dimension.  Let this parameter empty, if you passed the "field_def".
+            dim_id (str, optional): The ID of the master dimension. Let this parameter empty, if you passed the "field_def".
             field_def (str, optional): The definition of the field. Let this parameter empty, if you passed the "dim_id".
             field_title (int, optional): The title of the field. Let this parameter empty, if you passed the "dim_id".
 
@@ -236,7 +236,21 @@ class QixEngine:
 
         return list_object
 
-    def create_filterpane_frame(self, handle: int, no_of_rows_sheet: int, col: int, row: int, colspan: int,rowspan: int):
+    def create_filterpane_frame(self, handle: int, no_of_rows_sheet: int, col: int, row: int, colspan: int, rowspan: int):
+        """
+        Creates a filterpane frame.
+
+        Parameters:
+            handle (int): The handle of the parent object.
+            no_of_rows_sheet (int): The number of the sheet rows.
+            col (int): First column the filterpane visualisation starts.
+            row (int): First row the filterpane visualisation starts.
+            colspan (int): The width of the filterpane in columns.
+            rowspan (int): The height of the filterpane in rows.
+
+        Returns:
+            dict: The handle and Id of the filterpane frame.
+        """
         nx_info = self.structs.nx_info(obj_type="filterpane")
         filterpane_props = self.structs.generic_object_properties(info=nx_info, prop_name="qMetaDef")
         filterpane_props.update({"qChildListDef": {"qData": {}}})
@@ -276,6 +290,22 @@ class QixEngine:
 
     def create_chart(self, handle: int, obj_type: str, hypercube_def: dict, no_of_rows_sheet: int, col: int, row: int,
                      colspan: int, rowspan: int):
+        """
+        Creates a chart object.
+
+        Parameters:
+            handle (int): The handle of the parent object.
+            obj_type (str): The type of the chart.
+            hypercube_def (dict): Chart hypercube definition.
+            no_of_rows_sheet (int): The number of the sheet rows.
+            col (int): First column the chart visualisation starts.
+            row (int): First row the chart visualisation starts.
+            colspan (int): The width of the chart in columns.
+            rowspan (int): The height of the chart in rows.
+
+        Returns:
+            dict: The handle and Id of the filterpane frame.
+        """
 
         nx_info = self.structs.nx_info(obj_type=obj_type)
         if obj_type == "table":
