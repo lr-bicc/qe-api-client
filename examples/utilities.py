@@ -90,12 +90,15 @@ def create_sample_app(qixe):
     sheet_1 = qixe.create_sheet(app_handle=app_handle, sheet_title="My New Sheet 1", sheet_desc="Sheet description",
                                 no_of_rows=no_of_rows_sheet_1)
     sheet_1_handle = qixe.get_handle(sheet_1)
+    sheet_1_id = qixe.get_id(sheet_1)
     sheet_2 = qixe.create_sheet(app_handle=app_handle, sheet_title="My New Sheet 2", sheet_desc="Sheet description",
                                 no_of_rows=no_of_rows_sheet_2)
     sheet_2_handle = qixe.get_handle(sheet_2)
+    sheet_2_id = qixe.get_id(sheet_2)
     sheet_3 = qixe.create_sheet(app_handle=app_handle, sheet_title="My New Sheet 3", sheet_desc="Sheet description",
                                 no_of_rows=no_of_rows_sheet_3)
     sheet_3_handle = qixe.get_handle(sheet_3)
+    sheet_3_id = qixe.get_id(sheet_3)
 
 
 
@@ -108,15 +111,16 @@ def create_sample_app(qixe):
     # ------------------------------------------------------------------------------------------------------------------
 
     # Create filterpane frame
-    filterpane = qixe.create_filterpane_frame(handle=sheet_1_handle, no_of_rows_sheet=no_of_rows_sheet_1, col=0, row=0,
+    filterpane_1 = qixe.create_filterpane_frame(handle=sheet_1_handle, no_of_rows_sheet=no_of_rows_sheet_1, col=0, row=0,
                                               colspan=no_of_cols_sheet_1, rowspan=1)
+    filterpane_1_id = qixe.get_id(filterpane_1)
 
     # Create list objects
-    filterpane_handle = qixe.get_handle(filterpane)
-    qixe.create_list_object(handle=filterpane_handle, dim_id=dim_1_id, field_title="Dimension 1")
-    qixe.create_list_object(handle=filterpane_handle, dim_id=dim_2_id, field_title="Dimension 2")
-    qixe.create_list_object(handle=filterpane_handle, dim_id=dim_3_id, field_title="Dimension 3")
-    qixe.create_list_object(handle=filterpane_handle, field_def="Alpha", field_title="Alpha")
+    filterpane_1_handle = qixe.get_handle(filterpane_1)
+    qixe.create_list_object(handle=filterpane_1_handle, dim_id=dim_1_id, field_title="Dimension 1")
+    qixe.create_list_object(handle=filterpane_1_handle, dim_id=dim_2_id, field_title="Dimension 2")
+    qixe.create_list_object(handle=filterpane_1_handle, dim_id=dim_3_id, field_title="Dimension 3")
+    qixe.create_list_object(handle=filterpane_1_handle, field_def="Alpha", field_title="Alpha")
 
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -147,9 +151,10 @@ def create_sample_app(qixe):
                                                      column_widths=[-1, -1, -1, -1, -1, -1])
 
     # Create table
-    qixe.create_chart(handle=sheet_1_handle, obj_type="table", hypercube_def=hypercube_def_table,
+    table_1 = qixe.create_chart(handle=sheet_1_handle, obj_type="table", hypercube_def=hypercube_def_table,
                               no_of_rows_sheet=no_of_rows_sheet_1, col=0, row=1, colspan=no_of_cols_sheet_1,
                               rowspan=no_of_rows_sheet_1-1)
+    table_1_id = qixe.get_id(table_1)
 
 
 
@@ -164,6 +169,7 @@ def create_sample_app(qixe):
     # Create filterpane frame
     filterpane_2 = qixe.create_filterpane_frame(handle=sheet_2_handle, no_of_rows_sheet=no_of_rows_sheet_2, col=0, row=0,
                                               colspan=no_of_cols_sheet_2, rowspan=3)
+    filterpane_2_id = qixe.get_id(filterpane_2)
 
     # Create list objects
     filterpane_2_handle = qixe.get_handle(filterpane_2)
@@ -200,14 +206,16 @@ def create_sample_app(qixe):
                                                            inter_column_sort_order=[0, 1, 2, -1], mode="P")
 
     # Create pivot table
-    qixe.create_chart(handle=sheet_2_handle, obj_type="pivot-table", hypercube_def=hypercube_def_pivot_table,
+    pivot_table_1 = qixe.create_chart(handle=sheet_2_handle, obj_type="pivot-table", hypercube_def=hypercube_def_pivot_table,
                               no_of_rows_sheet=no_of_rows_sheet_2, col=0, row=3, colspan=no_of_cols_sheet_2,
                               rowspan=no_of_rows_sheet_2 - 3)
+    pivot_table_1_id = qixe.get_id(pivot_table_1)
 
     # Save app
     save_sample_app(qixe, app_handle)
 
-    return app_handle, dim_1_id, dim_2_id, dim_3_id, measure_1_id, measure_2_id, measure_3_id
+    return (app_handle, dim_1_id, dim_2_id, dim_3_id, measure_1_id, measure_2_id, measure_3_id, sheet_1_id,
+            filterpane_1_id, table_1_id, sheet_2_id, filterpane_2_id, pivot_table_1_id, sheet_3_id)
 
 
 def save_sample_app(qixe, app_handle: int):
