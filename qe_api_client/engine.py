@@ -762,39 +762,39 @@ class QixEngine:
             df_dimension_list.loc[len(df_dimension_list)] = dim_layout
 
         # Resolve the dictionary structure of attribute "qInfo"
-        df_dimension_list_expanded = (df_dimension_list["qInfo"].apply(pd.Series).add_prefix("qInfo_"))
+        df_dimension_list_expanded = (df_dimension_list["qInfo"].dropna().apply(pd.Series).add_prefix("qInfo_"))
         df_dimension_list = df_dimension_list.drop(columns=["qInfo"]).join(df_dimension_list_expanded)
 
         # Resolve the dictionary structure of attribute "qMeta"
-        df_dimension_list_expanded = (df_dimension_list["qMeta"].apply(pd.Series).add_prefix("qMeta_"))
+        df_dimension_list_expanded = (df_dimension_list["qMeta"].dropna().apply(pd.Series).add_prefix("qMeta_"))
         df_dimension_list = df_dimension_list.drop(columns=["qMeta"]).join(df_dimension_list_expanded)
 
         # Resolve the dictionary structure of attribute "qDim"
-        df_dimension_list_expanded = (df_dimension_list["qDim"].apply(pd.Series).add_prefix("qDim_"))
+        df_dimension_list_expanded = (df_dimension_list["qDim"].dropna().apply(pd.Series).add_prefix("qDim_"))
         df_dimension_list = df_dimension_list.drop(columns=["qDim"]).join(df_dimension_list_expanded)
 
         # Resolve the dictionary structure of attribute "qDim_coloring"
         try:
             df_dimension_list_expanded = (
-                df_dimension_list["qDim_coloring"].apply(pd.Series).add_prefix("qDim_coloring_"))
+                df_dimension_list["qDim_coloring"].dropna().apply(pd.Series).add_prefix("qDim_coloring_"))
             df_dimension_list = df_dimension_list.drop(columns=["qDim_coloring"]).join(df_dimension_list_expanded)
         except KeyError:
-            df_dimension_list["qDim_coloring"] = ""
+            df_dimension_list["qDim_coloring"] = None
 
         # Resolve the dictionary structure of attribute "qDim_coloring_baseColor"
         try:
             df_dimension_list_expanded = (
-                df_dimension_list["qDim_coloring_baseColor"].apply(pd.Series).add_prefix("qDim_coloring_baseColor_"))
+                df_dimension_list["qDim_coloring_baseColor"].dropna().apply(pd.Series).add_prefix("qDim_coloring_baseColor_"))
             df_dimension_list = df_dimension_list.drop(columns=["qDim_coloring_baseColor"]).join(
                 df_dimension_list_expanded)
         except KeyError:
-            df_dimension_list["qDim_coloring_baseColor"] = ""
+            df_dimension_list["qDim_coloring_baseColor"] = None
 
         # Resolve the list structure of attribute
         df_dimension_list = df_dimension_list.explode(['qDimInfos', 'qDim_qFieldDefs', 'qDim_qFieldLabels'])
 
         # Resolve the dictionary structure of attribute "qDimInfos"
-        df_dimension_list_expanded = (df_dimension_list["qDimInfos"].apply(pd.Series).add_prefix("qDimInfos_"))
+        df_dimension_list_expanded = (df_dimension_list["qDimInfos"].dropna().apply(pd.Series).add_prefix("qDimInfos_"))
         index = df_dimension_list_expanded.index
         df_dimension_list_expanded = df_dimension_list_expanded[~index.duplicated(keep="first")]
         df_dimension_list = df_dimension_list.drop(columns=["qDimInfos"]).join(df_dimension_list_expanded)
@@ -847,11 +847,11 @@ class QixEngine:
             df_measure_list.loc[len(df_measure_list)] = measure_layout
 
         # Resolve the dictionary structure of attribute "qInfo"
-        df_measure_list_expanded = (df_measure_list["qInfo"].apply(pd.Series).add_prefix("qInfo_"))
+        df_measure_list_expanded = (df_measure_list["qInfo"].dropna().apply(pd.Series).add_prefix("qInfo_"))
         df_measure_list = df_measure_list.drop(columns=["qInfo"]).join(df_measure_list_expanded)
 
         # Resolve the dictionary structure of attribute "qMeasure"
-        df_measure_list_expanded = (df_measure_list["qMeasure"].apply(pd.Series).add_prefix("qMeasure_"))
+        df_measure_list_expanded = (df_measure_list["qMeasure"].dropna().apply(pd.Series).add_prefix("qMeasure_"))
         df_measure_list = df_measure_list.drop(columns=["qMeasure"]).join(df_measure_list_expanded)
 
         # Resolve the dictionary structure of attribute "qMeta"
@@ -860,27 +860,152 @@ class QixEngine:
 
         # Resolve the dictionary structure of attribute "qMeasure_qNumFormat"
         df_measure_list_expanded = (
-            df_measure_list["qMeasure_qNumFormat"].apply(pd.Series).add_prefix("qMeasure_qNumFormat_"))
+            df_measure_list["qMeasure_qNumFormat"].dropna().apply(pd.Series).add_prefix("qMeasure_qNumFormat_"))
         df_measure_list = df_measure_list.drop(columns=["qMeasure_qNumFormat"]).join(df_measure_list_expanded)
 
         # Resolve the dictionary structure of attribute "qMeasure_coloring"
         try:
             df_measure_list_expanded = (
-                df_measure_list["qMeasure_coloring"].apply(pd.Series).add_prefix("qMeasure_coloring_"))
+                df_measure_list["qMeasure_coloring"].dropna().apply(pd.Series).add_prefix("qMeasure_coloring_"))
             df_measure_list = df_measure_list.drop(columns=["qMeasure_coloring"]).join(df_measure_list_expanded)
         except KeyError:
-            df_measure_list["qMeasure_coloring"] = ""
+            df_measure_list["qMeasure_coloring"] = None
 
         # Resolve the dictionary structure of attribute "qMeasure_coloring_baseColor"
         try:
-            df_measure_list_expanded = (df_measure_list["qMeasure_coloring_baseColor"].apply(pd.Series).add_prefix(
+            df_measure_list_expanded = (df_measure_list["qMeasure_coloring_baseColor"].dropna().apply(pd.Series).add_prefix(
                 "qMeasure_coloring_baseColor_"))
             df_measure_list = df_measure_list.drop(columns=["qMeasure_coloring_baseColor"]).join(
                 df_measure_list_expanded)
         except KeyError:
-            df_measure_list["qMeasure_coloring_baseColor"] = ""
+            df_measure_list["qMeasure_coloring_baseColor"] = None
 
         return df_measure_list
+
+
+    def get_app_sheets(self, app_handle):
+        """
+        Retrieves a list with all app sheets and their content containing metadata.
+
+        Parameters:
+            app_handle (int): The handle of the app.
+
+        Returns:
+            DataFrame: A table with all sheets and their content from an app.
+        """
+        # Define the parameters of the session object
+        nx_info = self.structs.nx_info(obj_type="SheetList")
+        sheet_list_def = self.structs.sheet_list_def()
+        gen_obj_props = self.structs.generic_object_properties(info=nx_info, prop_name="qAppObjectListDef",
+                                                               prop_def=sheet_list_def)
+
+        # Create session object
+        session = self.eaa.create_session_object(app_handle, gen_obj_props)
+
+        # Get session handle
+        session_handle = self.get_handle(session)
+
+        # Get session object data
+        session_layout = self.egoa.get_layout(session_handle)
+
+        # Get the sheet list as Dictionary structure
+        sheet_list = session_layout["qAppObjectList"]["qItems"]
+
+        # Define the DataFrame structure
+        df_sheet_list = pd.DataFrame(columns=['qInfo', 'qMeta', 'qSelectionInfo', 'rank', 'thumbnail', 'columns', 'rows', 'cells', 'qChildList', 'gridResolution', 'layoutOptions', 'gridMode', 'customRowBase'])
+
+        for sheet in sheet_list:
+            # Get sheet ID
+            sheet_id = sheet["qInfo"]["qId"]
+            # Get sheet
+            sheet_result = self.eaa.get_object(app_handle=app_handle, object_id=sheet_id)
+            # Get sheet handle
+            sheet_handle = self.get_handle(sheet_result)
+            # Get session object data
+            sheet_layout = self.egoa.get_layout(sheet_handle)
+
+            # Concatenate the measure metadata to the DataFrame structure
+            df_sheet_list.loc[len(df_sheet_list)] = sheet_layout
+
+        # Resolve the dictionary structure of attribute "qInfo"
+        df_sheet_list_expanded = (df_sheet_list["qInfo"].dropna().apply(pd.Series).add_prefix("qInfo_"))
+        df_sheet_list = df_sheet_list.drop(columns=["qInfo"]).join(df_sheet_list_expanded)
+
+        # Resolve the dictionary structure of attribute "qMeta"
+        df_sheet_list_expanded = (df_sheet_list["qMeta"].dropna().apply(pd.Series).add_prefix("qMeta_"))
+        df_sheet_list = df_sheet_list.drop(columns=["qMeta"]).join(df_sheet_list_expanded)
+
+        # Resolve the dictionary structure of attribute "qSelectionInfo"
+        df_sheet_list["qSelectionInfo"] = df_sheet_list["qSelectionInfo"].apply(
+            lambda x: None if isinstance(x, dict) and len(x) == 0 else x
+        )
+        df_sheet_list_expanded = (df_sheet_list["qSelectionInfo"].dropna().apply(pd.Series).add_prefix("qSelectionInfo_"))
+        df_sheet_list = df_sheet_list.drop(columns=["qSelectionInfo"]).join(df_sheet_list_expanded)
+
+        # Resolve the dictionary structure of attribute "thumbnail"
+        df_sheet_list_expanded = (df_sheet_list["thumbnail"].dropna().apply(pd.Series).add_prefix("thumbnail_"))
+        df_sheet_list = df_sheet_list.drop(columns=["thumbnail"]).join(df_sheet_list_expanded)
+
+        # Resolve the dictionary structure of attribute "thumbnail_qStaticContentUrl"
+        df_sheet_list["thumbnail_qStaticContentUrl"] = df_sheet_list["thumbnail_qStaticContentUrl"].apply(
+            lambda x: None if isinstance(x, dict) and len(x) == 0 else x
+        )
+        df_sheet_list_expanded = (df_sheet_list["thumbnail_qStaticContentUrl"].dropna().apply(pd.Series).add_prefix("thumbnail_qStaticContentUrl_"))
+        df_sheet_list = df_sheet_list.drop(columns=["thumbnail_qStaticContentUrl"]).join(df_sheet_list_expanded)
+
+        # Resolve the dictionary structure of attribute "qChildList"
+        df_sheet_list_expanded = (df_sheet_list["qChildList"].dropna().apply(pd.Series).add_prefix("qChildList_"))
+        df_sheet_list = df_sheet_list.drop(columns=["qChildList"]).join(df_sheet_list_expanded)
+
+        # Resolve the dictionary structure of attribute "layoutOptions"
+        df_sheet_list_expanded = (df_sheet_list["layoutOptions"].dropna().apply(pd.Series).add_prefix("layoutOptions_"))
+        df_sheet_list = df_sheet_list.drop(columns=["layoutOptions"]).join(df_sheet_list_expanded)
+
+        # Resolve the list structure of attribute
+        df_sheet_list = df_sheet_list.explode(['cells', 'qChildList_qItems'])
+
+        # Resolve the dictionary structure of attribute "cells"
+        df_sheet_list_expanded = (df_sheet_list["cells"].dropna().apply(pd.Series).add_prefix("cells_"))
+        index = df_sheet_list_expanded.index
+        df_sheet_list_expanded = df_sheet_list_expanded[~index.duplicated(keep="first")]
+        df_sheet_list = df_sheet_list.drop(columns=["cells"]).join(df_sheet_list_expanded)
+
+        # Resolve the dictionary structure of attribute "cells_bounds"
+        df_sheet_list_expanded = (
+            df_sheet_list["cells_bounds"].dropna().apply(pd.Series).add_prefix("cells_bounds_"))
+        index = df_sheet_list_expanded.index
+        df_sheet_list_expanded = df_sheet_list_expanded[~index.duplicated(keep="first")]
+        df_sheet_list = df_sheet_list.drop(columns=["cells_bounds"]).join(df_sheet_list_expanded)
+
+        # Resolve the dictionary structure of attribute "qChildList_qItems"
+        df_sheet_list_expanded = (
+            df_sheet_list["qChildList_qItems"].dropna().apply(pd.Series).add_prefix("qChildList_qItems_"))
+        index = df_sheet_list_expanded.index
+        df_sheet_list_expanded = df_sheet_list_expanded[~index.duplicated(keep="first")]
+        df_sheet_list = df_sheet_list.drop(columns=["qChildList_qItems"]).join(df_sheet_list_expanded)
+
+        # Resolve the dictionary structure of attribute "qChildList_qItems_qInfo"
+        df_sheet_list_expanded = (
+            df_sheet_list["qChildList_qItems_qInfo"].dropna().apply(pd.Series).add_prefix("qChildList_qItems_qInfo_"))
+        index = df_sheet_list_expanded.index
+        df_sheet_list_expanded = df_sheet_list_expanded[~index.duplicated(keep="first")]
+        df_sheet_list = df_sheet_list.drop(columns=["qChildList_qItems_qInfo"]).join(df_sheet_list_expanded)
+
+        # Resolve the dictionary structure of attribute "qChildList_qItems_qMeta"
+        df_sheet_list_expanded = (
+            df_sheet_list["qChildList_qItems_qMeta"].dropna().apply(pd.Series).add_prefix("qChildList_qItems_qMeta_"))
+        index = df_sheet_list_expanded.index
+        df_sheet_list_expanded = df_sheet_list_expanded[~index.duplicated(keep="first")]
+        df_sheet_list = df_sheet_list.drop(columns=["qChildList_qItems_qMeta"]).join(df_sheet_list_expanded)
+
+        # Resolve the dictionary structure of attribute "qChildList_qItems_qData"
+        df_sheet_list_expanded = (
+            df_sheet_list["qChildList_qItems_qData"].dropna().apply(pd.Series).add_prefix("qChildList_qItems_qData_"))
+        index = df_sheet_list_expanded.index
+        df_sheet_list_expanded = df_sheet_list_expanded[~index.duplicated(keep="first")]
+        df_sheet_list = df_sheet_list.drop(columns=["qChildList_qItems_qData"]).join(df_sheet_list_expanded)
+
+        return df_sheet_list
 
 
     def get_app_lineage(self, app_handle):

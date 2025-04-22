@@ -319,10 +319,6 @@ def field_list_def(show_system: bool = True, show_hidden: bool = True, show_deri
             "qShowSemantic": show_semantic, "qShowSrcTables": show_src_tables, "qShowImplicit": show_implicit}
 
 
-def nx_patch(op: str, path: str, value: str):
-    return {"qOp": op, "qPath": path, "qValue": value}
-
-
 def sheet_list_def():
     return {
         "qType": "sheet",
@@ -336,6 +332,10 @@ def sheet_list_def():
             "rows": "/rows"
         }
     }
+
+
+def nx_patch(op: str, path: str, value: str):
+    return {"qOp": op, "qPath": path, "qValue": value}
 
 
 def object_position_size(obj_id: str, obj_type: str, col: int, row: int, colspan: int, rowspan: int, y: float, x: float,
