@@ -334,6 +334,17 @@ def sheet_list_def():
     }
 
 
+def variable_list_def():
+    return {
+        "qType": "variable",
+        "qShowReserved": True,
+        "qShowConfig": True,
+        "qData": {
+            "tags": "/tags"
+        }
+    }
+
+
 def nx_patch(op: str, path: str, value: str):
     return {"qOp": op, "qPath": path, "qValue": value}
 
@@ -354,6 +365,7 @@ def object_position_size(obj_id: str, obj_type: str, col: int, row: int, colspan
             "height": height
         }
     }
+
 
 def nx_attr_expr_def(expression: str = "", library_id: str = "", attribute: bool = True, num_format: dict = None,
                      label: str = "", label_expression: str = ""):

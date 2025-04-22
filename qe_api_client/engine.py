@@ -1008,6 +1008,56 @@ class QixEngine:
         return df_sheet_list
 
 
+    def get_app_variables(self, app_handle):
+        """
+        Retrieves a list with all app variables containing metadata.
+
+        Parameters:
+            app_handle (int): The handle of the app.
+
+        Returns:
+            DataFrame: A table with all variables from an app.
+        """
+        # Define the parameters of the session object
+        nx_info = self.structs.nx_info(obj_type="VariableList")
+        variable_list_def = self.structs.variable_list_def()
+        gen_obj_props = self.structs.generic_object_properties(info=nx_info, prop_name="qVariableListDef",
+                                                               prop_def=variable_list_def)
+
+        # Create session object
+        session = self.eaa.create_session_object(app_handle, gen_obj_props)
+
+        # Get session handle
+        session_handle = self.get_handle(session)
+
+        # Get session object data
+        session_layout = self.egoa.get_layout(session_handle)
+
+        # Get the variable list as Dictionary structure
+        variable_list = session_layout["qVariableList"]["qItems"]
+
+        # Define the DataFrame structure
+        df_variable_list = pd.DataFrame(columns=["qName", "qDefinition", "qMeta", "qInfo", "qData", "qIsScriptCreated", "qIsReserved"])
+
+        for variable in variable_list:
+            # Concatenate the measure metadata to the DataFrame structure
+            df_variable_list.loc[len(df_variable_list)] = variable
+
+        # Resolve the dictionary structure of attribute "qInfo"
+        df_variable_list_expanded = (df_variable_list["qInfo"].dropna().apply(pd.Series).add_prefix("qInfo_"))
+        df_variable_list = df_variable_list.drop(columns=["qInfo"]).join(df_variable_list_expanded)
+
+        # Resolve the dictionary structure of attribute "qMeta"
+        df_variable_list_expanded = (df_variable_list["qMeta"].dropna().apply(pd.Series).add_prefix("qMeta_"))
+        df_variable_list = df_variable_list.drop(columns=["qMeta"]).join(df_variable_list_expanded)
+
+        # Resolve the dictionary structure of attribute "qData"
+        df_variable_list_expanded = (df_variable_list["qData"].dropna().apply(pd.Series).add_prefix("qData_"))
+        df_variable_list = df_variable_list.drop(columns=["qData"]).join(df_variable_list_expanded)
+
+        return df_variable_list
+
+
     def get_app_lineage(self, app_handle):
         """
         Retrieves a list with an app lineage data.

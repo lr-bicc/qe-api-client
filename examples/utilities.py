@@ -28,12 +28,15 @@ def create_sample_app(qixe):
     app_handle = qixe.get_handle(opened_app)
 
     # Set script
-    with open('../test/test_data/ctrl00_script.qvs') as f:
+    with open('sample_app_script.qvs') as f:
         app_script = f.read()
     qixe.eaa.set_script(app_handle, app_script)
 
     # Reload app
     qixe.eaa.do_reload_ex(app_handle)
+
+    # Save app
+    save_sample_app(qixe, app_handle)
 
 
     ####################################################################################################################
