@@ -310,6 +310,8 @@ class QixEngine:
         nx_info = self.structs.nx_info(obj_type=obj_type)
         if obj_type == "table":
             chart_props = self.structs.table_properties(info=nx_info, hypercube_def=hypercube_def)
+        elif obj_type == "sn-table":
+            chart_props = self.structs.straight_table_properties(info=nx_info, hypercube_def=hypercube_def)
         elif obj_type == "pivot-table":
             chart_props = self.structs.pivot_table_properties(info=nx_info, hypercube_def=hypercube_def)
         else:

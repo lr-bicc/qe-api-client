@@ -384,12 +384,13 @@ def table_properties(
         info: dict, hypercube_def: dict, prop_def: dict = None, extends_id: str = "", state_name: str = "",
         script: str = "", _search: dict = None, show_titles: bool = True, title: str = "", subtitle: str = "",
         footnote: str = "", disable_nav_menu: bool = False, show_details: bool = False,
-        show_details_expression: bool = False, totals_show: bool = True, totals_position: str = "noTotals",
-        totals_label: str = "Totals", scrolling_horizontal: bool = True, scrolling_keep_first_column_in_view: bool = False,
+        show_details_expression: bool = False, _totals: dict = None, scrolling_horizontal: bool = True, scrolling_keep_first_column_in_view: bool = False,
         scrolling_keep_first_column_in_view_touch: bool = False, multiline_wrap_text_in_headers: bool = True,
         multiline_wrap_text_in_cells: bool = True
 ):
 
+    if _totals is None:
+        _totals = totals()
     if prop_def is None:
         prop_def = {}
     if _search is None:
@@ -399,11 +400,36 @@ def table_properties(
         "qInfo": info, "qExtendsId": extends_id, "qMetaDef": prop_def, "qStateName": state_name,
         "qHyperCubeDef": hypercube_def, "script": script, "search": _search, "showTitles": show_titles, "title": title,
         "subtitle": subtitle, "footnote": footnote, "disableNavMenu": disable_nav_menu, "showDetails": show_details,
-        "showDetailsExpression": show_details_expression,
-        "totals": {"show": totals_show, "position": totals_position, "label": totals_label},
+        "showDetailsExpression": show_details_expression, "totals": _totals,
         "scrolling": {"horizontal": scrolling_horizontal, "keepFirstColumnInView": scrolling_keep_first_column_in_view, "keepFirstColumnInViewTouch": scrolling_keep_first_column_in_view_touch},
         "multiline": {"wrapTextInHeaders": multiline_wrap_text_in_headers, "wrapTextInCells": multiline_wrap_text_in_cells},
         "visualization": "table"
+    }
+
+
+def straight_table_properties(
+        info: dict, hypercube_def: dict, prop_def: dict = None, extends_id: str = "", state_name: str = "",
+        show_titles: bool = True, title: str = "", subtitle: str = "", footnote: str = "", disable_nav_menu: bool = False,
+        show_details: bool = False, show_details_expression: bool = False, components: list = None, _totals: dict = None,
+        use_pagination: bool = False, enable_chart_exploration: bool = False, chart_exploration: dict = None
+):
+
+    if chart_exploration is None:
+        chart_exploration = {"menuVisibility": "auto"}
+    if components is None:
+        components = []
+    if _totals is None:
+        _totals = totals()
+    if prop_def is None:
+        prop_def = {}
+
+    return {
+        "qInfo": info, "qExtendsId": extends_id, "qMetaDef": prop_def, "qStateName": state_name,
+        "qHyperCubeDef": hypercube_def, "showTitles": show_titles, "title": title, "subtitle": subtitle,
+        "footnote": footnote, "disableNavMenu": disable_nav_menu, "showDetails": show_details,
+        "showDetailsExpression": show_details_expression, "components": components, "totals": _totals,
+        "usePagination": use_pagination, "enableChartExploration": enable_chart_exploration,
+        "chartExploration": chart_exploration, "visualization": "sn-table"
     }
 
 
@@ -433,3 +459,7 @@ def search(sorting: str = "auto"):
 
 def text_align(auto: bool = True, align: str = "left"):
     return {"auto": auto, "align": align}
+
+
+def totals(totals_show: bool = True, totals_position: str = "noTotals", totals_label: str = "Totals"):
+    return {"show": totals_show, "position": totals_position, "label": totals_label}
