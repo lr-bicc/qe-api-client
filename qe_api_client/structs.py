@@ -407,7 +407,7 @@ def table_properties(
     }
 
 
-def straight_table_properties(
+def sn_table_properties(
         info: dict, hypercube_def: dict, prop_def: dict = None, extends_id: str = "", state_name: str = "",
         show_titles: bool = True, title: str = "", subtitle: str = "", footnote: str = "", disable_nav_menu: bool = False,
         show_details: bool = False, show_details_expression: bool = False, components: list = None, _totals: dict = None,
@@ -450,6 +450,30 @@ def pivot_table_properties(
         "qHyperCubeDef": hypercube_def, "search": _search, "showTitles": show_titles, "title": title,
         "subtitle": subtitle, "footnote": footnote, "disableNavMenu": disable_nav_menu, "showDetails": show_details,
         "showDetailsExpression": show_details_expression, "visualization": "pivot-table"
+    }
+
+
+def sn_pivot_table_properties(
+        info: dict, hypercube_def: dict, prop_def: dict = None, extends_id: str = "", state_name: str = "",
+        _search: dict = None, show_titles: bool = True, title: str = "", subtitle: str = "",
+        footnote: str = "", disable_nav_menu: bool = False, show_details: bool = True,
+        show_details_expression: bool = False, components: list = None, null_value_representation: dict = None
+):
+    if null_value_representation is None:
+        null_value_representation = {"text": "-"}
+    if components is None:
+        components = []
+    if prop_def is None:
+        prop_def = {}
+    if _search is None:
+        _search = search()
+
+    return {
+        "qInfo": info, "qExtendsId": extends_id, "qMetaDef": prop_def, "qStateName": state_name,
+        "qHyperCubeDef": hypercube_def, "search": _search, "showTitles": show_titles, "title": title,
+        "subtitle": subtitle, "footnote": footnote, "disableNavMenu": disable_nav_menu, "showDetails": show_details,
+        "showDetailsExpression": show_details_expression, "components": components,
+        "nullValueRepresentation": null_value_representation, "visualization": "sn-pivot-table"
     }
 
 

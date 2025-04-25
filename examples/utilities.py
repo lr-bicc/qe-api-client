@@ -89,6 +89,8 @@ def create_sample_app(qixe):
     no_of_cols_sheet_2 = no_of_rows_sheet_2 * 2
     no_of_rows_sheet_3 = 42
     no_of_cols_sheet_3 = no_of_rows_sheet_3 * 2
+    no_of_rows_sheet_4 = 42
+    no_of_cols_sheet_4 = no_of_rows_sheet_4 * 2
 
     sheet_1 = qixe.create_sheet(app_handle=app_handle, sheet_title="My New Sheet 1", sheet_desc="Sheet description",
                                 no_of_rows=no_of_rows_sheet_1)
@@ -102,6 +104,10 @@ def create_sample_app(qixe):
                                 no_of_rows=no_of_rows_sheet_3)
     sheet_3_handle = qixe.get_handle(sheet_3)
     sheet_3_id = qixe.get_id(sheet_3)
+    sheet_4 = qixe.create_sheet(app_handle=app_handle, sheet_title="My New Sheet 4", sheet_desc="Sheet description",
+                                no_of_rows=no_of_rows_sheet_4)
+    sheet_4_handle = qixe.get_handle(sheet_4)
+    sheet_4_id = qixe.get_id(sheet_4)
 
 
 
@@ -227,7 +233,7 @@ def create_sample_app(qixe):
     # Create filterpane frame
     filterpane_3 = qixe.create_filterpane_frame(handle=sheet_3_handle, no_of_rows_sheet=no_of_rows_sheet_3, col=0,
                                                 row=0,
-                                                colspan=no_of_cols_sheet_3, rowspan=1)
+                                                colspan=no_of_cols_sheet_3, rowspan=3)
     filterpane_3_id = qixe.get_id(filterpane_3)
 
     # Create list objects
@@ -242,42 +248,96 @@ def create_sample_app(qixe):
     # ------------------------------------------------------------------------------------------------------------------
 
     # Create the structure of tne dimensions
-    straight_table_nx_inline_dimension_def_1 = qixe.structs.nx_inline_dimension_def()
-    straight_table_nx_inline_dimension_def_2 = qixe.structs.nx_inline_dimension_def()
-    straight_table_nx_inline_dimension_def_3 = qixe.structs.nx_inline_dimension_def()
-    straight_table_hc_dim_1 = qixe.structs.nx_dimension(library_id=dim_1_id, dim_def=straight_table_nx_inline_dimension_def_1)
-    straight_table_hc_dim_2 = qixe.structs.nx_dimension(library_id=dim_2_id, dim_def=straight_table_nx_inline_dimension_def_2)
-    straight_table_hc_dim_3 = qixe.structs.nx_dimension(library_id=dim_3_id, dim_def=straight_table_nx_inline_dimension_def_3)
-    straight_table_hc_dim_list = [straight_table_hc_dim_1, straight_table_hc_dim_2, straight_table_hc_dim_3]
+    sn_table_nx_inline_dimension_def_1 = qixe.structs.nx_inline_dimension_def()
+    sn_table_nx_inline_dimension_def_2 = qixe.structs.nx_inline_dimension_def()
+    sn_table_nx_inline_dimension_def_3 = qixe.structs.nx_inline_dimension_def()
+    sn_table_hc_dim_1 = qixe.structs.nx_dimension(library_id=dim_1_id, dim_def=sn_table_nx_inline_dimension_def_1)
+    sn_table_hc_dim_2 = qixe.structs.nx_dimension(library_id=dim_2_id, dim_def=sn_table_nx_inline_dimension_def_2)
+    sn_table_hc_dim_3 = qixe.structs.nx_dimension(library_id=dim_3_id, dim_def=sn_table_nx_inline_dimension_def_3)
+    sn_table_hc_dim_list = [sn_table_hc_dim_1, sn_table_hc_dim_2, sn_table_hc_dim_3]
 
     # Create the structure of tne measures
-    straight_table_nx_inline_measure_def_1 = qixe.structs.nx_inline_measure_def()
-    straight_table_nx_inline_measure_def_2 = qixe.structs.nx_inline_measure_def()
-    straight_table_nx_inline_measure_def_3 = qixe.structs.nx_inline_measure_def()
-    straight_table_hc_mes_1 = qixe.structs.nx_measure(library_id=measure_1_id, mes_def=straight_table_nx_inline_measure_def_1)
-    straight_table_hc_mes_2 = qixe.structs.nx_measure(library_id=measure_2_id, mes_def=straight_table_nx_inline_measure_def_2)
-    straight_table_hc_mes_3 = qixe.structs.nx_measure(library_id=measure_3_id, mes_def=straight_table_nx_inline_measure_def_3)
-    straight_table_hc_mes_list = [straight_table_hc_mes_1, straight_table_hc_mes_2, straight_table_hc_mes_3]
+    sn_table_nx_inline_measure_def_1 = qixe.structs.nx_inline_measure_def()
+    sn_table_nx_inline_measure_def_2 = qixe.structs.nx_inline_measure_def()
+    sn_table_nx_inline_measure_def_3 = qixe.structs.nx_inline_measure_def()
+    sn_table_hc_mes_1 = qixe.structs.nx_measure(library_id=measure_1_id, mes_def=sn_table_nx_inline_measure_def_1)
+    sn_table_hc_mes_2 = qixe.structs.nx_measure(library_id=measure_2_id, mes_def=sn_table_nx_inline_measure_def_2)
+    sn_table_hc_mes_3 = qixe.structs.nx_measure(library_id=measure_3_id, mes_def=sn_table_nx_inline_measure_def_3)
+    sn_table_hc_mes_list = [sn_table_hc_mes_1, sn_table_hc_mes_2, sn_table_hc_mes_3]
 
     # Create hypercube structure for straight table
-    hypercube_def_table = qixe.structs.hypercube_def(dimensions=straight_table_hc_dim_list, measures=straight_table_hc_mes_list,
+    hypercube_def_sn_table = qixe.structs.hypercube_def(dimensions=sn_table_hc_dim_list, measures=sn_table_hc_mes_list,
                                                      column_order=[0, 1, 2, 3, 4, 5],
                                                      column_widths=[-1, -1, -1, -1, -1, -1])
 
     # Create straight table
-    straight_table_1 = qixe.create_chart(handle=sheet_3_handle, obj_type="sn-table", hypercube_def=hypercube_def_table,
-                                no_of_rows_sheet=no_of_rows_sheet_3, col=0, row=1, colspan=no_of_cols_sheet_3,
-                                rowspan=no_of_rows_sheet_3 - 1)
-    straight_table_1_id = qixe.get_id(straight_table_1)
+    sn_table_1 = qixe.create_chart(handle=sheet_3_handle, obj_type="sn-table", hypercube_def=hypercube_def_sn_table,
+                                no_of_rows_sheet=no_of_rows_sheet_3, col=0, row=3, colspan=no_of_cols_sheet_3,
+                                rowspan=no_of_rows_sheet_3 - 3)
+    sn_table_1_id = qixe.get_id(sn_table_1)
 
 
+    ####################################################################################################################
+    # Create objects on sheet 4
+    ####################################################################################################################
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Create filterpane 4
+    # ------------------------------------------------------------------------------------------------------------------
+
+    # Create filterpane frame
+    filterpane_4 = qixe.create_filterpane_frame(handle=sheet_4_handle, no_of_rows_sheet=no_of_rows_sheet_4, col=0,
+                                                row=0, colspan=no_of_cols_sheet_4, rowspan=3)
+    filterpane_4_id = qixe.get_id(filterpane_4)
+
+    # Create list objects
+    filterpane_4_handle = qixe.get_handle(filterpane_4)
+    qixe.create_list_object(handle=filterpane_4_handle, dim_id=dim_1_id, field_title="Dimension 1")
+    qixe.create_list_object(handle=filterpane_4_handle, dim_id=dim_2_id, field_title="Dimension 2")
+    qixe.create_list_object(handle=filterpane_4_handle, dim_id=dim_3_id, field_title="Dimension 3")
+    qixe.create_list_object(handle=filterpane_4_handle, field_def="Alpha", field_title="Alpha")
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Create new pivot table
+    # ------------------------------------------------------------------------------------------------------------------
+
+    # Create the structure of tne dimensions
+    sn_pivot_table_nx_inline_dimension_def_1 = qixe.structs.nx_inline_dimension_def()
+    sn_pivot_table_nx_inline_dimension_def_2 = qixe.structs.nx_inline_dimension_def()
+    sn_pivot_table_nx_inline_dimension_def_3 = qixe.structs.nx_inline_dimension_def()
+    sn_pivot_table_hc_dim_1 = qixe.structs.nx_dimension(library_id=dim_1_id, dim_def=sn_pivot_table_nx_inline_dimension_def_1)
+    sn_pivot_table_hc_dim_2 = qixe.structs.nx_dimension(library_id=dim_2_id, dim_def=sn_pivot_table_nx_inline_dimension_def_2)
+    sn_pivot_table_hc_dim_3 = qixe.structs.nx_dimension(library_id=dim_3_id, dim_def=sn_pivot_table_nx_inline_dimension_def_3)
+    sn_pivot_table_hc_dim_list = [sn_pivot_table_hc_dim_1, sn_pivot_table_hc_dim_2, sn_pivot_table_hc_dim_3]
+
+    # Create the structure of tne measures
+    sn_pivot_table_nx_inline_measure_def_1 = qixe.structs.nx_inline_measure_def()
+    sn_pivot_table_nx_inline_measure_def_2 = qixe.structs.nx_inline_measure_def()
+    sn_pivot_table_nx_inline_measure_def_3 = qixe.structs.nx_inline_measure_def()
+    sn_pivot_table_hc_mes_1 = qixe.structs.nx_measure(library_id=measure_1_id, mes_def=sn_pivot_table_nx_inline_measure_def_1)
+    sn_pivot_table_hc_mes_2 = qixe.structs.nx_measure(library_id=measure_2_id, mes_def=sn_pivot_table_nx_inline_measure_def_2)
+    sn_pivot_table_hc_mes_3 = qixe.structs.nx_measure(library_id=measure_3_id, mes_def=sn_pivot_table_nx_inline_measure_def_3)
+    sn_pivot_table_hc_mes_list = [sn_pivot_table_hc_mes_1, sn_pivot_table_hc_mes_2, sn_pivot_table_hc_mes_3]
+
+    # Create hypercube structure for new pivot table
+    hypercube_def_sn_pivot_table = qixe.structs.hypercube_def(dimensions=sn_pivot_table_hc_dim_list,
+                                                           measures=sn_pivot_table_hc_mes_list,
+                                                           inter_column_sort_order=[0, 1, 2, -1], mode="P")
+
+    # Create new pivot table
+    sn_pivot_table_1 = qixe.create_chart(handle=sheet_4_handle, obj_type="sn-pivot-table",
+                                      hypercube_def=hypercube_def_sn_pivot_table,
+                                      no_of_rows_sheet=no_of_rows_sheet_4, col=0, row=3, colspan=no_of_cols_sheet_4,
+                                      rowspan=no_of_rows_sheet_4 - 3)
+    sn_pivot_table_1_id = qixe.get_id(sn_pivot_table_1)
 
     # Save app
     save_sample_app(qixe, app_handle)
 
     return (app_handle, dim_1_id, dim_2_id, dim_3_id, measure_1_id, measure_2_id, measure_3_id, sheet_1_id,
             filterpane_1_id, table_1_id, sheet_2_id, filterpane_2_id, pivot_table_1_id, sheet_3_id, filterpane_3_id,
-            straight_table_1_id)
+            sn_table_1_id, sheet_4_id, filterpane_4_id, sn_pivot_table_1_id)
+
 
 
 def save_sample_app(qixe, app_handle: int):
