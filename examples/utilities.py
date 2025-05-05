@@ -43,19 +43,24 @@ def create_sample_app(qixe):
     # Create sample master dimensions
     ####################################################################################################################
 
+    dim_1_value_color_1 = qixe.structs.value_color(value="A", color="#117734")
+    dim_1_value_color_2 = qixe.structs.value_color(value="B", color="#e32f50")
+    dim_1_value_color_3 = qixe.structs.value_color(value="C", color="#009cda")
+    dim_1_value_colors = [dim_1_value_color_1, dim_1_value_color_2, dim_1_value_color_3]
     dim_1 = qixe.create_single_master_dimension(app_handle=app_handle, dim_title="Dimension1", dim_def="Dim1",
                                         dim_label="'Dimension 1'", dim_desc="Dimension description 1",
-                                        dim_tags=["dim1", "test"])
+                                        dim_tags=["dim1", "test"], dim_color="#006580", null_value_color="#b2b5b7",
+                                                other_value_color="#ddcc77", value_colors=dim_1_value_colors)
     dim_1_id = qixe.get_id(dim_1)
 
     dim_2 = qixe.create_single_master_dimension(app_handle=app_handle, dim_title="Dimension2", dim_def="Dim2",
                                         dim_label="'Dimension 2'", dim_desc="Dimension description 2",
-                                        dim_tags=["dim2", "test"])
+                                        dim_tags=["dim2", "test"], dim_color="#87205d")
     dim_2_id = qixe.get_id(dim_2)
 
     dim_3 = qixe.create_single_master_dimension(app_handle=app_handle, dim_title="Dimension3", dim_def="Dim3",
                                         dim_label="'Dimension 3'", dim_desc="Dimension description 3",
-                                        dim_tags=["dim3", "test"])
+                                        dim_tags=["dim3", "test"], dim_color="#8a85c6")
     dim_3_id = qixe.get_id(dim_3)
 
 

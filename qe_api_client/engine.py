@@ -1,3 +1,5 @@
+import json
+
 import qe_api_client.api_classes.engine_app_api as engine_app_api
 import qe_api_client.engine_communicator as engine_communicator
 import qe_api_client.api_classes.engine_field_api as engine_field_api
@@ -93,8 +95,13 @@ class QixEngine:
         fld_handle = self.get_handle(lb_field)
         return self.efa.clear(fld_handle)
 
+
     def create_single_master_dimension(self, app_handle: int, dim_title: str, dim_def: str, dim_label: str = "",
-                                       dim_desc: str = "", dim_tags: list = None):
+                                       dim_desc: str = "", dim_tags: list = None, dim_color: str = None,
+                                       dim_color_index: int = -1, value_colors: list = None,
+                                       null_value_color: str = None, null_value_color_index: int = -1,
+                                       other_value_color: str = None, other_value_color_index: int = -1
+                                       ):
         """
         Creates a single master dimension.
 
@@ -105,25 +112,75 @@ class QixEngine:
             dim_label (str, optional): The label of the dimension.
             dim_desc (str, optional): The description of the dimension.
             dim_tags (list, optional): The tags of the dimension.
+            dim_color (str, optional): The master dimension color.
+            dim_color_index (int, optional): The index of the master dimension color in the theme color picker.
+            value_colors (list, optional): The value colors of the master dimension.
+            null_value_color (str, optional): The NULL value color of the master dimension.
+            null_value_color_index (int, optional): The index of the NULL value color of the master dimension in the theme color picker.
+            other_value_color (str, optional): The OTHER value color of the master dimension.
+            other_value_color_index (int, optional): The index of the OTHER value color of the master dimension in the theme color picker.
 
         Returns:
             dict: The handle and Id of the dimension.
         """
+        if value_colors is None:
+            value_colors = []
         if dim_tags is None:
             dim_tags = []
 
         # Define of the single dimension properties
         nx_info = self.structs.nx_info(obj_type="dimension")
+        if dim_color is None:
+            coloring = self.structs.coloring()
+        else:
+            coloring = self.structs.coloring(base_color={"color": dim_color, "index": dim_color_index})
+
         nx_library_dimension_def = self.structs.nx_library_dimension_def(grouping="N", field_definitions=[dim_def],
                                                                          field_labels=[dim_title],
-                                                                         label_expression=dim_label)
+                                                                         label_expression=dim_label, alias=dim_title,
+                                                                         title=dim_title, coloring=coloring)
         gen_dim_props = self.structs.generic_dimension_properties(nx_info=nx_info,
                                                                   nx_library_dimension_def=nx_library_dimension_def,
                                                                   title=dim_title, description=dim_desc, tags=dim_tags)
 
         # Create the single dimension
         master_dim = self.eaa.create_dimension(app_handle, gen_dim_props)
+
+        # Color properties
+        master_dim_id = self.get_id(master_dim)
+        master_dim_handle = self.get_handle(master_dim)
+
+        # Update "colorMapRef" property with the master dimension id.
+        patch_value = json.dumps(master_dim_id)
+        patch_color_map_ref = self.structs.nx_patch(op="replace", path="/qDim/coloring/colorMapRef", value=patch_value)
+        self.egda.apply_patches(handle=master_dim_handle, patches=[patch_color_map_ref])
+
+        # Define color properties
+        if null_value_color is None:
+            null_value = None
+        else:
+            null_value = {"color": null_value_color, "index": null_value_color_index}
+        if other_value_color is None:
+            other_value = None
+        else:
+            other_value = {"color": other_value_color, "index": other_value_color_index}
+        colors = value_colors
+        color_map = self.structs.color_map(colors=colors, nul=null_value, oth=other_value)
+        color_map_props = self.structs.color_map_properties(dim_id=master_dim_id, _color_map=color_map)
+
+        # Create color map object, if colors are passed.
+        if value_colors or null_value_color is not None or other_value_color is not None:
+            self.eaa.create_object(app_handle, color_map_props)
+
+        # Update "hasValueColors" property, if value colors are passed.
+        if value_colors:
+            patch_value_has_value_colors = json.dumps(True)
+            patch_has_value_colors = self.structs.nx_patch(op="replace", path="/qDim/coloring/hasValueColors",
+                                                        value=patch_value_has_value_colors)
+            self.egda.apply_patches(handle=master_dim_handle, patches=[patch_has_value_colors])
+
         return master_dim
+
 
     def create_master_measure(self, app_handle: int, mes_title: str, mes_def: str, mes_label: str = "",
                               mes_desc: str = "", mes_tags: list = None):

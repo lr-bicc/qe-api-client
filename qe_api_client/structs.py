@@ -263,14 +263,16 @@ def generic_dimension_properties(nx_info: dict, nx_library_dimension_def: dict, 
 
 
 def nx_library_dimension_def(grouping: str = "N", field_definitions: list = None, field_labels: list = None,
-                             label_expression: str = ""):
+                             label_expression: str = "", alias: str = "", title: str = "", coloring: dict = None):
+    if coloring is None:
+        coloring = {}
     if field_labels is None:
         field_labels = []
     if field_definitions is None:
         field_definitions = []
     return {
         "qGrouping": grouping, "qFieldDefs": field_definitions, "qFieldLabels": field_labels,
-        "qLabelExpression": label_expression
+        "qLabelExpression": label_expression, "qAlias": alias, "title": title, "coloring": coloring
     }
 
 
@@ -380,6 +382,7 @@ def nx_attr_expr_def(expression: str = "", library_id: str = "", attribute: bool
         "qLabelExpression": label_expression
     }
 
+
 def table_properties(
         info: dict, hypercube_def: dict, prop_def: dict = None, extends_id: str = "", state_name: str = "",
         script: str = "", _search: dict = None, show_titles: bool = True, title: str = "", subtitle: str = "",
@@ -487,3 +490,52 @@ def text_align(auto: bool = True, align: str = "left"):
 
 def totals(totals_show: bool = True, totals_position: str = "noTotals", totals_label: str = "Totals"):
     return {"show": totals_show, "position": totals_position, "label": totals_label}
+
+
+def color_map(colors: list = None, nul: dict = None, oth: dict = None, pal: dict = None, single: dict = None,
+              use_pal: bool = True, auto_fill: bool = True):
+
+    if colors is None:
+        colors = []
+
+    return {
+        "colors": colors,
+        "nul": nul,
+        "oth": oth,
+        "pal": pal,
+        "single": single,
+        "usePal": use_pal,
+        "autoFill": auto_fill
+    }
+
+
+def coloring(change_hash: str = None, color_map_ref: str = "", has_value_colors: bool = False, base_color: dict = None):
+    if base_color is None:
+        base_color = {"color": "none", "index": 0}
+    return {
+        "changeHash": change_hash,
+        "colorMapRef": color_map_ref,
+        "hasValueColors": has_value_colors,
+        "baseColor": base_color
+    }
+
+
+def color_map_properties(dim_id: str, prop_def:dict = None, extends_id: str = "", state_name: str = "",
+                         _color_map: dict = None):
+
+    if _color_map is None:
+        _color_map = color_map()
+    if prop_def is None:
+        prop_def = {}
+    info = nx_info(obj_type="ColorMap", obj_id="ColorMapModel_" + dim_id)
+
+    return {
+        "qInfo": info, "qExtendsId": extends_id, "qMetaDef": prop_def, "qStateName": state_name, "colorMap": _color_map
+    }
+
+
+def value_color(value: str, color: str, index: int = -1):
+    return {
+        "value": value,
+        "baseColor": {"color": color, "index": index}
+    }

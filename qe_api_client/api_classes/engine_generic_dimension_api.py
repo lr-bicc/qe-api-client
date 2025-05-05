@@ -36,3 +36,22 @@ class EngineGenericDimensionApi:
             return response["result"]["qReturn"]
         except KeyError:
             return response["error"]
+
+    def apply_patches(self, handle: int, patches: list):
+        """
+        Applies a patch to the properties of an object. Allows an update to some of the properties.
+
+        Parameters:
+            handle (int): The handle identifying the generic object.
+            patches (list): List of patches.
+
+        Returns:
+            dict: Operation succeeded.
+        """
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "ApplyPatches",
+                          "params": {"qPatches": patches}})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
+        try:
+            return response["result"]
+        except KeyError:
+            return response["error"]
