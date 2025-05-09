@@ -492,7 +492,7 @@ def totals(totals_show: bool = True, totals_position: str = "noTotals", totals_l
     return {"show": totals_show, "position": totals_position, "label": totals_label}
 
 
-def color_map(colors: list = None, nul: dict = None, oth: dict = None, pal: dict = None, single: dict = None,
+def color_map(colors: list = None, nul: dict = None, oth: dict = None, pal: str = None, single: dict = None,
               use_pal: bool = True, auto_fill: bool = True):
 
     if colors is None:

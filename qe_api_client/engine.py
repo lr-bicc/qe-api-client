@@ -100,7 +100,8 @@ class QixEngine:
                                        dim_desc: str = "", dim_tags: list = None, dim_color: str = None,
                                        dim_color_index: int = -1, value_colors: list = None,
                                        null_value_color: str = None, null_value_color_index: int = -1,
-                                       other_value_color: str = None, other_value_color_index: int = -1
+                                       other_value_color: str = None, other_value_color_index: int = -1,
+                                       single_color: str = None, single_color_index: int = -1, palette: str = None
                                        ):
         """
         Creates a single master dimension.
@@ -119,6 +120,9 @@ class QixEngine:
             null_value_color_index (int, optional): The index of the NULL value color of the master dimension in the theme color picker.
             other_value_color (str, optional): The OTHER value color of the master dimension.
             other_value_color_index (int, optional): The index of the OTHER value color of the master dimension in the theme color picker.
+            single_color (str, optional): Single color of the values of the master dimension.
+            single_color_index (int, optional): The index of single color of the values of the master dimension in the theme color picker.
+            palette (str, optional): Choose a color palette, if there are more than one.
 
         Returns:
             dict: The handle and Id of the dimension.
@@ -146,7 +150,7 @@ class QixEngine:
         # Create the single dimension
         master_dim = self.eaa.create_dimension(app_handle, gen_dim_props)
 
-        # Color properties
+        # Get id and handle of the master dimension
         master_dim_id = self.get_id(master_dim)
         master_dim_handle = self.get_handle(master_dim)
 
@@ -155,22 +159,48 @@ class QixEngine:
         patch_color_map_ref = self.structs.nx_patch(op="replace", path="/qDim/coloring/colorMapRef", value=patch_value)
         self.egda.apply_patches(handle=master_dim_handle, patches=[patch_color_map_ref])
 
-        # Define color properties
+        # Define the color properties
         if null_value_color is None:
             null_value = None
         else:
             null_value = {"color": null_value_color, "index": null_value_color_index}
+
         if other_value_color is None:
             other_value = None
         else:
             other_value = {"color": other_value_color, "index": other_value_color_index}
+
+        if single_color is None:
+            single = None
+        else:
+            single = {"color": single_color, "index": single_color_index}
+
         colors = value_colors
-        color_map = self.structs.color_map(colors=colors, nul=null_value, oth=other_value)
+        color_map = self.structs.color_map(colors=colors, nul=null_value, oth=other_value, single=single, pal=palette)
         color_map_props = self.structs.color_map_properties(dim_id=master_dim_id, _color_map=color_map)
 
         # Create color map object, if colors are passed.
-        if value_colors or null_value_color is not None or other_value_color is not None:
-            self.eaa.create_object(app_handle, color_map_props)
+        if value_colors or null_value_color is not None or other_value_color is not None or single_color is not None or palette is not None:
+            color_map_model = self.eaa.create_object(app_handle, color_map_props)
+            color_map_model_handle = self.get_handle(color_map_model)
+
+            # Set "autoFill" and "usePal" to "False", if a single color is passed.
+            if bool(single):
+                patch_value_use_pal_auto_fill = json.dumps(False)
+                patch_use_pal = self.structs.nx_patch(op="replace", path="/colorMap/usePal",
+                                                      value=patch_value_use_pal_auto_fill)
+                self.egda.apply_patches(handle=color_map_model_handle, patches=[patch_use_pal])
+
+                patch_auto_fill = self.structs.nx_patch(op="replace", path="/colorMap/autoFill",
+                                                      value=patch_value_use_pal_auto_fill)
+                self.egda.apply_patches(handle=color_map_model_handle, patches=[patch_auto_fill])
+
+            # Set "autoFill" to "False", if a color palette is passed.
+            if palette is not None:
+                patch_value_auto_fill = json.dumps(False)
+                patch_auto_fill = self.structs.nx_patch(op="replace", path="/colorMap/autoFill",
+                                                        value=patch_value_auto_fill)
+                self.egda.apply_patches(handle=color_map_model_handle, patches=[patch_auto_fill])
 
         # Update "hasValueColors" property, if value colors are passed.
         if value_colors:
