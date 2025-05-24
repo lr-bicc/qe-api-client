@@ -135,9 +135,9 @@ class QixEngine:
         # Define of the single dimension properties
         nx_info = self.structs.nx_info(obj_type="dimension")
         if dim_color is None:
-            coloring = self.structs.coloring()
+            coloring = self.structs.dim_coloring()
         else:
-            coloring = self.structs.coloring(base_color={"color": dim_color, "index": dim_color_index})
+            coloring = self.structs.dim_coloring(base_color={"color": dim_color, "index": dim_color_index})
 
         nx_library_dimension_def = self.structs.nx_library_dimension_def(grouping="N", field_definitions=[dim_def],
                                                                          field_labels=[dim_title],
@@ -213,7 +213,8 @@ class QixEngine:
 
 
     def create_master_measure(self, app_handle: int, mes_title: str, mes_def: str, mes_label: str = "",
-                              mes_desc: str = "", mes_tags: list = None):
+                              mes_desc: str = "", mes_tags: list = None, mes_color: str = None,
+                              mes_color_index: int = -1, gradient: dict = None):
         """
         Creates a master measure.
 
@@ -224,6 +225,8 @@ class QixEngine:
             mes_label (str, optional): The label of the measure.
             mes_desc (str, optional): The description of the measure.
             mes_tags (list, optional): The tags of the measure.
+            mes_color (str, optional): The color of the measure.
+            mes_color_index (int, optional): The index of the color of the measure.
 
         Returns:
             dict: The handle and Id of the measure.
@@ -233,8 +236,17 @@ class QixEngine:
 
         # Define of the measure properties
         nx_info = self.structs.nx_info(obj_type="measure")
+
+        if mes_color is None:
+            coloring = self.structs.mes_coloring()
+        else:
+            coloring = self.structs.mes_coloring(base_color={"color": mes_color, "index": mes_color_index})
+
+        if gradient is not None:
+            coloring.update({"gradient": gradient})
+
         nx_library_measure_def = self.structs.nx_library_measure_def(label=mes_title, mes_def=mes_def,
-                                                                     label_expression=mes_label)
+                                                                     label_expression=mes_label, coloring=coloring)
         gen_mes_props = self.structs.generic_measure_properties(nx_info=nx_info,
                                                                 nx_library_measure_def=nx_library_measure_def,
                                                                 title=mes_title, description=mes_desc, tags=mes_tags)

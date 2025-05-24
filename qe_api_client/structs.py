@@ -277,14 +277,18 @@ def nx_library_dimension_def(grouping: str = "N", field_definitions: list = None
 
 
 def nx_library_measure_def(label: str, mes_def: str, grouping: str = "N", expressions: list = None,
-                           active_expression: int = 0, label_expression:str = "", num_format: dict = None):
+                           active_expression: int = 0, label_expression:str = "", num_format: dict = None,
+                           coloring: dict = None):
+    if coloring is None:
+        coloring = {}
     if num_format is None:
         num_format = {}
     if expressions is None:
         expressions = []
     return {
         "qLabel": label, "qDef": mes_def,"qGrouping": grouping, "qExpressions": expressions,
-        "qActiveExpression": active_expression, "qLabelExpression": label_expression, "qNumFormat": num_format
+        "qActiveExpression": active_expression, "qLabelExpression": label_expression, "qNumFormat": num_format,
+        "coloring": coloring
     }
 
 
@@ -509,7 +513,7 @@ def color_map(colors: list = None, nul: dict = None, oth: dict = None, pal: str 
     }
 
 
-def coloring(change_hash: str = None, color_map_ref: str = "", has_value_colors: bool = False, base_color: dict = None):
+def dim_coloring(change_hash: str = None, color_map_ref: str = "", has_value_colors: bool = False, base_color: dict = None):
     if base_color is None:
         base_color = {"color": "none", "index": 0}
     return {
@@ -518,6 +522,15 @@ def coloring(change_hash: str = None, color_map_ref: str = "", has_value_colors:
         "hasValueColors": has_value_colors,
         "baseColor": base_color
     }
+
+
+def mes_coloring(base_color: dict = None, _gradient: dict = None):
+    coloring = {}
+    if base_color is not None:
+        coloring.update({"baseColor": base_color})
+    if _gradient is not None:
+        coloring.update({"gradient": _gradient})
+    return coloring
 
 
 def color_map_properties(dim_id: str, prop_def:dict = None, extends_id: str = "", state_name: str = "",
@@ -539,3 +552,17 @@ def value_color(value: str, color: str, index: int = -1):
         "value": value,
         "baseColor": {"color": color, "index": index}
     }
+
+
+def color(_color: str, index: int = -1):
+    return {"color": _color, "index": index}
+
+
+def gradient(colors: list = None, break_types: list = None, limits: list = None, limit_type: str = "percent"):
+    if colors is None:
+        colors = [color(_color="#332288"), color(_color="#117733")]
+    if break_types is None:
+        break_types = [False]
+    if limits is None:
+        limits = [0.5]
+    return {"colors": colors, "breakTypes": break_types, "limits": limits, "limitType": limit_type}

@@ -1,4 +1,4 @@
-from qe_api_client.structs import hypercube_def
+from qe_api_client.structs import hypercube_def, gradient
 
 
 def create_connection():
@@ -68,19 +68,22 @@ def create_sample_app(qixe):
     # Create sample master measures
     ####################################################################################################################
 
+    gradient_measure_1 = qixe.structs.gradient(colors=["#ff0000", "#ffff00", "#00ff00"], break_types=[True, True],
+                                               limits=[0.33, 0.66], limit_type="absolute")
     measure_1 = qixe.create_master_measure(app_handle=app_handle, mes_title="Expression1", mes_def="Sum(Expression1)",
                                mes_label="'Expression 1'", mes_desc="Expression description 1",
-                               mes_tags=["exp1", "test"])
+                               mes_tags=["exp1", "test"], mes_color="#332288", gradient=gradient_measure_1)
     measure_1_id = qixe.get_id(measure_1)
 
     measure_2 = qixe.create_master_measure(app_handle=app_handle, mes_title="Expression2", mes_def="Sum(Expression2)",
                                mes_label="'Expression 2'", mes_desc="Expression description 2",
-                               mes_tags=["exp2", "test"])
+                               mes_tags=["exp2", "test"], mes_color="#117733")
     measure_2_id = qixe.get_id(measure_2)
 
+    gradient_measure_3 = qixe.structs.gradient(colors=["#00ff00", "#0000ff"])
     measure_3 = qixe.create_master_measure(app_handle=app_handle, mes_title="Expression3", mes_def="Sum(Expression3)",
-                               mes_label="'Expression 3'", mes_desc="Expression description 3",
-                               mes_tags=["exp3", "test"])
+                                           mes_label="'Expression 3'", mes_desc="Expression description 3",
+                                           mes_tags=["exp3", "test"], gradient=gradient_measure_3)
     measure_3_id = qixe.get_id(measure_3)
 
 

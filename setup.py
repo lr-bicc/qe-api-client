@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="qe-api-client",
-    version="2.7.0",
+    version="2.8.0",
     author="Rumen Vasilev",
     author_email="R.Vasilev@LRWorld.com",
     description="Python client for the Qlik Engine JSON API",
@@ -20,8 +20,10 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        'websocket-client>=0.47.0',
-        'pandas>=2.2.0'
+        'websocket-client>=1.0.0',
+        'pandas>=2.2.0',
+        'numpy>=2.0.0',
+        'uuid>=1.0'
     ],
     python_requires='>=3.6',
 )
