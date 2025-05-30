@@ -553,8 +553,9 @@ class QixEngine:
 
         # Build the column mapping using qEffectiveInterColumnSortOrder
         sort_order = sorted(obj_layout['qHyperCube']['qEffectiveInterColumnSortOrder'])
+        sort_order_positive = [x for x in sort_order if x >= 0]
         column_names = []
-        for i in sort_order:
+        for i in sort_order_positive:
             column_names.append(column_info[i]["qFallbackTitle"])
 
         # if the type of the charts has a straight data structure
@@ -585,9 +586,10 @@ class QixEngine:
 
             # Supporting function to traverse all subnodes to get all dimensions
             def get_all_dimensions(node):
-                dimensions = [node['qText']]
-                # if 'qSubNodes' in node and node['qSubNodes']:
-                if node['qSubNodes']:
+                label = node.get('qText', '')  # Leerer String, falls nicht vorhanden
+                dimensions = [label]
+
+                if 'qSubNodes' in node and node['qSubNodes']:
                     sub_dimensions = []
                     for sub_node in node['qSubNodes']:
                         sub_dimensions.extend([dimensions + d for d in get_all_dimensions(sub_node)])
@@ -595,13 +597,25 @@ class QixEngine:
                 else:
                     return [dimensions]
 
-            # Gets the column headers for the pivot table
+            # Supporting function to get all column headers for the pivot table
+            def get_column_paths(node):
+                label = node.get('qText', '')
+                current_path = [label]
+
+                if 'qSubNodes' in node and node['qSubNodes']:
+                    paths = []
+                    for sub in node['qSubNodes']:
+                        for path in get_column_paths(sub):
+                            paths.append(current_path + path)
+                    return paths
+                else:
+                    return [current_path]
+
             col_headers = []
             nx_page_top = self.structs.nx_page(left=0, top=0, width=width, height=1)
-            hc_top = self.egoa.get_hypercube_pivot_data(obj_handle, '/qHyperCubeDef', nx_page_top)[
-                'qDataPages'][0]['qTop']
+            hc_top = self.egoa.get_hypercube_pivot_data(obj_handle, '/qHyperCubeDef', nx_page_top)['qDataPages'][0]['qTop']
             for top_node in hc_top:
-                col_headers.extend(get_all_dimensions(top_node))
+                col_headers.extend(get_column_paths(top_node))
 
             # Paging variables
             page = 0
@@ -632,6 +646,9 @@ class QixEngine:
 
             # Creates the Dataframe
             df = pd.DataFrame(data_values, index=row_index, columns=col_index)
+            index_levels = df.index.nlevels
+            df.index.names = column_names[:index_levels]
+            df = df.reset_index()
 
         # if the type of the charts has a stacked data structure
         elif obj_layout['qInfo']['qType'] in ['barchart'] and obj_layout['qHyperCube']['qStackedDataPages'] != []:
