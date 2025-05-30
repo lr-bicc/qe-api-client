@@ -538,14 +538,24 @@ class QixEngine:
         # Determine the number of the columns and the rows the table has and splits in certain circumstances the table
         # calls
         no_of_columns = obj_layout['qHyperCube']['qSize']['qcx']
+
+        if no_of_columns == 0:
+            return 'The chart either contains no columns or has a calculation condition!'
+
         width = no_of_columns
         no_of_rows = obj_layout['qHyperCube']['qSize']['qcy']
         height = int(math.floor(10000 / no_of_columns))
 
         # Extract the dimension and measure titles and concat them to column names.
-        dimension_titles = [dim['qFallbackTitle'] for dim in obj_layout['qHyperCube']['qDimensionInfo']]
-        measure_titles = [measure['qFallbackTitle'] for measure in obj_layout['qHyperCube']['qMeasureInfo']]
-        column_names = dimension_titles + measure_titles
+        dimension_info = obj_layout['qHyperCube'].get('qDimensionInfo', [])
+        measure_info = obj_layout['qHyperCube'].get('qMeasureInfo', [])
+        column_info = dimension_info + measure_info
+
+        # Build the column mapping using qEffectiveInterColumnSortOrder
+        sort_order = sorted(obj_layout['qHyperCube']['qEffectiveInterColumnSortOrder'])
+        column_names = []
+        for i in sort_order:
+            column_names.append(column_info[i]["qFallbackTitle"])
 
         # if the type of the charts has a straight data structure
         if (obj_layout['qInfo']['qType'] in ['table', 'sn-table', 'piechart', 'scatterplot', 'combochart', 'barchart']
