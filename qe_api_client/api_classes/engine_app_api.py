@@ -719,3 +719,23 @@ class EngineAppApi:
             return response['result']['qReturn']
         except KeyError:
             return response['error']
+
+
+    def create_bookmark(self, doc_handle, prop):
+        """
+        Creates a bookmark.
+
+        Parameters:
+            doc_handle (int): The handle identifying the document.
+            prop (dict): Bookmark properties.
+
+        Returns:
+            dict: The handle of the generic bookmark.
+        """
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "CreateBookmark",
+                          "params": {"qProp": prop}})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
+        try:
+            return response['result']['qReturn']
+        except KeyError:
+            return response['error']
