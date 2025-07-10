@@ -226,3 +226,42 @@ class EngineGenericObjectApi:
             return response["result"]["qProp"]
         except KeyError:
             return response["error"]
+
+
+    def embed_snapshot_object(self, handle: int, snapshot_id: str):
+        """
+        Adds a snapshot to a generic object. Only one snapshot can be embedded in a generic object. If you embed a
+        snapshot in an object that already contains a snapshot, the new snapshot overwrites the previous one.
+
+        Parameters:
+            handle (int): The handle identifying the generic object.
+            snapshot_id (str): The id of the snapshot to be embeded.
+
+        Returns:
+            update
+        """
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "EmbedSnapshotObject",
+                          "params": {"qId": snapshot_id}})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
+        try:
+            return response["result"]
+        except KeyError:
+            return response["error"]
+
+
+    def get_parent(self, handle: int):
+        """
+        Returns the type of the object and the corresponding handle to the parent object in the hiearchy.
+
+        Parameters:
+            handle (int): The handle identifying the generic object.
+
+        Returns:
+            { "qType": "GenericObject", "qHandle": <handle of the object> }
+        """
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "GetParent", "params": {}})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
+        try:
+            return response["result"]["qReturn"]
+        except KeyError:
+            return response["error"]
