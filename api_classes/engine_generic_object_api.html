@@ -1,0 +1,433 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generic Object API Module &mdash; Qlik Engine API Client 2.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=51b770b3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Generic Variable API Module" href="engine_generic_variable_api.html" />
+    <link rel="prev" title="Generic Measure API Module" href="engine_generic_measure_api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Qlik Engine API Client
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API Client Modules:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../engine_communicator.html">Engine API Communicator Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../engine_api.html">Engine API Module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Classes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="engine_app_api.html">App API Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine_field_api.html">Field API Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine_generic_dimension_api.html">Generic Dimension API Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine_generic_measure_api.html">Generic Measure API Module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Generic Object API Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.create_child"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.create_child()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_layout"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.get_layout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_full_property_tree"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.get_full_property_tree()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_effective_properties"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.get_effective_properties()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_hypercube_data"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.get_hypercube_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_hypercube_pivot_data"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.get_hypercube_pivot_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_list_object_data"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.get_list_object_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.apply_patches"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.apply_patches()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.create_child()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.embed_snapshot_object"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.embed_snapshot_object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.get_effective_properties()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.get_full_property_tree()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.get_hypercube_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.get_hypercube_pivot_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_hypercube_stack_data"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.get_hypercube_stack_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.get_layout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.get_list_object_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_parent"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.get_parent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_properties"><code class="docutils literal notranslate"><span class="pre">EngineGenericObjectApi.get_properties()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="engine_generic_variable_api.html">Generic Variable API Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine_global_api.html">Global API Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../structs.html">Structs module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Qlik Engine API Client</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API Classes</a></li>
+      <li class="breadcrumb-item active">Generic Object API Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api_classes/engine_generic_object_api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-qe_api_client.api_classes.engine_generic_object_api">
+<span id="generic-object-api-module"></span><h1>Generic Object API Module<a class="headerlink" href="#module-qe_api_client.api_classes.engine_generic_object_api" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qe_api_client.api_classes.engine_generic_object_api.</span></span><span class="sig-name descname"><span class="pre">EngineGenericObjectApi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">socket</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>API class for interacting with Qlik Sense engine’s generic objects, such as hypercubes, lists, and other
+data visualization objects.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.create_child">
+<span class="sig-name descname"><span class="pre">create_child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.create_child"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.create_child" title="Link to this definition"></a></dt>
+<dd><p>Creates a generic object that is a child of another generic object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_layout">
+<span class="sig-name descname"><span class="pre">get_layout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.get_layout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_layout" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the layout structure of a generic object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_full_property_tree">
+<span class="sig-name descname"><span class="pre">get_full_property_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.get_full_property_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_full_property_tree" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the full property tree of a generic object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_effective_properties">
+<span class="sig-name descname"><span class="pre">get_effective_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.get_effective_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_effective_properties" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the effective properties of a generic object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_hypercube_data">
+<span class="sig-name descname"><span class="pre">get_hypercube_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pages</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.get_hypercube_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_hypercube_data" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the data from a hypercube.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_hypercube_pivot_data">
+<span class="sig-name descname"><span class="pre">get_hypercube_pivot_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pages</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.get_hypercube_pivot_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_hypercube_pivot_data" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the pivot data from a hypercube.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_list_object_data">
+<span class="sig-name descname"><span class="pre">get_list_object_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pages</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.get_list_object_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_list_object_data" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the data from a list object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.apply_patches">
+<span class="sig-name descname"><span class="pre">apply_patches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patches</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">soft_patch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.apply_patches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.apply_patches" title="Link to this definition"></a></dt>
+<dd><p>Applies a patch to the properties of an object. Allows an update to some of the properties. It is possible to
+apply a patch to the properties of a generic object, that is not persistent. Such a patch is called a soft patch.
+In that case, the result of the operation on the properties (add, remove or delete) is not shown when doing
+GetProperties, and only a GetLayout call shows the result of the operation. Properties that are not persistent
+are called soft properties. Once the engine session is over, soft properties are cleared. It should not be
+possible to patch “/qInfo/qId”, and it will be forbidden in the near future.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> (<em>int</em>) – The handle identifying the generic object.</p></li>
+<li><p><strong>patches</strong> (<em>list</em>) – List of patches.</p></li>
+<li><p><strong>soft_patch</strong> (<em>bool</em><em>, </em><em>optional</em>) – If set to true, it means that the properties to be applied are not persistent.</p></li>
+<li><p><strong>false.</strong> (<em>The patch is a soft patch. The default value is</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Operation succeeded.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">create_child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prop_for_this</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.create_child"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Creates a generic object that is a child of another generic object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> (<em>int</em>) – The handle identifying the generic object.</p></li>
+<li><p><strong>prop</strong> (<em>dict</em>) – Information about the child. It is possible to create a child that is linked to another object.</p></li>
+<li><p><strong>prop_for_this</strong> (<em>dict</em><em>, </em><em>optional</em>) – Identifier of the parent’s object. Should be set to update the properties of</p></li>
+<li><p><strong>created.</strong> (<em>the parent's object at the same time the child is</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The layout structure of the generic object (qLayout). In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.embed_snapshot_object">
+<span class="sig-name descname"><span class="pre">embed_snapshot_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snapshot_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.embed_snapshot_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.embed_snapshot_object" title="Link to this definition"></a></dt>
+<dd><p>Adds a snapshot to a generic object. Only one snapshot can be embedded in a generic object. If you embed a
+snapshot in an object that already contains a snapshot, the new snapshot overwrites the previous one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> (<em>int</em>) – The handle identifying the generic object.</p></li>
+<li><p><strong>snapshot_id</strong> (<em>str</em>) – The id of the snapshot to be embeded.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>update</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">get_effective_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.get_effective_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the effective properties of a specific generic object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>handle</strong> (<em>int</em>) – The handle identifying the generic object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The effective properties of the generic object (qProp). In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">get_full_property_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.get_full_property_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the full property tree of a specific generic object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>handle</strong> (<em>int</em>) – The handle identifying the generic object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The full property tree of the generic object (qPropEntry). In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">get_hypercube_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.get_hypercube_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the data from a specific hypercube in a generic object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> (<em>int</em>) – The handle identifying the generic object containing the hypercube.</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – The path to the hypercube definition within the object. Default is “/qHyperCubeDef”.</p></li>
+<li><p><strong>pages</strong> (<em>list</em>) – A list of pages to retrieve from the hypercube data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The data from the hypercube. In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">get_hypercube_pivot_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.get_hypercube_pivot_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the pivot data from a specific hypercube in a generic object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> (<em>int</em>) – The handle identifying the generic object containing the hypercube.</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – The path to the hypercube definition within the object. Default is “/qHyperCubeDef”.</p></li>
+<li><p><strong>pages</strong> (<em>list</em>) – A list of pages to retrieve from the hypercube pivot data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The pivot data from the hypercube. In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_hypercube_stack_data">
+<span class="sig-name descname"><span class="pre">get_hypercube_stack_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_no_cells</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.get_hypercube_stack_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_hypercube_stack_data" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the values of a stacked pivot table. It is possible to retrieve specific pages of data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> (<em>int</em>) – The handle identifying the generic object containing the hypercube.</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – The path to the hypercube definition within the object. Default is “/qHyperCubeDef”.</p></li>
+<li><p><strong>pages</strong> (<em>list</em>) – A list of pages to retrieve from the hypercube pivot data.</p></li>
+<li><p><strong>max_no_cells</strong> (<em>int</em>) – Maximum number of cells at outer level. The default value is 10 000.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The pivot data from the hypercube. In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">get_layout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.get_layout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the layout structure of a specific generic object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>handle</strong> (<em>int</em>) – The handle identifying the generic object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The layout structure of the generic object (qLayout). In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">get_list_object_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/qListObjectDef'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.get_list_object_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the data from a specific list object in a generic object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> (<em>int</em>) – The handle identifying the generic object containing the list object.</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – The path to the list object definition within the object. Default is “/qListObjectDef”.</p></li>
+<li><p><strong>pages</strong> (<em>list</em>) – A list of pages to retrieve from the list object data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The data from the list object. In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_parent">
+<span class="sig-name descname"><span class="pre">get_parent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.get_parent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_parent" title="Link to this definition"></a></dt>
+<dd><p>Returns the type of the object and the corresponding handle to the parent object in the hiearchy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>handle</strong> (<em>int</em>) – The handle identifying the generic object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>“GenericObject”, “qHandle”: &lt;handle of the object&gt; }</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>{ “qType”</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_properties">
+<span class="sig-name descname"><span class="pre">get_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_generic_object_api.html#EngineGenericObjectApi.get_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_properties" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the properties of a specific generic object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>handle</strong> (<em>int</em>) – The handle identifying the generic object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The properties of the generic object (qLayout). In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="engine_generic_measure_api.html" class="btn btn-neutral float-left" title="Generic Measure API Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="engine_generic_variable_api.html" class="btn btn-neutral float-right" title="Generic Variable API Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Rumen Vasilev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
