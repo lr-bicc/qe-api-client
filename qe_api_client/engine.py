@@ -569,7 +569,7 @@ class QixEngine:
             # Retrieves the hypercube data in a loop (because of limitation from 10.000 cells per call)
             while no_of_rows > page * height:
                 nx_page = self.structs.nx_page(left=0, top=page * height, width=width, height=height)
-                hc_data = self.egoa.get_hypercube_data(obj_handle, '/qHyperCubeDef', nx_page)[
+                hc_data = self.egoa.get_hypercube_data(handle=obj_handle, path='/qHyperCubeDef', pages=[nx_page])[
                     'qDataPages'][0]['qMatrix']
                 data_values.extend(hc_data)
                 page += 1
@@ -613,7 +613,7 @@ class QixEngine:
 
             col_headers = []
             nx_page_top = self.structs.nx_page(left=0, top=0, width=width, height=1)
-            hc_top = self.egoa.get_hypercube_pivot_data(obj_handle, '/qHyperCubeDef', nx_page_top)['qDataPages'][0]['qTop']
+            hc_top = self.egoa.get_hypercube_pivot_data(handle=obj_handle, path='/qHyperCubeDef', pages=[nx_page_top])['qDataPages'][0]['qTop']
             for top_node in hc_top:
                 col_headers.extend(get_column_paths(top_node))
 
@@ -627,13 +627,13 @@ class QixEngine:
                 nx_page = self.structs.nx_page(left=0, top=page * height, width=width, height=height)
 
                 # Retrieves the row headers for the pivot table
-                hc_left = self.egoa.get_hypercube_pivot_data(obj_handle, '/qHyperCubeDef', nx_page)[
+                hc_left = self.egoa.get_hypercube_pivot_data(handle=obj_handle, path='/qHyperCubeDef', pages=[nx_page])[
                     'qDataPages'][0]['qLeft']
                 for left_node in hc_left:
                     row_headers.extend(get_all_dimensions(left_node))
 
                 # Retrieves the data for the pivot table
-                hc_data = self.egoa.get_hypercube_pivot_data(obj_handle, '/qHyperCubeDef', nx_page)[
+                hc_data = self.egoa.get_hypercube_pivot_data(handle=obj_handle, path='/qHyperCubeDef', pages=[nx_page])[
                     'qDataPages'][0]['qData']
                 for row in hc_data:
                     data_values.append([cell['qText'] for cell in row])
@@ -654,7 +654,7 @@ class QixEngine:
         elif obj_layout['qInfo']['qType'] in ['barchart'] and obj_layout['qHyperCube']['qStackedDataPages'] != []:
             max_no_cells = no_of_columns * no_of_rows
             nx_page = self.structs.nx_page(left=0, top=0, width=no_of_columns, height=no_of_rows)
-            hc_data = self.egoa.get_hypercube_stack_data(obj_handle, '/qHyperCubeDef', nx_page, max_no_cells)[
+            hc_data = self.egoa.get_hypercube_stack_data(handle=obj_handle, path='/qHyperCubeDef', pages=[nx_page], max_no_cells=max_no_cells)[
                 'qDataPages'][0]['qData'][0]['qSubNodes']
 
             # Transform the nested structure into a flat DataFrame
@@ -740,7 +740,7 @@ class QixEngine:
         # Retrieves the hypercube data in a loop (because of limitation from 10.000 cells per call)
         while no_of_rows > page * height:
             nx_page = self.structs.nx_page(left=0, top=page * height, width=width, height=height)
-            hc_data = self.egoa.get_hypercube_data(hc_obj_handle, '/qHyperCubeDef', nx_page)['qDataPages'][0]['qMatrix']
+            hc_data = self.egoa.get_hypercube_data(handle=hc_obj_handle, path='/qHyperCubeDef', pages=[nx_page])['qDataPages'][0]['qMatrix']
             data_values.extend(hc_data)
             page += 1
 

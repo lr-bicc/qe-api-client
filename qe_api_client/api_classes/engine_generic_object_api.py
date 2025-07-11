@@ -124,7 +124,7 @@ class EngineGenericObjectApi:
         except KeyError:
             return response["error"]
 
-    def get_hypercube_data(self, handle, path="/qHyperCubeDef", pages={}):
+    def get_hypercube_data(self, handle: int, path: str, pages: list):
         """
         Retrieves the data from a specific hypercube in a generic object.
 
@@ -137,14 +137,14 @@ class EngineGenericObjectApi:
             dict: The data from the hypercube. In case of an error, returns the error information.
         """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "GetHyperCubeData",
-                          "params": {"qPath": path, "qPages": [pages]}})
+                          "params": {"qPath": path, "qPages": pages}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response["result"]
         except KeyError:
             return response["error"]
 
-    def get_hypercube_pivot_data(self, handle, path="/qHyperCubeDef", pages={}):
+    def get_hypercube_pivot_data(self, handle: int, path: str, pages: list):
         """
         Retrieves the pivot data from a specific hypercube in a generic object.
 
@@ -157,14 +157,14 @@ class EngineGenericObjectApi:
             dict: The pivot data from the hypercube. In case of an error, returns the error information.
         """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "GetHyperCubePivotData",
-                          "params": {"qPath": path, "qPages": [pages]}})
+                          "params": {"qPath": path, "qPages": pages}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response["result"]
         except KeyError:
             return response["error"]
 
-    def get_hypercube_stack_data(self, handle, path="/qHyperCubeDef", pages={}, max_no_cells=10000):
+    def get_hypercube_stack_data(self, handle: int, path: str, pages: list, max_no_cells: int = 10000):
         """
         Retrieves the values of a stacked pivot table. It is possible to retrieve specific pages of data.
 
@@ -179,7 +179,7 @@ class EngineGenericObjectApi:
             dict: The pivot data from the hypercube. In case of an error, returns the error information.
         """
         msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": handle, "method": "GetHyperCubeStackData",
-                          "params": {"qPath": path, "qPages": [pages], "qMaxNbrCells": max_no_cells}})
+                          "params": {"qPath": path, "qPages": pages, "qMaxNbrCells": max_no_cells}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response["result"]

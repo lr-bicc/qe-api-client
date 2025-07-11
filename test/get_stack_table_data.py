@@ -35,7 +35,7 @@ max_no_cells = no_of_columns * no_of_rows
 nx_page = qixe.structs.nx_page(0, 0, no_of_columns, no_of_rows)
 # hc_data = qixe.egoa.get_hypercube_stack_data(obj_handle, "/qHyperCubeDef", [nx_page], max_no_cells)
 # print(hc_data)
-hc_data = qixe.egoa.get_hypercube_stack_data(obj_handle, "/qHyperCubeDef", [nx_page], max_no_cells)['qDataPages'][0]['qData'][0]['qSubNodes']
+hc_data = qixe.egoa.get_hypercube_stack_data(handle=obj_handle, path="/qHyperCubeDef", pages=[nx_page], max_no_cells=max_no_cells)['qDataPages'][0]['qData'][0]['qSubNodes']
 print(hc_data)
 
 

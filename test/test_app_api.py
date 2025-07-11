@@ -64,7 +64,7 @@ class TestAppApi(unittest.TestCase):
 
         # Call the get_hypercube_data to get the resulting json object,
         # using the handle and nx page as paramters
-        hc_data = self.qixe.egoa.get_hypercube_data(hc_handle,"/qHyperCubeDef",nx_page)
+        hc_data = self.qixe.egoa.get_hypercube_data(handle=hc_handle,path="/qHyperCubeDef",pages=[nx_page])
 
         self.assertTrue(type(hc_data is {}),"Unexpected type of hypercube data")
         first_element_number = hc_data["qDataPages"][0]["qMatrix"][0][0]["qElemNumber"]  # NOQA

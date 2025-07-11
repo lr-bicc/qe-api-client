@@ -33,7 +33,7 @@ hc_list = []
 
 while no_of_rows > page * height:
     nx_page = qixe.structs.nx_page(0, page * height, width, height)
-    hc_data = qixe.egoa.get_hypercube_data(obj_handle, "/qHyperCubeDef", nx_page)['qDataPages'][0]['qMatrix']
+    hc_data = qixe.egoa.get_hypercube_data(handle=obj_handle, path="/qHyperCubeDef", pages=[nx_page])['qDataPages'][0]['qMatrix']
     hc_list.extend(hc_data)
 
     page += 1
