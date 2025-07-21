@@ -500,18 +500,59 @@ class QixEngine:
 
         Parameters:
         obj : dict
-            The object containing the handle.
+            The object containing the id.
 
         Returns:
-        int: The handle value.
+        int: The id value.
 
         Raises:
-        ValueError: If the handle value is invalid.
+        ValueError: If the id value is invalid.
         """
         try:
             return obj["qGenericId"]
         except ValueError:
             return "Bad id value in " + obj
+
+    @staticmethod
+    def get_type(obj):
+        """
+        Retrieves the type from a given object.
+
+        Parameters:
+        obj : dict
+            The object containing the type.
+
+        Returns:
+        int: The type value.
+
+        Raises:
+        ValueError: If the type value is invalid.
+        """
+        try:
+            return obj["qGenericType"]
+        except ValueError:
+            return "Bad type value in " + obj
+
+
+    def get_object_sheet(self, app_handle: int, obj_id: str):
+        """
+        Retrieves the sheet from a given chart object.
+
+        Parameters:
+            app_handle (int): The handle of the app.
+            obj_id (str): The ID of the object.
+
+        Returns:
+            dict: The sheet object with handle and id.
+        """
+        parent_obj = self.eaa.get_object(app_handle=app_handle, object_id=obj_id)
+        while self.get_type(parent_obj) != "sheet":
+            obj = parent_obj
+            obj_handle = self.get_handle(obj)
+            parent_obj = self.egoa.get_parent(handle=obj_handle)
+
+        return parent_obj
+
 
     def get_chart_data(self, app_handle, obj_id):
         """
