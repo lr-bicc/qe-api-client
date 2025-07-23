@@ -12,6 +12,8 @@ import qe_api_client.structs as structs
 import math
 import pandas as pd
 import numpy as np
+from datetime import datetime, timezone
+import time
 
 
 class QixEngine:
@@ -449,6 +451,203 @@ class QixEngine:
             print("The position of chart \"" + chart_id + "\" is out of range. This one will not be created.")
 
         return chart
+
+
+    def create_snapshot(self, app_handle: int, object_id: str, snapshot_title: str = "", snapshot_description: str = "",
+        object_width: float = 1280, object_height: float = 720, bounding_client_width: float = 1280,
+        bounding_client_height: float = 720, rtl: bool = False, parent_width: float = 1280, parent_height: float = 720,
+        content_width: float = 1280, content_height: float = 720, chart_data_scroll_offset_start: int = 0,
+        chart_data_scroll_offset_end: int = 53, chart_data_legend_scroll_offset: int = 0, chart_data_zoom_min = 0,
+        chart_data_zoom_max = 0):
+        """
+        Creates a snapshot object.
+
+        Parameters:
+            app_handle (int): The handle of the app.
+            object_id (str): The id of the object.
+            snapshot_title (str): The title of the snapshot.
+            snapshot_description (str): The description of the snapshot.
+            object_width (float): The width of the snapshot object.
+            object_height (float): The height of the snapshot object.
+            bounding_client_width (float): The width of the bounding client.
+            bounding_client_height (float): The height of the bounding client.
+            rtl (bool): Controls the rendering of content with right-to-left (RTL) language support.
+            parent_width (float): The width of the parent object.
+            parent_height (float): The height of the parent object.
+            content_width (float): The width of the content object.
+            content_height (float): The height of the content object.
+            chart_data_scroll_offset_start (int): Scroll offset start.
+            chart_data_scroll_offset_end (int): Scroll offset end.
+            chart_data_legend_scroll_offset (int): Legend scroll offset.
+            chart_data_zoom_min: Minimum chart data zoom.
+            chart_data_zoom_max: Maximum chart data zoom.
+
+        Returns:
+            dict: The handle and Id of the created snapshot.
+        """
+        # Get chart object
+        chart_obj = self.eaa.get_object(app_handle=app_handle, object_id=object_id)
+        chart_obj_handle = self.get_handle(chart_obj)
+
+        # Get sheet object
+        sheet_obj = self.get_object_sheet(app_handle=app_handle, obj_id=object_id)
+        sheet_id = self.get_id(sheet_obj)
+
+        # Get the visualization type
+        chart_obj_layout = self.egoa.get_layout(handle=chart_obj_handle)
+        visualization = chart_obj_layout["visualization"]
+
+        # Attribut "qInfo" changed
+        chart_obj_layout["qInfo"] = {"qType": "snapshot"}
+
+        # Attribut "qMetaDef" added
+        chart_obj_layout["qMetaDef"] = {"title": snapshot_title, "description": snapshot_description}
+
+        # Attribut "creationDate" added
+        chart_obj_layout["creationDate"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+
+        # Attribut "permissions" added
+        chart_obj_layout["permissions"] = {"update": True, "publish": False, "export": False, "exportData": True,
+                                           "changeOwner": False, "remove": True}
+
+        # Attribut "visualizationType" added
+        chart_obj_layout["visualizationType"] = visualization
+
+        # Attribut "sourceObjectId" added
+        chart_obj_layout["sourceObjectId"] = object_id
+
+        # Attribut "sheetId" added
+        chart_obj_layout["sheetId"] = sheet_id
+
+        # Attribut "timestamp" added
+        chart_obj_layout["timestamp"] = int(time.time() * 1000)
+
+        # Attribut "isClone" added
+        chart_obj_layout["isClone"] = False
+
+        # Attribut "supportExport" added
+        chart_obj_layout["supportExport"] = True
+
+        # Attribut "qIncludeVariables" added
+        chart_obj_layout["qIncludeVariables"] = True
+
+        # Build the special snapshot parameters for the different chart types.
+        if visualization in ["sn-table", "pivot-table"]:
+            # Attribut "snapshotData" added
+            chart_obj_layout["snapshotData"] = {
+                "object": {
+                    "size": {
+                        "w": object_width,
+                        "h": object_height,
+                        "boundingClientWidth": bounding_client_width,
+                        "boundingClientHeight": bounding_client_height
+                    }
+                },
+                "rtl": rtl,
+                "parent": {
+                    "h": parent_height,
+                    "w": parent_width
+                }
+            }
+
+        elif visualization in ["combochart", "barchart"]:
+            # Attribut "snapshotData" added
+            chart_obj_layout["snapshotData"] = {
+                "object": {
+                    "size": {
+                        "w": object_width,
+                        "h": object_height,
+                        "boundingClientWidth": bounding_client_width,
+                        "boundingClientHeight": bounding_client_height
+                    }
+                },
+                "rtl": rtl,
+                "content": {
+                    "size": {
+                        "w": content_width,
+                        "h": content_height
+                    },
+                    "chartData": {
+                        "scrollOffset": {
+                            "start": chart_data_scroll_offset_start,
+                            "end": chart_data_scroll_offset_end
+                        },
+                        "legendScrollOffset": chart_data_legend_scroll_offset
+                    }
+                },
+                "parent": {
+                    "h": parent_height,
+                    "w": parent_width
+                }
+            }
+
+        elif visualization in ["linechart"]:
+            # Attribut "snapshotData" added
+            chart_obj_layout["snapshotData"] = {
+                "object": {
+                    "size": {
+                        "w": object_width,
+                        "h": object_height,
+                        "boundingClientWidth": bounding_client_width,
+                        "boundingClientHeight": bounding_client_height
+                    }
+                },
+                "rtl": rtl,
+                "content": {
+                    "size": {
+                        "w": content_width,
+                        "h": content_height
+                    },
+                    "chartData": {
+                        "zoom": {
+                            "min": chart_data_zoom_min,
+                            "max": chart_data_zoom_max
+                        }
+                    }
+                },
+                "parent": {
+                    "h": parent_height,
+                    "w": parent_width
+                }
+            }
+
+        else:
+            print("Chart type not supported.")
+
+        # Create snapshot
+        snapshot = self.eaa.create_bookmark(doc_handle=app_handle, prop=chart_obj_layout)
+        snapshot.update({"visualization": visualization})
+
+        return snapshot
+
+
+    def embed_snapshot(self, app_handle: int, snapshot_id: str, slide_id: str):
+        """
+        Embeds a created snapshot object on a slide.
+
+        Parameters:
+            app_handle (int): The handle of the app.
+            snapshot_id (str): The id of the snapshot.
+            slide_id (str): The id of the slide to embed.
+        """
+        # Get the slide, where the snapshot should be embeded.
+        slide = self.eaa.get_object(app_handle=app_handle, object_id=slide_id)
+        slide_handle = self.get_handle(slide)
+
+        # Get the visualization type of the snapshot
+        snapshot = self.eaa.get_bookmark(app_handle=app_handle, bookmark_id=snapshot_id)
+        snapshot_handle = self.get_handle(snapshot)
+        snapshot_layout = self.egoa.get_layout(handle=snapshot_handle)
+        visualization_type = snapshot_layout["visualizationType"]
+
+        # create the snapshot
+        slideitem_snapshot_properties = self.structs.slideitem_snapshot_properties(snapshot_id=snapshot_id,
+                                                                                   visualization_type=visualization_type)
+        slideitem_snapshot = self.egoa.create_child(handle=slide_handle, prop=slideitem_snapshot_properties)
+        slideitem_snapshot_handle = self.get_handle(slideitem_snapshot)
+
+        slideitem_snapshot_embeded = self.egoa.embed_snapshot_object(handle=slideitem_snapshot_handle,
+                                                                     snapshot_id=snapshot_id)
 
 
     def get_app_lineage_info(self, app_handle):

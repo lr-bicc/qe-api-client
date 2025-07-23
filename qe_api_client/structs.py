@@ -566,3 +566,101 @@ def gradient(colors: list = None, break_types: list = None, limits: list = None,
     if limits is None:
         limits = [0.5]
     return {"colors": colors, "breakTypes": break_types, "limits": limits, "limitType": limit_type}
+
+
+def static_content_url_def(url: str = None):
+    if url is None:
+        return {}
+    else:
+        return {"qUrl": url}
+
+
+def story_properties(title: str = "", description: str = "", extends_id: str = "", state_name: str = "", rank: int = 0,
+                     thumbnail_url: str = None):
+
+    info = nx_info(obj_type="story")
+    prop_def = {"title": title, "description": description}
+    if thumbnail_url is None:
+        thumbnail = {"qStaticContentUrlDef": static_content_url_def()}
+    else:
+        thumbnail = {"qStaticContentUrlDef": static_content_url_def(url=thumbnail_url)}
+    child_list_def = {"qData": {"title": "/title", "rank": "/rank"}}
+
+    return {
+        "qInfo": info, "qExtendsId": extends_id, "qMetaDef": prop_def, "qStateName": state_name, "rank": rank,
+        "thumbnail": thumbnail, "qChildListDef": child_list_def
+    }
+
+
+def slide_properties(extends_id: str = "", prop_def: dict = None, state_name: str = ""):
+
+    if prop_def is None:
+        prop_def = {}
+    info = nx_info(obj_type="slide")
+    child_list_def = {"qData": {"title": "/title", "sheetId": "/sheetId", "ratio": "/ratio", "position": "/position",
+                                "dataPath": "/dataPath", "srcPath": "/srcPath",	"visualization": "/visualization",
+                                "visualizationType": "/visualizationType", "style": "/style"}}
+
+    return {
+        "qInfo": info, "qExtendsId": extends_id, "qMetaDef": prop_def, "qStateName": state_name, "qChildListDef": child_list_def
+    }
+
+
+def slideitem_text_properties(ratio: bool = True, position_top: str = "3.69985%", position_left: str = "31.25000%",
+                              position_width: str = "39.57903%", position_height: str = "11.28086%",
+                              position_z_index: int = 1, position_right: str = "auto",
+                              visualization_type: str = "", style_color: str = "#6E6E6E",
+                              style_text: str = ""):
+
+    position = {"top": position_top, "left": position_left, "width": position_width, "height": position_height,
+                "z-index": position_z_index, "right": position_right}
+    info = nx_info(obj_type="slideitem")
+
+    return {
+        "qInfo": info, "qExtendsId": "", "qMetaDef": {}, "qStateName": "",
+        "qEmbeddedSnapshotDef": {}, "title": "", "sheetId": "", "ratio": ratio,
+		"position": position, "visualization": "text", "visualizationType": visualization_type,
+		"style": {"color": style_color, "text": style_text}
+    }
+
+
+def slideitem_shape_properties(ratio: bool = True, position_top: str = "3.69985%", position_left: str = "31.25000%",
+                              position_width: str = "39.57903%", position_height: str = "11.28086%",
+                              position_z_index: int = 1, position_right: str = "auto",
+                              visualization_type: str = "", style_color: str = "#000000"):
+
+    position = {"top": position_top, "left": position_left, "width": position_width, "height": position_height,
+                "z-index": position_z_index, "right": position_right}
+    info = nx_info(obj_type="slideitem")
+
+    return {
+        "qInfo": info, "qExtendsId": "", "qMetaDef": {}, "qStateName": "",
+        "qEmbeddedSnapshotDef": {}, "title": "", "sheetId": "", "ratio": ratio,
+		"position": position, "dataPath": "../resources/img/storytelling/shapes/" + visualization_type + ".svg",
+        "visualization": "shape", "visualizationType": visualization_type,
+		"style": {"color": style_color, "colorPaletteIndex": -1}
+    }
+
+
+def slideitem_snapshot_properties(snapshot_id: str, visualization_type: str, ratio: bool = True,
+                                  position_top: str = "14.81481%", position_left: str = "2.08333%",
+                                  position_width: str = "95.83334%", position_height: str = "81.4814875%",
+                                  position_z_index: int = 1):
+
+    position = {"top": position_top, "left": position_left, "width": position_width, "height": position_height,
+                "z-index": position_z_index}
+    info = nx_info(obj_type="slideitem")
+
+    return {
+        "qInfo": info, "qExtendsId": "", "qMetaDef": {}, "qStateName": "", "qEmbeddedSnapshotDef": {}, "title": "",
+        "sheetId": "", "ratio": ratio, "position": position, "visualization": "snapshot",
+        "visualizationType": visualization_type, "style": {"id": snapshot_id}
+    }
+
+
+def nx_get_bookmark_options(types: list, data: dict = None):
+    if data is None:
+        data = {}
+    return {
+			"qTypes": types, "qData": data
+	}
