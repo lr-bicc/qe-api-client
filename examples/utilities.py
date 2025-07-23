@@ -1,6 +1,3 @@
-from qe_api_client.structs import hypercube_def, gradient
-
-
 def create_connection():
     # Import engine package
     from qe_api_client.engine import QixEngine
@@ -339,13 +336,455 @@ def create_sample_app(qixe):
                                       rowspan=no_of_rows_sheet_4 - 3)
     sn_pivot_table_1_id = qixe.get_id(sn_pivot_table_1)
 
+
+    ####################################################################################################################
+    # Storytelling
+    ####################################################################################################################
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Create story
+    # ------------------------------------------------------------------------------------------------------------------
+
+    story_properties = qixe.structs.story_properties(title="API generated story", description="This is the story!")
+    story = qixe.eaa.create_object(doc_handle=app_handle, prop=story_properties)
+    story_handle = qixe.get_handle(obj=story)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Create slides
+    # ------------------------------------------------------------------------------------------------------------------
+
+    # slide properties
+    slide_properties = qixe.structs.slide_properties()
+
+    # Slide 1
+    slide_1 = qixe.egoa.create_child(handle=story_handle, prop=slide_properties)
+    slide_1_handle = qixe.get_handle(obj=slide_1)
+    slide_1_id = qixe.get_id(obj=slide_1)
+
+    # Slide 2
+    slide_2 = qixe.egoa.create_child(handle=story_handle, prop=slide_properties)
+    slide_2_handle = qixe.get_handle(obj=slide_2)
+    slide_2_id = qixe.get_id(obj=slide_2)
+
+    # Slide 3
+    slide_3 = qixe.egoa.create_child(handle=story_handle, prop=slide_properties)
+    slide_3_handle = qixe.get_handle(obj=slide_3)
+    slide_3_id = qixe.get_id(obj=slide_3)
+
+    # Slide 4
+    slide_4 = qixe.egoa.create_child(handle=story_handle, prop=slide_properties)
+    slide_4_handle = qixe.get_handle(obj=slide_4)
+    slide_4_id = qixe.get_id(obj=slide_4)
+
+    # Slide 5
+    slide_5 = qixe.egoa.create_child(handle=story_handle, prop=slide_properties)
+    slide_5_handle = qixe.get_handle(obj=slide_5)
+    slide_5_id = qixe.get_id(obj=slide_5)
+
+    # Slide 6
+    slide_6 = qixe.egoa.create_child(handle=story_handle, prop=slide_properties)
+    slide_6_handle = qixe.get_handle(obj=slide_6)
+    slide_6_id = qixe.get_id(obj=slide_6)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Create objects on slide 1
+    # ------------------------------------------------------------------------------------------------------------------
+
+    # Create Text title
+    slide_1_slideitem_title_properties = qixe.structs.slideitem_text_properties(visualization_type="title",
+                                                                                style_text="Slide title")
+    slide_1_title = qixe.egoa.create_child(handle=slide_1_handle, prop=slide_1_slideitem_title_properties)
+
+    # Create text paragraph
+    slideitem_paragraph_properties = qixe.structs.slideitem_text_properties(visualization_type="paragraph",
+                                                                            style_text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr...",
+                                                                            position_width="95.83334%",
+                                                                            position_height="81.4814875%",
+                                                                            position_top="14.81481%",
+                                                                            position_left="2.08333%",
+                                                                            ratio=False)
+    paragraph = qixe.egoa.create_child(handle=slide_1_handle, prop=slideitem_paragraph_properties)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Create objects on slide 2
+    # ------------------------------------------------------------------------------------------------------------------
+
+    # Create Text title
+    slide_2_slideitem_title_properties = qixe.structs.slideitem_text_properties(visualization_type="title",
+                                                                                style_text="Shapes 1")
+    slide_2_title = qixe.egoa.create_child(handle=slide_2_handle, prop=slide_2_slideitem_title_properties)
+
+    # Create square shape
+    slideitem_square_properties = qixe.structs.slideitem_shape_properties(visualization_type="square",
+                                                                         position_width="12.50000%",
+                                                                         position_height="22.21840%",
+                                                                         position_top="22.22222%",
+                                                                         position_left="6.25000%")
+    square = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_square_properties)
+
+    # Create rounded square shape
+    slideitem_square_rounded_properties = qixe.structs.slideitem_shape_properties(visualization_type="square_rounded",
+                                                                                  position_width="12.50000%",
+                                                                                  position_height="22.21840%",
+                                                                                  position_top="22.22222%",
+                                                                                  position_left="20.83333%")
+    square_rounded = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_square_rounded_properties)
+
+    # Create circle shape
+    slideitem_circle_properties = qixe.structs.slideitem_shape_properties(visualization_type="circle",
+                                                                           position_width="12.50000%",
+                                                                           position_height="22.21840%",
+                                                                           position_top="22.22222%",
+                                                                           position_left="35.41667%")
+    circle = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_circle_properties)
+
+    # Create disc shape
+    slideitem_disc_properties = qixe.structs.slideitem_shape_properties(visualization_type="disc",
+                                                                          position_width="12.50000%",
+                                                                          position_height="22.21840%",
+                                                                          position_top="22.22222%",
+                                                                          position_left="50.00000%")
+    disc = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_disc_properties)
+
+    # Create arrow (down) shape
+    slideitem_arrow_d_properties = qixe.structs.slideitem_shape_properties(visualization_type="arrow_d",
+                                                                        position_width="12.50000%",
+                                                                        position_height="22.21840%",
+                                                                        position_top="22.22222%",
+                                                                        position_left="64.58333%")
+    arrow_d = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_arrow_d_properties)
+
+    # Create arrow (left) shape
+    slideitem_arrow_l_properties = qixe.structs.slideitem_shape_properties(visualization_type="arrow_l",
+                                                                           position_width="12.50000%",
+                                                                           position_height="22.21840%",
+                                                                           position_top="22.22222%",
+                                                                           position_left="79.16667%")
+    arrow_l = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_arrow_l_properties)
+
+    # Create arrow (right) shape
+    slideitem_arrow_r_properties = qixe.structs.slideitem_shape_properties(visualization_type="arrow_r",
+                                                                           position_width="12.50000%",
+                                                                           position_height="22.21840%",
+                                                                           position_top="48.14815%",
+                                                                           position_left="6.25000%")
+    arrow_r = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_arrow_r_properties)
+
+    # Create arrow (up) shape
+    slideitem_arrow_u_properties = qixe.structs.slideitem_shape_properties(visualization_type="arrow_u",
+                                                                                  position_width="12.50000%",
+                                                                                  position_height="22.21840%",
+                                                                                  position_top="48.14815%",
+                                                                                  position_left="20.83333%")
+    arrow_u = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_arrow_u_properties)
+
+    # Create pullout (bellow) shape
+    slideitem_pullout_b_properties = qixe.structs.slideitem_shape_properties(visualization_type="pullout_b",
+                                                                          position_width="12.50000%",
+                                                                          position_height="22.21840%",
+                                                                          position_top="48.14815%",
+                                                                          position_left="35.41667%")
+    pullout_b = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_pullout_b_properties)
+
+    # Create pullout (left) shape
+    slideitem_pullout_l_properties = qixe.structs.slideitem_shape_properties(visualization_type="pullout_l",
+                                                                        position_width="12.50000%",
+                                                                        position_height="22.21840%",
+                                                                        position_top="48.14815%",
+                                                                        position_left="50.00000%")
+    pullout_l = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_pullout_l_properties)
+
+    # Create pullout (r) shape
+    slideitem_pullout_r_properties = qixe.structs.slideitem_shape_properties(visualization_type="pullout_r",
+                                                                           position_width="12.50000%",
+                                                                           position_height="22.21840%",
+                                                                           position_top="48.14815%",
+                                                                           position_left="64.58333%")
+    pullout_r = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_pullout_r_properties)
+
+    # Create pullout (t) shape
+    slideitem_pullout_t_properties = qixe.structs.slideitem_shape_properties(visualization_type="pullout_t",
+                                                                           position_width="12.50000%",
+                                                                           position_height="22.21840%",
+                                                                           position_top="48.14815%",
+                                                                           position_left="79.16667%")
+    pullout_t = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_pullout_t_properties)
+
+    # Create tri 1 shape
+    slideitem_tri1_properties = qixe.structs.slideitem_shape_properties(visualization_type="tri1",
+                                                                           position_width="12.50000%",
+                                                                           position_height="22.21840%",
+                                                                           position_top="74.07407%",
+                                                                           position_left="6.25000%")
+    tri1 = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_tri1_properties)
+
+    # Create tri 2 shape
+    slideitem_tri2_properties = qixe.structs.slideitem_shape_properties(visualization_type="tri2",
+                                                                           position_width="12.50000%",
+                                                                           position_height="22.21840%",
+                                                                           position_top="74.07407%",
+                                                                           position_left="20.83333%")
+    tri2 = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_tri2_properties)
+
+    # Create tri 3 shape
+    slideitem_tri3_properties = qixe.structs.slideitem_shape_properties(visualization_type="tri3",
+                                                                             position_width="12.50000%",
+                                                                             position_height="22.21840%",
+                                                                             position_top="74.07407%",
+                                                                             position_left="35.41667%")
+    tri3 = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_tri3_properties)
+
+    # Create tri 4 shape
+    slideitem_tri4_properties = qixe.structs.slideitem_shape_properties(visualization_type="tri4",
+                                                                             position_width="12.50000%",
+                                                                             position_height="22.21840%",
+                                                                             position_top="74.07407%",
+                                                                             position_left="50.00000%")
+    tri4 = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_tri4_properties)
+
+    # Create 2 lines (horizontal) shape
+    slideitem_2lines_h_properties = qixe.structs.slideitem_shape_properties(visualization_type="2lines_h",
+                                                                             position_width="12.50000%",
+                                                                             position_height="22.21840%",
+                                                                             position_top="74.07407%",
+                                                                             position_left="64.58333%")
+    line_h = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_2lines_h_properties)
+
+    # Create 2 lines (vertical) shape
+    slideitem_2lines_v_properties = qixe.structs.slideitem_shape_properties(visualization_type="2lines_v",
+                                                                             position_width="12.50000%",
+                                                                             position_height="22.21840%",
+                                                                             position_top="74.07407%",
+                                                                             position_left="79.16667%")
+    line_v = qixe.egoa.create_child(handle=slide_2_handle, prop=slideitem_2lines_v_properties)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Create objects on slide 3
+    # ------------------------------------------------------------------------------------------------------------------
+
+    # Create Text title
+    slide_3_slideitem_title_properties = qixe.structs.slideitem_text_properties(visualization_type="title",
+                                                                                style_text="Shapes 2")
+    slide_3_title = qixe.egoa.create_child(handle=slide_3_handle, prop=slide_3_slideitem_title_properties)
+
+    # Create plane shape
+    slideitem_plane_properties = qixe.structs.slideitem_shape_properties(visualization_type="plane",
+                                                                          position_width="12.50000%",
+                                                                          position_height="22.21840%",
+                                                                          position_top="22.22222%",
+                                                                          position_left="6.25000%")
+    plane = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_plane_properties)
+
+    # Create bus shape
+    slideitem_bus_properties = qixe.structs.slideitem_shape_properties(visualization_type="bus",
+                                                                                  position_width="12.50000%",
+                                                                                  position_height="22.21840%",
+                                                                                  position_top="22.22222%",
+                                                                                  position_left="20.83333%")
+    bus = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_bus_properties)
+
+    # Create car shape
+    slideitem_car_properties = qixe.structs.slideitem_shape_properties(visualization_type="car",
+                                                                          position_width="12.50000%",
+                                                                          position_height="22.21840%",
+                                                                          position_top="22.22222%",
+                                                                          position_left="35.41667%")
+    car = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_car_properties)
+
+    # Create train shape
+    slideitem_train_properties = qixe.structs.slideitem_shape_properties(visualization_type="train",
+                                                                        position_width="12.50000%",
+                                                                        position_height="22.21840%",
+                                                                        position_top="22.22222%",
+                                                                        position_left="50.00000%")
+    train = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_train_properties)
+
+    # Create dollar shape
+    slideitem_dollar_properties = qixe.structs.slideitem_shape_properties(visualization_type="dollar",
+                                                                           position_width="12.50000%",
+                                                                           position_height="22.21840%",
+                                                                           position_top="22.22222%",
+                                                                           position_left="64.58333%")
+    dollar = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_dollar_properties)
+
+    # Create euro shape
+    slideitem_euro_properties = qixe.structs.slideitem_shape_properties(visualization_type="euro",
+                                                                           position_width="12.50000%",
+                                                                           position_height="22.21840%",
+                                                                           position_top="22.22222%",
+                                                                           position_left="79.16667%")
+    euro = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_euro_properties)
+
+    # Create pound shape
+    slideitem_pound_properties = qixe.structs.slideitem_shape_properties(visualization_type="pound",
+                                                                           position_width="12.50000%",
+                                                                           position_height="22.21840%",
+                                                                           position_top="48.14815%",
+                                                                           position_left="6.25000%")
+    pound = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_pound_properties)
+
+    # Create yen shape
+    slideitem_yen_properties = qixe.structs.slideitem_shape_properties(visualization_type="yen",
+                                                                           position_width="12.50000%",
+                                                                           position_height="22.21840%",
+                                                                           position_top="48.14815%",
+                                                                           position_left="20.83333%")
+    yen = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_yen_properties)
+
+    # Create flag shape
+    slideitem_flag_properties = qixe.structs.slideitem_shape_properties(visualization_type="flag",
+                                                                             position_width="12.50000%",
+                                                                             position_height="22.21840%",
+                                                                             position_top="48.14815%",
+                                                                             position_left="35.41667%")
+    flag = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_flag_properties)
+
+    # Create globe shape
+    slideitem_globe_properties = qixe.structs.slideitem_shape_properties(visualization_type="globe",
+                                                                             position_width="12.50000%",
+                                                                             position_height="22.21840%",
+                                                                             position_top="48.14815%",
+                                                                             position_left="50.00000%")
+    globe = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_globe_properties)
+
+    # Create tree shape
+    slideitem_tree_properties = qixe.structs.slideitem_shape_properties(visualization_type="tree",
+                                                                             position_width="12.50000%",
+                                                                             position_height="22.21840%",
+                                                                             position_top="48.14815%",
+                                                                             position_left="64.58333%")
+    tree = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_tree_properties)
+
+    # Create cloud shape
+    slideitem_cloud_properties = qixe.structs.slideitem_shape_properties(visualization_type="cloud",
+                                                                             position_width="12.50000%",
+                                                                             position_height="22.21840%",
+                                                                             position_top="48.14815%",
+                                                                             position_left="79.16667%")
+    cloud = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_cloud_properties)
+
+    # Create light bulb shape
+    slideitem_lightbulb_properties = qixe.structs.slideitem_shape_properties(visualization_type="lightbulb",
+                                                                        position_width="12.50000%",
+                                                                        position_height="22.21840%",
+                                                                        position_top="74.07407%",
+                                                                        position_left="6.25000%")
+    lightbulb = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_lightbulb_properties)
+
+    # Create clock shape
+    slideitem_clock_properties = qixe.structs.slideitem_shape_properties(visualization_type="clock",
+                                                                        position_width="12.50000%",
+                                                                        position_height="22.21840%",
+                                                                        position_top="74.07407%",
+                                                                        position_left="20.83333%")
+    clock = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_clock_properties)
+
+    # Create man shape
+    slideitem_man_properties = qixe.structs.slideitem_shape_properties(visualization_type="man",
+                                                                        position_width="12.50000%",
+                                                                        position_height="22.21840%",
+                                                                        position_top="74.07407%",
+                                                                        position_left="35.41667%")
+    man = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_man_properties)
+
+    # Create woman shape
+    slideitem_woman_properties = qixe.structs.slideitem_shape_properties(visualization_type="woman",
+                                                                        position_width="12.50000%",
+                                                                        position_height="22.21840%",
+                                                                        position_top="74.07407%",
+                                                                        position_left="50.00000%")
+    woman = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_woman_properties)
+
+    # Create running man shape
+    slideitem_running_man_properties = qixe.structs.slideitem_shape_properties(visualization_type="running_man",
+                                                                            position_width="12.50000%",
+                                                                            position_height="22.21840%",
+                                                                            position_top="74.07407%",
+                                                                            position_left="64.58333%")
+    running_man = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_running_man_properties)
+
+    # Create star shape
+    slideitem_star_properties = qixe.structs.slideitem_shape_properties(visualization_type="star",
+                                                                            position_width="12.50000%",
+                                                                            position_height="22.21840%",
+                                                                            position_top="74.07407%",
+                                                                            position_left="79.16667%")
+    star = qixe.egoa.create_child(handle=slide_3_handle, prop=slideitem_star_properties)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Create objects on slide 4
+    # ------------------------------------------------------------------------------------------------------------------
+
+    # Create Text title
+    slide_4_slideitem_title_properties = qixe.structs.slideitem_text_properties(visualization_type="title",
+                                                                                style_text="Shapes 3")
+    slide_4_title = qixe.egoa.create_child(handle=slide_4_handle, prop=slide_4_slideitem_title_properties)
+
+    # Create tick shape
+    slideitem_tick_properties = qixe.structs.slideitem_shape_properties(visualization_type="tick",
+                                                                         position_width="12.50000%",
+                                                                         position_height="22.21840%",
+                                                                         position_top="22.22222%",
+                                                                         position_left="6.25000%")
+    tick = qixe.egoa.create_child(handle=slide_4_handle, prop=slideitem_tick_properties)
+
+    # Create cross shape
+    slideitem_cross_properties = qixe.structs.slideitem_shape_properties(visualization_type="cross",
+                                                                       position_width="12.50000%",
+                                                                       position_height="22.21840%",
+                                                                       position_top="22.22222%",
+                                                                       position_left="20.83333%")
+    cross = qixe.egoa.create_child(handle=slide_4_handle, prop=slideitem_cross_properties)
+
+    # Create banned shape
+    slideitem_banned_properties = qixe.structs.slideitem_shape_properties(visualization_type="banned",
+                                                                       position_width="12.50000%",
+                                                                       position_height="22.21840%",
+                                                                       position_top="22.22222%",
+                                                                       position_left="35.41667%")
+    banned = qixe.egoa.create_child(handle=slide_4_handle, prop=slideitem_banned_properties)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Create objects on slide 5
+    # ------------------------------------------------------------------------------------------------------------------
+
+    # Create Text title
+    slide_5_slideitem_title_properties = qixe.structs.slideitem_text_properties(visualization_type="title",
+                                                                                style_text="Straight table")
+    slide_5_title = qixe.egoa.create_child(handle=slide_5_handle, prop=slide_5_slideitem_title_properties)
+
+    # Create snapshot
+    snapshot_1 = qixe.create_snapshot(app_handle=app_handle, object_id=sn_table_1_id, snapshot_title="Straight table",
+                                    snapshot_description="API generated snapshot")
+    snapshot_1_id = qixe.get_id(snapshot_1)
+
+    # Embed snapshot into slide 5
+    qixe.embed_snapshot(app_handle=app_handle, snapshot_id=snapshot_1_id, slide_id=slide_5_id)
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # Create objects on slide 6
+    # ------------------------------------------------------------------------------------------------------------------
+
+    # Create Text title
+    slide_6_slideitem_title_properties = qixe.structs.slideitem_text_properties(visualization_type="title",
+                                                                                style_text="Pivot table")
+    slide_6_title = qixe.egoa.create_child(handle=slide_6_handle, prop=slide_6_slideitem_title_properties)
+
+    # Create snapshot
+    snapshot_2 = qixe.create_snapshot(app_handle=app_handle, object_id=pivot_table_1_id, snapshot_title="Pivot table",
+                                      snapshot_description="API generated snapshot")
+    snapshot_2_id = qixe.get_id(snapshot_2)
+
+    # Embed snapshot into slide 6
+    qixe.embed_snapshot(app_handle=app_handle, snapshot_id=snapshot_2_id, slide_id=slide_6_id)
+
+
     # Save app
     save_sample_app(qixe, app_handle)
 
     return (app_handle, dim_1_id, dim_2_id, dim_3_id, measure_1_id, measure_2_id, measure_3_id, sheet_1_id,
             filterpane_1_id, table_1_id, sheet_2_id, filterpane_2_id, pivot_table_1_id, sheet_3_id, filterpane_3_id,
             sn_table_1_id, sheet_4_id, filterpane_4_id, sn_pivot_table_1_id)
-
 
 
 def save_sample_app(qixe, app_handle: int):
