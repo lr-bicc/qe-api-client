@@ -115,7 +115,7 @@ class EngineAppApi:
         except KeyError:
             return response['error']
 
-    def get_object(self, app_handle: int, object_id):
+    def get_object(self, app_handle: int, object_id: str):
         """
         Retrieves a specific object from the app identified by the document handle.
 
@@ -757,5 +757,25 @@ class EngineAppApi:
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']
+        except KeyError:
+            return response['error']
+
+
+    def get_bookmark(self, app_handle: int, bookmark_id: str):
+        """
+        Retrieves a specific bookmark from the app identified by the document handle.
+
+        Parameters:
+            app_handle (int): The handle identifying the app document.
+            bookmark_id (str): The ID of the bookmark to retrieve.
+
+        Returns:
+            dict: The retrieved object (qReturn). In case of an error, returns the error information.
+        """
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": app_handle, "method": "GetBookmark",
+                          "params": {"qId": bookmark_id}})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
+        try:
+            return response['result']['qReturn']
         except KeyError:
             return response['error']
