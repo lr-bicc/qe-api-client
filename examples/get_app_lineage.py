@@ -9,7 +9,7 @@ conn = utils.create_connection()
 sample_app = utils.create_sample_app(conn)
 
 # Get app handle
-app_handle = sample_app[0]
+app_handle = sample_app["appHandle"]
 
 # Retrieves a list with an app lineage data
 app_lineage = conn.get_app_lineage(app_handle)

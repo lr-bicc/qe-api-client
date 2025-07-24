@@ -9,7 +9,7 @@ conn = utils.create_connection()
 sample_app = utils.create_sample_app(conn)
 
 # Get app handle
-app_handle = sample_app[0]
+app_handle = sample_app["appHandle"]
 
 # Define dimensions and measures
 list_of_dimensions = ["Dim1", "Dim2", "Dim3"]

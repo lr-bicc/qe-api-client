@@ -7,13 +7,7 @@ conn = utils.create_connection()
 
 # Create a sample app
 sample_app = utils.create_sample_app(conn)
-
-# Get app handle
-app_handle = sample_app["appHandle"]
-
-# Retrieves a list with all sheets and their objects in the app containing metadata
-sheet_list = conn.get_app_sheets(app_handle)
-print(sheet_list.to_string())
+print(sample_app)
 
 # close engine connection
 utils.close_connection(conn)

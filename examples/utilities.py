@@ -782,9 +782,15 @@ def create_sample_app(qixe):
     # Save app
     save_sample_app(qixe, app_handle)
 
-    return (app_handle, dim_1_id, dim_2_id, dim_3_id, measure_1_id, measure_2_id, measure_3_id, sheet_1_id,
-            filterpane_1_id, table_1_id, sheet_2_id, filterpane_2_id, pivot_table_1_id, sheet_3_id, filterpane_3_id,
-            sn_table_1_id, sheet_4_id, filterpane_4_id, sn_pivot_table_1_id)
+    # return (app_handle, dim_1_id, dim_2_id, dim_3_id, measure_1_id, measure_2_id, measure_3_id, sheet_1_id,
+    #         filterpane_1_id, table_1_id, sheet_2_id, filterpane_2_id, pivot_table_1_id, sheet_3_id, filterpane_3_id,
+    #         sn_table_1_id, sheet_4_id, filterpane_4_id, sn_pivot_table_1_id)
+    return {"appHandle": app_handle, "dimension1Id": dim_1_id, "dimension2Id": dim_2_id, "dimension3Id": dim_3_id,
+            "measure1Id": measure_1_id, "measure2Id": measure_2_id, "measure3Id": measure_3_id, "sheet1Id": sheet_1_id,
+            "filterpane1Id": filterpane_1_id, "table1Id": table_1_id, "sheet2Id": sheet_2_id,
+            "filterpane2Id": filterpane_2_id, "pivotTable1Id": pivot_table_1_id, "sheet3Id": sheet_3_id,
+            "filterpane3Id": filterpane_3_id, "straightTable1Id": sn_table_1_id, "sheet4Id": sheet_4_id,
+            "filterpane4Id": filterpane_4_id, "newPivotTable1Id": sn_pivot_table_1_id}
 
 
 def save_sample_app(qixe, app_handle: int):

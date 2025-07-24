@@ -9,19 +9,19 @@ conn = utils.create_connection()
 sample_app = utils.create_sample_app(conn)
 
 # Get app handle
-app_handle = sample_app[0]
+app_handle = sample_app["appHandle"]
 
 # Get table id
-table_1_id = sample_app[9]
+table_1_id = sample_app["table1Id"]
 
 # Get pivot table id
-pivot_table_1_id = sample_app[12]
+pivot_table_1_id = sample_app["pivotTable1Id"]
 
 # Get straight table id
-sn_table_1_id = sample_app[15]
+sn_table_1_id = sample_app["straightTable1Id"]
 
 # Get new pivot table id
-sn_pivot_table_1_id = sample_app[18]
+sn_pivot_table_1_id = sample_app["newPivotTable1Id"]
 
 # Retrieves the content of the table as dataframe
 table_data = conn.get_chart_data(app_handle, table_1_id)
