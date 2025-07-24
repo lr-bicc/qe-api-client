@@ -9,13 +9,13 @@ conn = utils.create_connection()
 sample_app = utils.create_sample_app(conn)
 
 # Get app handle
-app_handle = sample_app[0]
+app_handle = sample_app["appHandle"]
 
 # Get IDs of master dimensions and measures
-dim_2_id = sample_app[2]
-dim_3_id = sample_app[3]
-measure_2_id = sample_app[5]
-measure_3_id = sample_app[6]
+dim_2_id = sample_app["dimension2Id"]
+dim_3_id = sample_app["dimension3Id"]
+measure_2_id = sample_app["measure2Id"]
+measure_3_id = sample_app["measure3Id"]
 
 # Self-defined dimensions and measures
 list_of_dimensions = ["Dim1"]
