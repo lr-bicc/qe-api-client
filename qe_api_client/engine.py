@@ -532,7 +532,7 @@ class QixEngine:
         chart_obj_layout["qIncludeVariables"] = True
 
         # Build the special snapshot parameters for the different chart types.
-        if visualization in ["sn-table", "pivot-table"]:
+        if visualization in ["pivot-table"]:
             # Attribut "snapshotData" added
             chart_obj_layout["snapshotData"] = {
                 "object": {
@@ -544,6 +544,65 @@ class QixEngine:
                     }
                 },
                 "rtl": rtl,
+                "parent": {
+                    "h": parent_height,
+                    "w": parent_width
+                }
+            }
+
+        elif visualization in ["sn-table"]:
+            # Attribut "snapshotData" added
+            chart_obj_layout["snapshotData"] = {
+				"object": {
+					"size": {
+						"w": object_width,
+						"h": object_height,
+						"boundingClientWidth": bounding_client_width,
+						"boundingClientHeight": bounding_client_height
+					}
+				},
+				"rtl": rtl,
+				"content": {
+					"scrollLeft": 0,
+					"visibleLeft": 0,
+					"visibleWidth": 6,
+					"visibleTop": 0,
+					"visibleHeight": 18,
+					"rowsPerPage": 18,
+					"page": 0,
+					"size": {
+						"width": object_width,
+						"height": object_height
+					},
+					"estimatedRowHeight": 25
+				},
+				"parent": {
+					"h": parent_height,
+					"w": parent_width
+				}
+			}
+
+        elif visualization in ["sn-pivot-table"]:
+            # Attribut "snapshotData" added
+            chart_obj_layout["snapshotData"] = {
+                "object": {
+                    "size": {
+                        "w": object_width,
+                        "h": object_height,
+                        "boundingClientWidth": bounding_client_width,
+                        "boundingClientHeight": bounding_client_height
+                    }
+                },
+                "rtl": rtl,
+                "content": {
+                    "qPivotDataPages": chart_obj_layout["qHyperCube"]["qPivotDataPages"],
+                    "scrollTop": 0,
+                    "scrollLeft": 0,
+                    "leftGridScrollLeft": 0,
+                    "topGridScrollTop": 0,
+                    "page": 0,
+                    "rowsPerPage": 15000
+                },
                 "parent": {
                     "h": parent_height,
                     "w": parent_width
