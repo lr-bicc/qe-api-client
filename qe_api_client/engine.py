@@ -454,7 +454,7 @@ class QixEngine:
 
 
     def create_snapshot(self, app_handle: int, object_id: str, snapshot_title: str = "", snapshot_description: str = "",
-        object_width: float = 1280, object_height: float = 720, bounding_client_width: float = 1280,
+        show_titles: bool = True, object_width: float = 1280, object_height: float = 720, bounding_client_width: float = 1280,
         bounding_client_height: float = 720, rtl: bool = False, parent_width: float = 1280, parent_height: float = 720,
         content_width: float = 1280, content_height: float = 720, chart_data_scroll_offset_start: int = 0,
         chart_data_scroll_offset_end: int = 53, chart_data_legend_scroll_offset: int = 0, chart_data_zoom_min = 0,
@@ -467,6 +467,7 @@ class QixEngine:
             object_id (str): The id of the object.
             snapshot_title (str): The title of the snapshot.
             snapshot_description (str): The description of the snapshot.
+            show_titles (bool): Enables / disables chart title.
             object_width (float): The width of the snapshot object.
             object_height (float): The height of the snapshot object.
             bounding_client_width (float): The width of the bounding client.
@@ -499,6 +500,9 @@ class QixEngine:
 
         # Attribut "qInfo" changed
         chart_obj_layout["qInfo"] = {"qType": "snapshot"}
+
+        # Attribut "showTitles" changed
+        chart_obj_layout["showTitles"] = show_titles
 
         # Attribut "qMetaDef" added
         chart_obj_layout["qMetaDef"] = {"title": snapshot_title, "description": snapshot_description}
