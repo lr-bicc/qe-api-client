@@ -1,0 +1,517 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Global API Module &mdash; Qlik Engine API Client 2.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=51b770b3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Structs module" href="../structs.html" />
+    <link rel="prev" title="Generic Variable API Module" href="engine_generic_variable_api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Qlik Engine API Client
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API Client Modules:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../engine_communicator.html">Engine API Communicator Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../engine_api.html">Engine API Module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Classes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="engine_app_api.html">App API Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine_field_api.html">Field API Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine_generic_dimension_api.html">Generic Dimension API Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine_generic_measure_api.html">Generic Measure API Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine_generic_object_api.html">Generic Object API Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine_generic_variable_api.html">Generic Variable API Module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Global API Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.abort_all"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.abort_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.abort_request"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.abort_request()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.configure_reload"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.configure_reload()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.copy_app"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.copy_app()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.create_app"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.create_app()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.create_session_app"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.create_session_app()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.create_session_app_from_app"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.create_session_app_from_app()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.delete_app"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.delete_app()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.export_app"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.export_app()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_active_doc"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.get_active_doc()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_auth_user"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.get_auth_user()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_doc_list"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.get_doc_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_odbc_dsns"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.get_odbc_dsns()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_ole_dbs"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.get_ole_dbs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_os_name"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.get_os_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_progress"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.get_progress()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.is_desktop_mode"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.is_desktop_mode()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.is_valid_connect_string"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.is_valid_connect_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.list_databases_from_odbc"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.list_databases_from_odbc()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.open_doc"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.open_doc()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.replace_app_from_id"><code class="docutils literal notranslate"><span class="pre">EngineGlobalApi.replace_app_from_id()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../structs.html">Structs module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Qlik Engine API Client</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API Classes</a></li>
+      <li class="breadcrumb-item active">Global API Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api_classes/engine_global_api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-qe_api_client.api_classes.engine_global_api">
+<span id="global-api-module"></span><h1>Global API Module<a class="headerlink" href="#module-qe_api_client.api_classes.engine_global_api" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qe_api_client.api_classes.engine_global_api.</span></span><span class="sig-name descname"><span class="pre">EngineGlobalApi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">socket</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to interact with the Qlik Engine Global API using a provided socket interface.</p>
+<p>Attributes:
+engine_socket : object</p>
+<blockquote>
+<div><p>The socket object used to communicate with the Qlik Engine.</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.abort_all">
+<span class="sig-name descname"><span class="pre">abort_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.abort_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.abort_all" title="Link to this definition"></a></dt>
+<dd><p>Aborts all ongoing commands in Qlik Sense.</p>
+<p>Returns:
+dict: Information about the abort result.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.abort_request">
+<span class="sig-name descname"><span class="pre">abort_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.abort_request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.abort_request" title="Link to this definition"></a></dt>
+<dd><p>Aborts a specific request in Qlik Sense.</p>
+<p>Parameters:
+request_id : str</p>
+<blockquote>
+<div><p>The identifier of the request to abort.</p>
+</div></blockquote>
+<p>Returns:
+dict: Information about the abort result.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.configure_reload">
+<span class="sig-name descname"><span class="pre">configure_reload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cancel_on_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_error_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interact_on_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.configure_reload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.configure_reload" title="Link to this definition"></a></dt>
+<dd><p>Configures the reload settings for a Qlik Sense application.</p>
+<p>Parameters:
+cancel_on_error : bool, optional</p>
+<blockquote>
+<div><p>If True, the script execution is halted on error (default is False).</p>
+</div></blockquote>
+<dl class="simple">
+<dt>use_error_data<span class="classifier">bool, optional</span></dt><dd><p>If True, any script execution error is returned in qErrorData (default is True).</p>
+</dd>
+<dt>interact_on_error<span class="classifier">bool, optional</span></dt><dd><p>If True, script execution is halted on error and awaits interaction (default is False).</p>
+</dd>
+</dl>
+<p>Returns:
+dict: Information about the configuration result.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.copy_app">
+<span class="sig-name descname"><span class="pre">copy_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_app_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src_app_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qIds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.copy_app"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.copy_app" title="Link to this definition"></a></dt>
+<dd><p>Copies an app in Qlik Sense from a source app ID to a target app ID.</p>
+<p>Parameters:
+target_app_id : str</p>
+<blockquote>
+<div><p>The identifier (GUID) of the target app.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>src_app_id<span class="classifier">str</span></dt><dd><p>The identifier (GUID) of the source app.</p>
+</dd>
+<dt>qIds<span class="classifier">list, optional</span></dt><dd><p>List of object identifiers to copy. If empty, all objects are copied (default is [“”]).</p>
+</dd>
+</dl>
+<p>Returns:
+dict: Information about the copy result.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.create_app">
+<span class="sig-name descname"><span class="pre">create_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.create_app"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.create_app" title="Link to this definition"></a></dt>
+<dd><p>Creates a new application in Qlik Sense.</p>
+<p>Parameters:
+app_name : str</p>
+<blockquote>
+<div><p>The name of the application to be created.</p>
+</div></blockquote>
+<p>Returns:
+dict: Information about the created app, including its ID.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.create_session_app">
+<span class="sig-name descname"><span class="pre">create_session_app</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.create_session_app"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.create_session_app" title="Link to this definition"></a></dt>
+<dd><p>Creates an empty session app in Qlik Sense.</p>
+<p>Returns:
+dict: Information about the created session app.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.create_session_app_from_app">
+<span class="sig-name descname"><span class="pre">create_session_app_from_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src_app_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.create_session_app_from_app"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.create_session_app_from_app" title="Link to this definition"></a></dt>
+<dd><p>Creates a session app in Qlik Sense from an existing app.</p>
+<p>Parameters:
+src_app_id : str</p>
+<blockquote>
+<div><p>The identifier (GUID) of the source app.</p>
+</div></blockquote>
+<p>Returns:
+dict: Information about the created session app.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.delete_app">
+<span class="sig-name descname"><span class="pre">delete_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.delete_app"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.delete_app" title="Link to this definition"></a></dt>
+<dd><p>Deletes an application from the Qlik Sense repository or file system.</p>
+<p>Parameters:
+app_name : str</p>
+<blockquote>
+<div><p>The name or identifier of the app to delete.</p>
+</div></blockquote>
+<p>Returns:
+dict: Information about the deletion result.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.export_app">
+<span class="sig-name descname"><span class="pre">export_app</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src_app_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qIds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.export_app"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.export_app" title="Link to this definition"></a></dt>
+<dd><p>Exports an app from the Qlik Sense repository to the file system.</p>
+<p>This operation is available only in Qlik Sense Enterprise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_path</strong> (<em>str</em>) – The path and name of the target app file to export to.</p></li>
+<li><p><strong>src_app_id</strong> (<em>str</em>) – The GUID of the source app in the Qlik Sense repository.</p></li>
+<li><p><strong>qIds</strong> (<em>list</em><em> of </em><em>str</em>) – An array of identifiers (GUIDs) for the objects in the app to be exported.
+The list must contain the GUIDs of all these objects.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The result of the export operation. In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_active_doc">
+<span class="sig-name descname"><span class="pre">get_active_doc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.get_active_doc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_active_doc" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the currently active document in Qlik Sense.</p>
+<p>Returns:
+dict: Information about the active document.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_auth_user">
+<span class="sig-name descname"><span class="pre">get_auth_user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.get_auth_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_auth_user" title="Link to this definition"></a></dt>
+<dd><p>Retrieves information about the authenticated user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>The result containing information about the authenticated user.</dt><dd><p>In case of an error, returns the error information.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_doc_list">
+<span class="sig-name descname"><span class="pre">get_doc_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.get_doc_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_doc_list" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a list of documents available in the Qlik Sense environment.</p>
+<p>Returns:
+list of dict: An array of document objects containing details such as doc name, size, and file time.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_odbc_dsns">
+<span class="sig-name descname"><span class="pre">get_odbc_dsns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.get_odbc_dsns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_odbc_dsns" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a list of all ODBC connectors installed on the Qlik Sense server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>A dictionary containing the details of the ODBC connectors installed.</dt><dd><p>In case of an error, returns the error information.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_ole_dbs">
+<span class="sig-name descname"><span class="pre">get_ole_dbs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.get_ole_dbs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_ole_dbs" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a list of all OLEDB providers installed on the Qlik Sense server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>A dictionary containing the details of the OLEDB providers installed.</dt><dd><p>In case of an error, returns the error information.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_os_name">
+<span class="sig-name descname"><span class="pre">get_os_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.get_os_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_os_name" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the operating system name where the Qlik Sense Engine is running.</p>
+<p>Returns:
+str: The OS name, typically “windowsNT”.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_progress">
+<span class="sig-name descname"><span class="pre">get_progress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.get_progress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_progress" title="Link to this definition"></a></dt>
+<dd><p>Provides information about the progress of DoReload and DoSave calls.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request_id</strong> (<em>int</em>) – Identifier of the DoReload or DoSave request.
+If set to 0, only limited information is provided.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A dictionary containing progress messages and error messages.</dt><dd><p>If request_id is 0, detailed information like start and end times is not provided.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.is_desktop_mode">
+<span class="sig-name descname"><span class="pre">is_desktop_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.is_desktop_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.is_desktop_mode" title="Link to this definition"></a></dt>
+<dd><p>Checks if the user is working in Qlik Sense Desktop mode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>A dictionary indicating whether the user is in desktop mode.</dt><dd><p>In case of an error, returns the error information.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.is_valid_connect_string">
+<span class="sig-name descname"><span class="pre">is_valid_connect_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connect_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connect_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connect_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mod_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sso_passthrough</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'LOG_ON_SERVICE_USER'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.is_valid_connect_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.is_valid_connect_string" title="Link to this definition"></a></dt>
+<dd><p>Checks if a connection string is valid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>connect_name</strong> (<em>str</em>) – Name of the connection.</p></li>
+<li><p><strong>connect_string</strong> (<em>str</em>) – Connection string (e.g., ODBC CONNECT TO [&lt;provider name&gt;]).</p></li>
+<li><p><strong>connect_type</strong> (<em>str</em>) – Type of the connection (ODBC, OLEDB, CUSTOM, etc.).</p></li>
+<li><p><strong>user_name</strong> (<em>str</em>) – Name of the user creating the connection.</p></li>
+<li><p><strong>password</strong> (<em>str</em>) – Password of the user creating the connection.</p></li>
+<li><p><strong>mod_date</strong> (<em>str</em><em>, </em><em>optional</em>) – Modification date of the connection.</p></li>
+<li><p><strong>meta</strong> (<em>str</em><em>, </em><em>optional</em>) – Metadata information about the connection.</p></li>
+<li><p><strong>sso_passthrough</strong> (<em>str</em><em>, </em><em>optional</em>) – User credentials to use (LOG_ON_SERVICE_USER, LOG_ON_CURRENT_USER).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A dictionary containing validation information.</dt><dd><p>In case of an error, returns the error information.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.list_databases_from_odbc">
+<span class="sig-name descname"><span class="pre">list_databases_from_odbc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connect_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connect_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connect_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mod_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sso_passthrough</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'LOG_ON_SERVICE_USER'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.list_databases_from_odbc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.list_databases_from_odbc" title="Link to this definition"></a></dt>
+<dd><p>Lists the databases available in an ODBC, OLEDB, or CUSTOM data source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>connect_name</strong> (<em>str</em>) – Name of the connection.</p></li>
+<li><p><strong>connect_string</strong> (<em>str</em>) – Connection string (e.g., ODBC CONNECT TO [&lt;provider name&gt;]).</p></li>
+<li><p><strong>connect_type</strong> (<em>str</em>) – Type of the connection (ODBC, OLEDB, CUSTOM, etc.).</p></li>
+<li><p><strong>user_name</strong> (<em>str</em>) – Name of the user creating the connection.</p></li>
+<li><p><strong>password</strong> (<em>str</em>) – Password of the user creating the connection.</p></li>
+<li><p><strong>mod_date</strong> (<em>str</em><em>, </em><em>optional</em>) – Modification date of the connection.</p></li>
+<li><p><strong>meta</strong> (<em>str</em><em>, </em><em>optional</em>) – Metadata information about the connection.</p></li>
+<li><p><strong>sso_passthrough</strong> (<em>str</em><em>, </em><em>optional</em>) – User credentials to use (LOG_ON_SERVICE_USER, LOG_ON_CURRENT_USER).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A dictionary containing the list of databases.</dt><dd><p>In case of an error, returns the error information.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.open_doc">
+<span class="sig-name descname"><span class="pre">open_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.open_doc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.open_doc" title="Link to this definition"></a></dt>
+<dd><p>Opens a document (app) in Qlik Sense and returns details about it.</p>
+<p>Parameters:
+app_name : str</p>
+<blockquote>
+<div><p>The name of the app to open.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>user_name<span class="classifier">str, optional</span></dt><dd><p>The username for authentication (default is ‘’).</p>
+</dd>
+<dt>password<span class="classifier">str, optional</span></dt><dd><p>The password for authentication (default is ‘’).</p>
+</dd>
+<dt>serial<span class="classifier">str, optional</span></dt><dd><p>The serial key for authentication (default is ‘’).</p>
+</dd>
+<dt>no_data<span class="classifier">bool, optional</span></dt><dd><p>If True, opens the app without data (default is False).</p>
+</dd>
+</dl>
+<p>Returns:
+dict: Information about the opened document, including handle, generic ID, and type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_global_api.EngineGlobalApi.replace_app_from_id">
+<span class="sig-name descname"><span class="pre">replace_app_from_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src_app_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qIds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_global_api.html#EngineGlobalApi.replace_app_from_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.replace_app_from_id" title="Link to this definition"></a></dt>
+<dd><p>Replaces an app with the objects from a source app.</p>
+<p>The list of objects in the app to be replaced must be defined in qIds.
+This operation is available only in Qlik Sense Enterprise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_app_id</strong> (<em>str</em>) – The GUID of the target app to be replaced.</p></li>
+<li><p><strong>src_app_id</strong> (<em>str</em>) – The GUID of the source app in the Qlik Sense repository.</p></li>
+<li><p><strong>qIds</strong> (<em>list</em><em> of </em><em>str</em>) – An array of GUIDs for the objects in the target app to be replaced.
+Only QRS-approved GUIDs are applicable. If qIds is empty,
+the engine automatically creates a list containing all QRS-approved objects.
+If the array contains objects not present in the source app,
+those objects are removed from the target app.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The result of the replace operation. In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="engine_generic_variable_api.html" class="btn btn-neutral float-left" title="Generic Variable API Module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../structs.html" class="btn btn-neutral float-right" title="Structs module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Rumen Vasilev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

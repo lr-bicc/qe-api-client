@@ -1,0 +1,716 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>App API Module &mdash; Qlik Engine API Client 2.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=51b770b3"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Field API Module" href="engine_field_api.html" />
+    <link rel="prev" title="API Classes" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Qlik Engine API Client
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API Client Modules:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../engine_communicator.html">Engine API Communicator Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../engine_api.html">Engine API Module</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Classes</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">App API Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi"><code class="docutils literal notranslate"><span class="pre">EngineAppApi</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_script"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_script()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.set_script"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.set_script()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.do_reload"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.do_reload()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.do_reload_ex"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.do_reload_ex()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_app_layout"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_app_layout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_object"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_field"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_field()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.create_object"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.create_object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.add_alternate_state"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.add_alternate_state()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.add_field_from_expression"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.add_field_from_expression()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.apply_bookmark"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.apply_bookmark()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.check_expression"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.check_expression()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.check_script"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.check_script()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.clear_all"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.clear_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.create_bookmark"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.create_bookmark()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.create_connection"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.create_connection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.create_dimension"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.create_dimension()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.create_measure"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.create_measure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.create_object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.create_session_object"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.create_session_object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.create_session_variable"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.create_session_variable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.create_variable"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.create_variable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_dimension"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.destroy_dimension()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_measure"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.destroy_measure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_object"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.destroy_object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_session_object"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.destroy_session_object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_session_variable"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.destroy_session_variable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_variable_by_id"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.destroy_variable_by_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.do_reload()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.do_reload_ex()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.do_save"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.do_save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.expr_eval"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.expr_eval()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_all_infos"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_all_infos()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_app_layout()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_app_properties"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_app_properties()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_bookmark"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_bookmark()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_bookmarks"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_bookmarks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_connection"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_connection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_connections"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_connections()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_databases"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_databases()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_db_info"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_db_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_db_owners"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_db_owners()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_db_table_fields"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_db_table_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_db_table_preview"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_db_table_preview()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_db_tables"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_db_tables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_empty_script"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_empty_script()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_field()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_field_descr"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_field_descr()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_file_table_ex"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_file_table_ex()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_file_table_fields"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_file_table_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_file_table_preview"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_file_table_preview()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_file_tables"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_file_tables()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_folder_items_for_connection"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_folder_items_for_connection()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_lineage"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_lineage()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_objects"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_objects()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_script()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_set_analysis"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_set_analysis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_variable_by_id"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.get_variable_by_id()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">EngineAppApi.set_script()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="engine_field_api.html">Field API Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine_generic_dimension_api.html">Generic Dimension API Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine_generic_measure_api.html">Generic Measure API Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine_generic_object_api.html">Generic Object API Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine_generic_variable_api.html">Generic Variable API Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="engine_global_api.html">Global API Module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../structs.html">Structs module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Qlik Engine API Client</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API Classes</a></li>
+      <li class="breadcrumb-item active">App API Module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api_classes/engine_app_api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-qe_api_client.api_classes.engine_app_api">
+<span id="app-api-module"></span><h1>App API Module<a class="headerlink" href="#module-qe_api_client.api_classes.engine_app_api" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qe_api_client.api_classes.engine_app_api.</span></span><span class="sig-name descname"><span class="pre">EngineAppApi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">socket</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>API class for interacting with Qlik Sense engine’s app-related functionalities, such as script management,
+reloading, and object creation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_script">
+<span class="sig-name descname"><span class="pre">get_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_script" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the script of the app.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.set_script">
+<span class="sig-name descname"><span class="pre">set_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">script</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.set_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.set_script" title="Link to this definition"></a></dt>
+<dd><p>Sets the script of the app.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.do_reload">
+<span class="sig-name descname"><span class="pre">do_reload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.do_reload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.do_reload" title="Link to this definition"></a></dt>
+<dd><p>Triggers a reload of the app.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.do_reload_ex">
+<span class="sig-name descname"><span class="pre">do_reload_ex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.do_reload_ex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.do_reload_ex" title="Link to this definition"></a></dt>
+<dd><p>Triggers an extended reload of the app.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_app_layout">
+<span class="sig-name descname"><span class="pre">get_app_layout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_app_layout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_app_layout" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the layout structure of the app.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_object">
+<span class="sig-name descname"><span class="pre">get_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_object" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a specific object from the app.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_field">
+<span class="sig-name descname"><span class="pre">get_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_field" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a specific field from the app.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.create_object">
+<span class="sig-name descname"><span class="pre">create_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">struct_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ob_struct</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.create_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.create_object" title="Link to this definition"></a></dt>
+<dd><p>Creates a new object in the app.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.add_alternate_state">
+<span class="sig-name descname"><span class="pre">add_alternate_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.add_alternate_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.add_alternate_state" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.add_field_from_expression">
+<span class="sig-name descname"><span class="pre">add_field_from_expression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expr_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.add_field_from_expression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.add_field_from_expression" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.apply_bookmark">
+<span class="sig-name descname"><span class="pre">apply_bookmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmark_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.apply_bookmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.apply_bookmark" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.check_expression">
+<span class="sig-name descname"><span class="pre">check_expression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expr_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.check_expression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.check_expression" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.check_script">
+<span class="sig-name descname"><span class="pre">check_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.check_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.check_script" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.clear_all">
+<span class="sig-name descname"><span class="pre">clear_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locked_also</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alt_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.clear_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.clear_all" title="Link to this definition"></a></dt>
+<dd><p>Clear selections in fields for current state. Locked fields are not cleared by default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doc_handle</strong> (<em>int</em>) – The handle identifying the app document.</p></li>
+<li><p><strong>locked_also</strong> (<em>bool</em>) – When true, clears the selection for locked fields.</p></li>
+<li><p><strong>alt_state</strong> (<em>str</em>) – Alternate state name. When set, applies to alternate state instead of current.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.create_bookmark">
+<span class="sig-name descname"><span class="pre">create_bookmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prop</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.create_bookmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.create_bookmark" title="Link to this definition"></a></dt>
+<dd><p>Creates a bookmark.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doc_handle</strong> (<em>int</em>) – The handle identifying the document.</p></li>
+<li><p><strong>prop</strong> (<em>dict</em>) – Bookmark properties.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The handle of the generic bookmark.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.create_connection">
+<span class="sig-name descname"><span class="pre">create_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connect_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connect_string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connect_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mod_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sso_passthrough</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'LOG_ON_SERVICE_USER'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.create_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.create_connection" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.create_dimension">
+<span class="sig-name descname"><span class="pre">create_dimension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prop</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.create_dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.create_dimension" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.create_measure">
+<span class="sig-name descname"><span class="pre">create_measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prop</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.create_measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.create_measure" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">create_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prop</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.create_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Creates a new object in the app identified by the document handle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doc_handle</strong> (<em>int</em>) – The handle identifying the app document.</p></li>
+<li><p><strong>prop</strong> (<em>dict</em>) – Information about the object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The created object (qReturn). In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.create_session_object">
+<span class="sig-name descname"><span class="pre">create_session_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prop</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.create_session_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.create_session_object" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.create_session_variable">
+<span class="sig-name descname"><span class="pre">create_session_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.create_session_variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.create_session_variable" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.create_variable">
+<span class="sig-name descname"><span class="pre">create_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.create_variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.create_variable" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_dimension">
+<span class="sig-name descname"><span class="pre">destroy_dimension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.destroy_dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_dimension" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_measure">
+<span class="sig-name descname"><span class="pre">destroy_measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measure_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.destroy_measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_measure" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_object">
+<span class="sig-name descname"><span class="pre">destroy_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.destroy_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_object" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_session_object">
+<span class="sig-name descname"><span class="pre">destroy_session_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.destroy_session_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_session_object" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_session_variable">
+<span class="sig-name descname"><span class="pre">destroy_session_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.destroy_session_variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_session_variable" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_variable_by_id">
+<span class="sig-name descname"><span class="pre">destroy_variable_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.destroy_variable_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.destroy_variable_by_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">do_reload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.do_reload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Triggers a reload of the app identified by the document handle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doc_handle</strong> (<em>int</em>) – The handle identifying the app document.</p></li>
+<li><p><strong>param_list</strong> (<em>list</em>) – A list of parameters for the reload operation. Default is an empty list.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The result of the reload operation. In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">do_reload_ex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.do_reload_ex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd><p>Triggers an extended reload of the app identified by the document handle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doc_handle</strong> (<em>int</em>) – The handle identifying the app document.</p></li>
+<li><p><strong>param_list</strong> (<em>list</em>) – A list of parameters for the extended reload operation. Default is an empty list.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The result of the extended reload operation. In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.do_save">
+<span class="sig-name descname"><span class="pre">do_save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.do_save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.do_save" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.expr_eval">
+<span class="sig-name descname"><span class="pre">expr_eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.expr_eval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.expr_eval" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_all_infos">
+<span class="sig-name descname"><span class="pre">get_all_infos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_all_infos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_all_infos" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">get_app_layout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_app_layout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the layout structure of the app identified by the document handle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>doc_handle</strong> (<em>int</em>) – The handle identifying the app document.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The layout structure of the app (qLayout). In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_app_properties">
+<span class="sig-name descname"><span class="pre">get_app_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_app_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_app_properties" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_bookmark">
+<span class="sig-name descname"><span class="pre">get_bookmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmark_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_bookmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_bookmark" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a specific bookmark from the app identified by the document handle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app_handle</strong> (<em>int</em>) – The handle identifying the app document.</p></li>
+<li><p><strong>bookmark_id</strong> (<em>str</em>) – The ID of the bookmark to retrieve.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The retrieved object (qReturn). In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_bookmarks">
+<span class="sig-name descname"><span class="pre">get_bookmarks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_bookmarks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_bookmarks" title="Link to this definition"></a></dt>
+<dd><p>Returns all bookmarks compatible with options.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doc_handle</strong> (<em>int</em>) – The handle identifying the document.</p></li>
+<li><p><strong>qOptions</strong> (<em>dict</em>) – Bookmark type filter and requested properties.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The resulting list.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_connection">
+<span class="sig-name descname"><span class="pre">get_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_connection" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_connections">
+<span class="sig-name descname"><span class="pre">get_connections</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_connections"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_connections" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_databases">
+<span class="sig-name descname"><span class="pre">get_databases</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_databases"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_databases" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_db_info">
+<span class="sig-name descname"><span class="pre">get_db_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_db_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_db_info" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_db_owners">
+<span class="sig-name descname"><span class="pre">get_db_owners</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_db_owners"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_db_owners" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_db_table_fields">
+<span class="sig-name descname"><span class="pre">get_db_table_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_owner</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_db_table_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_db_table_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_db_table_preview">
+<span class="sig-name descname"><span class="pre">get_db_table_preview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_owner</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_db_table_preview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_db_table_preview" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_db_tables">
+<span class="sig-name descname"><span class="pre">get_db_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db_owner</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_db_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_db_tables" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_empty_script">
+<span class="sig-name descname"><span class="pre">get_empty_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_empty_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_empty_script" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">get_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a specific field from the app identified by the document handle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doc_handle</strong> (<em>int</em>) – The handle identifying the app document.</p></li>
+<li><p><strong>field_name</strong> (<em>str</em>) – The name of the field to retrieve.</p></li>
+<li><p><strong>state_name</strong> (<em>str</em>) – The name of the alternate state. Default state is current selections.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Object interface.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_field_descr">
+<span class="sig-name descname"><span class="pre">get_field_descr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_field_descr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_field_descr" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_file_table_ex">
+<span class="sig-name descname"><span class="pre">get_file_table_ex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_fmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_file_table_ex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_file_table_ex" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_file_table_fields">
+<span class="sig-name descname"><span class="pre">get_file_table_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_fmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_file_table_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_file_table_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_file_table_preview">
+<span class="sig-name descname"><span class="pre">get_file_table_preview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_fmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_file_table_preview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_file_table_preview" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_file_tables">
+<span class="sig-name descname"><span class="pre">get_file_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rel_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_fmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_file_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_file_tables" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_folder_items_for_connection">
+<span class="sig-name descname"><span class="pre">get_folder_items_for_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_folder_items_for_connection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_folder_items_for_connection" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_lineage">
+<span class="sig-name descname"><span class="pre">get_lineage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_lineage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_lineage" title="Link to this definition"></a></dt>
+<dd><p>Gets the lineage information of the app. The lineage information includes the LOAD and STORE statements from
+the data load script associated with this app.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>doc_handle</strong> (<em>int</em>) – The handle identifying the app document.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Information about the lineage of the data in the app.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">get_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a specific object from the app identified by the document handle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app_handle</strong> (<em>int</em>) – The handle identifying the app document.</p></li>
+<li><p><strong>object_id</strong> (<em>str</em>) – The ID of the object to retrieve.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The retrieved object (qReturn). In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_objects">
+<span class="sig-name descname"><span class="pre">get_objects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_objects" title="Link to this definition"></a></dt>
+<dd><p>Retrieves a specific object from the app identified by the document handle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>app_handle</strong> (<em>int</em>) – The handle identifying the app document.</p></li>
+<li><p><strong>object_id</strong> (<em>str</em>) – The ID of the object to retrieve.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The retrieved object (qReturn). In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">get_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the script of the app identified by the document handle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>doc_handle</strong> (<em>int</em>) – The handle identifying the app document.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The script of the app (qScript). In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_set_analysis">
+<span class="sig-name descname"><span class="pre">get_set_analysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bookmark_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_set_analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_set_analysis" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qe_api_client.api_classes.engine_app_api.EngineAppApi.get_variable_by_id">
+<span class="sig-name descname"><span class="pre">get_variable_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.get_variable_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#qe_api_client.api_classes.engine_app_api.EngineAppApi.get_variable_by_id" title="Link to this definition"></a></dt>
+<dd><p>Gets the handle of a variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doc_handle</strong> (<em>int</em>) – The handle identifying the document.</p></li>
+<li><p><strong>variable_id</strong> (<em>str</em>) – The id of the variable.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The handle of the generic variable.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">set_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_handle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">script</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/qe_api_client/api_classes/engine_app_api.html#EngineAppApi.set_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dd><p>Sets the script of the app identified by the document handle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doc_handle</strong> (<em>int</em>) – The handle identifying the app document.</p></li>
+<li><p><strong>script</strong> (<em>str</em>) – The script content to be set.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The result of setting the script. In case of an error, returns the error information.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="API Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="engine_field_api.html" class="btn btn-neutral float-right" title="Field API Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Rumen Vasilev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,410 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qe_api_client.api_classes.engine_generic_object_api &mdash; Qlik Engine API Client 2.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=51b770b3"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Qlik Engine API Client
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API Client Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../engine_communicator.html">Engine API Communicator Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../engine_api.html">Engine API Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_classes/index.html">API Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../structs.html">Structs module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Qlik Engine API Client</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">qe_api_client.api_classes.engine_generic_object_api</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for qe_api_client.api_classes.engine_generic_object_api</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+
+<div class="viewcode-block" id="EngineGenericObjectApi">
+<a class="viewcode-back" href="../../../api_classes/engine_generic_object_api.html#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EngineGenericObjectApi</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    API class for interacting with Qlik Sense engine&#39;s generic objects, such as hypercubes, lists, and other</span>
+<span class="sd">    data visualization objects.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        create_child(handle, params): Creates a generic object that is a child of another generic object.</span>
+<span class="sd">        get_layout(handle): Retrieves the layout structure of a generic object.</span>
+<span class="sd">        get_full_property_tree(handle): Retrieves the full property tree of a generic object.</span>
+<span class="sd">        get_effective_properties(handle): Retrieves the effective properties of a generic object.</span>
+<span class="sd">        get_hypercube_data(handle, path, pages): Retrieves the data from a hypercube.</span>
+<span class="sd">        get_hypercube_pivot_data(handle, path, pages): Retrieves the pivot data from a hypercube.</span>
+<span class="sd">        get_list_object_data(handle, path, pages): Retrieves the data from a list object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">socket</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the EngineGenericObjectApi with a given socket connection.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            socket (object): The socket connection to the Qlik Sense engine.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span> <span class="o">=</span> <span class="n">socket</span>
+
+<div class="viewcode-block" id="EngineGenericObjectApi.apply_patches">
+<a class="viewcode-back" href="../../../api_classes/engine_generic_object_api.html#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.apply_patches">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply_patches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">patches</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">soft_patch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Applies a patch to the properties of an object. Allows an update to some of the properties. It is possible to</span>
+<span class="sd">        apply a patch to the properties of a generic object, that is not persistent. Such a patch is called a soft patch.</span>
+<span class="sd">        In that case, the result of the operation on the properties (add, remove or delete) is not shown when doing</span>
+<span class="sd">        GetProperties, and only a GetLayout call shows the result of the operation. Properties that are not persistent</span>
+<span class="sd">        are called soft properties. Once the engine session is over, soft properties are cleared. It should not be</span>
+<span class="sd">        possible to patch &quot;/qInfo/qId&quot;, and it will be forbidden in the near future.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            handle (int): The handle identifying the generic object.</span>
+<span class="sd">            patches (list): List of patches.</span>
+<span class="sd">            soft_patch (bool, optional): If set to true, it means that the properties to be applied are not persistent.</span>
+<span class="sd">            The patch is a soft patch. The default value is false.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: Operation succeeded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="n">handle</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;ApplyPatches&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qPatches&quot;</span><span class="p">:</span> <span class="n">patches</span><span class="p">,</span> <span class="s2">&quot;qSoftPatch&quot;</span><span class="p">:</span> <span class="n">soft_patch</span><span class="p">}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="EngineGenericObjectApi.create_child">
+<a class="viewcode-back" href="../../../api_classes/engine_generic_object_api.html#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.create_child">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">prop</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">prop_for_this</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a generic object that is a child of another generic object.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            handle (int): The handle identifying the generic object.</span>
+<span class="sd">            prop (dict): Information about the child. It is possible to create a child that is linked to another object.</span>
+<span class="sd">            prop_for_this (dict, optional): Identifier of the parent&#39;s object. Should be set to update the properties of</span>
+<span class="sd">            the parent&#39;s object at the same time the child is created.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The layout structure of the generic object (qLayout). In case of an error, returns the error information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="n">handle</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;CreateChild&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qProp&quot;</span><span class="p">:</span> <span class="n">prop</span><span class="p">,</span> <span class="s2">&quot;qPropForThis&quot;</span><span class="p">:</span> <span class="n">prop_for_this</span><span class="p">}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s2">&quot;qReturn&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="EngineGenericObjectApi.get_layout">
+<a class="viewcode-back" href="../../../api_classes/engine_generic_object_api.html#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_layout">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the layout structure of a specific generic object.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            handle (int): The handle identifying the generic object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The layout structure of the generic object (qLayout). In case of an error, returns the error information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="n">handle</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;GetLayout&quot;</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">[]})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s2">&quot;qLayout&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="EngineGenericObjectApi.get_full_property_tree">
+<a class="viewcode-back" href="../../../api_classes/engine_generic_object_api.html#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_full_property_tree">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_full_property_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the full property tree of a specific generic object.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            handle (int): The handle identifying the generic object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The full property tree of the generic object (qPropEntry). In case of an error, returns the error information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="n">handle</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;GetFullPropertyTree&quot;</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">[]})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s1">&#39;qPropEntry&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="EngineGenericObjectApi.get_effective_properties">
+<a class="viewcode-back" href="../../../api_classes/engine_generic_object_api.html#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_effective_properties">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_effective_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the effective properties of a specific generic object.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            handle (int): The handle identifying the generic object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The effective properties of the generic object (qProp). In case of an error, returns the error information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="n">handle</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;GetEffectiveProperties&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s1">&#39;qProp&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="EngineGenericObjectApi.get_hypercube_data">
+<a class="viewcode-back" href="../../../api_classes/engine_generic_object_api.html#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_hypercube_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_hypercube_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pages</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the data from a specific hypercube in a generic object.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            handle (int): The handle identifying the generic object containing the hypercube.</span>
+<span class="sd">            path (str): The path to the hypercube definition within the object. Default is &quot;/qHyperCubeDef&quot;.</span>
+<span class="sd">            pages (list): A list of pages to retrieve from the hypercube data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The data from the hypercube. In case of an error, returns the error information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="n">handle</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;GetHyperCubeData&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qPath&quot;</span><span class="p">:</span> <span class="n">path</span><span class="p">,</span> <span class="s2">&quot;qPages&quot;</span><span class="p">:</span> <span class="n">pages</span><span class="p">}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="EngineGenericObjectApi.get_hypercube_pivot_data">
+<a class="viewcode-back" href="../../../api_classes/engine_generic_object_api.html#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_hypercube_pivot_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_hypercube_pivot_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pages</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the pivot data from a specific hypercube in a generic object.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            handle (int): The handle identifying the generic object containing the hypercube.</span>
+<span class="sd">            path (str): The path to the hypercube definition within the object. Default is &quot;/qHyperCubeDef&quot;.</span>
+<span class="sd">            pages (list): A list of pages to retrieve from the hypercube pivot data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The pivot data from the hypercube. In case of an error, returns the error information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="n">handle</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;GetHyperCubePivotData&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qPath&quot;</span><span class="p">:</span> <span class="n">path</span><span class="p">,</span> <span class="s2">&quot;qPages&quot;</span><span class="p">:</span> <span class="n">pages</span><span class="p">}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="EngineGenericObjectApi.get_hypercube_stack_data">
+<a class="viewcode-back" href="../../../api_classes/engine_generic_object_api.html#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_hypercube_stack_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_hypercube_stack_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pages</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">max_no_cells</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the values of a stacked pivot table. It is possible to retrieve specific pages of data.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            handle (int): The handle identifying the generic object containing the hypercube.</span>
+<span class="sd">            path (str): The path to the hypercube definition within the object. Default is &quot;/qHyperCubeDef&quot;.</span>
+<span class="sd">            pages (list): A list of pages to retrieve from the hypercube pivot data.</span>
+<span class="sd">            max_no_cells (int): Maximum number of cells at outer level. The default value is 10 000.</span>
+
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The pivot data from the hypercube. In case of an error, returns the error information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="n">handle</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;GetHyperCubeStackData&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qPath&quot;</span><span class="p">:</span> <span class="n">path</span><span class="p">,</span> <span class="s2">&quot;qPages&quot;</span><span class="p">:</span> <span class="n">pages</span><span class="p">,</span> <span class="s2">&quot;qMaxNbrCells&quot;</span><span class="p">:</span> <span class="n">max_no_cells</span><span class="p">}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="EngineGenericObjectApi.get_list_object_data">
+<a class="viewcode-back" href="../../../api_classes/engine_generic_object_api.html#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_list_object_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_list_object_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;/qListObjectDef&quot;</span><span class="p">,</span> <span class="n">pages</span><span class="o">=</span><span class="p">[]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the data from a specific list object in a generic object.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            handle (int): The handle identifying the generic object containing the list object.</span>
+<span class="sd">            path (str): The path to the list object definition within the object. Default is &quot;/qListObjectDef&quot;.</span>
+<span class="sd">            pages (list): A list of pages to retrieve from the list object data.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The data from the list object. In case of an error, returns the error information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="n">handle</span><span class="p">,</span>
+                          <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;GetListObjectData&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">path</span><span class="p">,</span> <span class="n">pages</span><span class="p">]})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span>
+                                                           <span class="n">msg</span><span class="p">)</span>
+                              <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="EngineGenericObjectApi.get_properties">
+<a class="viewcode-back" href="../../../api_classes/engine_generic_object_api.html#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_properties">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the properties of a specific generic object.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            handle (int): The handle identifying the generic object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The properties of the generic object (qLayout). In case of an error, returns the error information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="n">handle</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;GetProperties&quot;</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s2">&quot;qProp&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="EngineGenericObjectApi.embed_snapshot_object">
+<a class="viewcode-back" href="../../../api_classes/engine_generic_object_api.html#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.embed_snapshot_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">embed_snapshot_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">snapshot_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a snapshot to a generic object. Only one snapshot can be embedded in a generic object. If you embed a</span>
+<span class="sd">        snapshot in an object that already contains a snapshot, the new snapshot overwrites the previous one.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            handle (int): The handle identifying the generic object.</span>
+<span class="sd">            snapshot_id (str): The id of the snapshot to be embeded.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            update</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="n">handle</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;EmbedSnapshotObject&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qId&quot;</span><span class="p">:</span> <span class="n">snapshot_id</span><span class="p">}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="EngineGenericObjectApi.get_parent">
+<a class="viewcode-back" href="../../../api_classes/engine_generic_object_api.html#qe_api_client.api_classes.engine_generic_object_api.EngineGenericObjectApi.get_parent">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handle</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the type of the object and the corresponding handle to the parent object in the hiearchy.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            handle (int): The handle identifying the generic object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            { &quot;qType&quot;: &quot;GenericObject&quot;, &quot;qHandle&quot;: &lt;handle of the object&gt; }</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="n">handle</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;GetParent&quot;</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s2">&quot;qReturn&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Rumen Vasilev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

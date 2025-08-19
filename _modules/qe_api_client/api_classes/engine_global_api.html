@@ -1,0 +1,693 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>qe_api_client.api_classes.engine_global_api &mdash; Qlik Engine API Client 2.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=51b770b3"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Qlik Engine API Client
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">API Client Modules:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../engine_communicator.html">Engine API Communicator Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../engine_api.html">Engine API Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_classes/index.html">API Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../structs.html">Structs module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Qlik Engine API Client</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">qe_api_client.api_classes.engine_global_api</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for qe_api_client.api_classes.engine_global_api</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+
+<div class="viewcode-block" id="EngineGlobalApi">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">EngineGlobalApi</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class to interact with the Qlik Engine Global API using a provided socket interface.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">    engine_socket : object</span>
+<span class="sd">        The socket object used to communicate with the Qlik Engine.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">socket</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the EngineGlobalApi with a socket object.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        socket : object</span>
+<span class="sd">            The socket object used to communicate with the Qlik Engine.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span> <span class="o">=</span> <span class="n">socket</span>
+
+<div class="viewcode-block" id="EngineGlobalApi.get_doc_list">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_doc_list">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_doc_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves a list of documents available in the Qlik Sense environment.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        list of dict: An array of document objects containing details such as doc name, size, and file time.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;GetDocList&quot;</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">[]})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">][</span><span class="s1">&#39;qDocList&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="EngineGlobalApi.get_os_name">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_os_name">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_os_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the operating system name where the Qlik Sense Engine is running.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        str: The OS name, typically &quot;windowsNT&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;OSName&quot;</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">[]})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">][</span><span class="s1">&#39;qReturn&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="EngineGlobalApi.create_app">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.create_app">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_app</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a new application in Qlik Sense.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        app_name : str</span>
+<span class="sd">            The name of the application to be created.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        dict: Information about the created app, including its ID.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;CreateApp&quot;</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">app_name</span><span class="p">]})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+    <span class="c1"># DeleteApp Method Deletes an app from the Qlik Sense repository or from the file system. Qlik Sense Enterprise:  # NOQA</span>
+    <span class="c1"># In addition to being removed from the repository, the app is removed from the directory as well:  # NOQA</span>
+    <span class="c1"># &lt;installation_directory&gt;\Qlik\Sense\Apps The default installation directory is ProgramData. Qlik Sense Desktop:  # NOQA</span>
+    <span class="c1">#  The app is deleted from the directory %userprofile%\Documents\Qlik\Sense\Apps. Parameters: qAppId.. Identifier  # NOQA</span>
+    <span class="c1">#  of the app to delete. In Qlik Sense Enterprise, the identifier of the app is a GUID in the Qlik Sense  # NOQA</span>
+    <span class="c1"># repository. In Qlik Sense Desktop, the identifier of the app is the name of the app, as defined in the apps  # NOQA</span>
+    <span class="c1"># folder %userprofile%\Documents\Qlik\Sense\Apps. This parameter is mandatory.  # NOQA</span>
+<div class="viewcode-block" id="EngineGlobalApi.delete_app">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.delete_app">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_app</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Deletes an application from the Qlik Sense repository or file system.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        app_name : str</span>
+<span class="sd">            The name or identifier of the app to delete.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        dict: Information about the deletion result.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;DeleteApp&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qAppId&quot;</span><span class="p">:</span> <span class="n">app_name</span><span class="p">}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="EngineGlobalApi.open_doc">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.open_doc">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">open_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_name</span><span class="p">,</span> <span class="n">user_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">serial</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">no_data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Opens a document (app) in Qlik Sense and returns details about it.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        app_name : str</span>
+<span class="sd">            The name of the app to open.</span>
+<span class="sd">        user_name : str, optional</span>
+<span class="sd">            The username for authentication (default is &#39;&#39;).</span>
+<span class="sd">        password : str, optional</span>
+<span class="sd">            The password for authentication (default is &#39;&#39;).</span>
+<span class="sd">        serial : str, optional</span>
+<span class="sd">            The serial key for authentication (default is &#39;&#39;).</span>
+<span class="sd">        no_data : bool, optional</span>
+<span class="sd">            If True, opens the app without data (default is False).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        dict: Information about the opened document, including handle, generic ID, and type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;OpenDoc&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">app_name</span><span class="p">,</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">serial</span><span class="p">,</span> <span class="n">no_data</span><span class="p">]})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">][</span><span class="s2">&quot;qReturn&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+    <span class="c1"># returns an object with handle, generic id and type for the active app</span>
+<div class="viewcode-block" id="EngineGlobalApi.get_active_doc">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_active_doc">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_active_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the currently active document in Qlik Sense.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        dict: Information about the active document.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;GetActiveDoc&quot;</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">[]})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+    <span class="c1"># Abort All commands</span>
+<div class="viewcode-block" id="EngineGlobalApi.abort_all">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.abort_all">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">abort_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Aborts all ongoing commands in Qlik Sense.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        dict: Information about the abort result.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;AbortAll&quot;</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">[]})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+    <span class="c1"># Abort Specific Request</span>
+<div class="viewcode-block" id="EngineGlobalApi.abort_request">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.abort_request">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">abort_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Aborts a specific request in Qlik Sense.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        request_id : str</span>
+<span class="sd">            The identifier of the request to abort.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        dict: Information about the abort result.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;AbortRequest&quot;</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qRequestId&quot;</span><span class="p">:</span> <span class="n">request_id</span><span class="p">}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>  <span class="c1"># [&#39;qReturn&#39;]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+    <span class="c1"># Configure Reload - This is done before doing a reload qCancelOnScriptError: If set to true, the script  # NOQA</span>
+    <span class="c1"># execution is halted on error. Otherwise, the engine continues the script execution. This parameter is relevant  # NOQA</span>
+    <span class="c1"># only if the variable ErrorMode is set to 1. qUseErrorData: If set to true, any script execution error is  # NOQA</span>
+    <span class="c1"># returned in qErrorData by the GetProgress method. qInteractOnError: If set to true, the script execution is  # NOQA</span>
+    <span class="c1"># halted on error and the engine is waiting for an interaction to be performed. If the result from the  # NOQA</span>
+    <span class="c1"># interaction is 1 (qDef.qResult is 1), the engine continues the script execution otherwise the execution is  # NOQA</span>
+    <span class="c1"># halted. This parameter is relevant only if the variable ErrorMode is set to 1 and the script is run in debug  # NOQA</span>
+    <span class="c1"># mode (qDebug is set to true when calling the DoReload method).</span>
+<div class="viewcode-block" id="EngineGlobalApi.configure_reload">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.configure_reload">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">configure_reload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cancel_on_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">use_error_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">interact_on_error</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configures the reload settings for a Qlik Sense application.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        cancel_on_error : bool, optional</span>
+<span class="sd">            If True, the script execution is halted on error (default is False).</span>
+<span class="sd">        use_error_data : bool, optional</span>
+<span class="sd">            If True, any script execution error is returned in qErrorData (default is True).</span>
+<span class="sd">        interact_on_error : bool, optional</span>
+<span class="sd">            If True, script execution is halted on error and awaits interaction (default is False).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        dict: Information about the configuration result.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;ConfigureReload&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qCancelOnScriptError&quot;</span><span class="p">:</span> <span class="n">cancel_on_error</span><span class="p">,</span> <span class="s2">&quot;qUseErrorData&quot;</span><span class="p">:</span> <span class="n">use_error_data</span><span class="p">,</span>
+                                     <span class="s2">&quot;qInteractOnError&quot;</span><span class="p">:</span> <span class="n">interact_on_error</span><span class="p">}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+    <span class="c1"># Copy app - This is done before doing a reload qTargetAppId (MANDATORY):  Identifier (GUID) of the app  # NOQA</span>
+    <span class="c1"># entity in the Qlik Sense repository. The app entity must have been previously created by the repository (via  # NOQA</span>
+    <span class="c1"># the REST API). qSrcAppId (MANDATORY): Identifier (GUID) of the source app in the Qlik Sense repository. Array  # NOQA</span>
+    <span class="c1"># of QRS identifiers. The list of all the objects in the app to be copied must be given. This list must contain  # NOQA</span>
+    <span class="c1"># the GUIDs of all these objects. If the list of the QRS identifiers is empty, the CopyApp method copies all  # NOQA</span>
+    <span class="c1"># objects to the target app. Script-defined variables are automatically copied when copying an app. To be able to  # NOQA</span>
+    <span class="c1">#  copy variables not created via script, the GUID of each variable must be provided in the list of QRS  # NOQA</span>
+    <span class="c1"># identifiers. To get the QRS identifiers of the objects in an app, you can use the QRS API. The GET method (from  # NOQA</span>
+    <span class="c1">#  the QRS API) returns the identifiers of the objects in the app. The following example returns the QRS  # NOQA</span>
+    <span class="c1"># identifiers of all the objects in a specified app: GET /qrs/app/9c3f8634-6191-4a34-a114-a39102058d13 Where  # NOQA</span>
+    <span class="c1"># 9c3f8634-6191-4a34-a114-a39102058d13 is the identifier of the app.</span>
+
+    <span class="c1"># BUG - Does not work in September 2017 release</span>
+<div class="viewcode-block" id="EngineGlobalApi.copy_app">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.copy_app">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy_app</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_app_id</span><span class="p">,</span> <span class="n">src_app_id</span><span class="p">,</span> <span class="n">qIds</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Copies an app in Qlik Sense from a source app ID to a target app ID.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        target_app_id : str</span>
+<span class="sd">            The identifier (GUID) of the target app.</span>
+<span class="sd">        src_app_id : str</span>
+<span class="sd">            The identifier (GUID) of the source app.</span>
+<span class="sd">        qIds : list, optional</span>
+<span class="sd">            List of object identifiers to copy. If empty, all objects are copied (default is [&quot;&quot;]).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        dict: Information about the copy result.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;CopyApp&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qTargetAppId&quot;</span><span class="p">:</span> <span class="n">target_app_id</span><span class="p">,</span> <span class="s2">&quot;qSrcAppId&quot;</span><span class="p">:</span> <span class="n">src_app_id</span><span class="p">,</span> <span class="s2">&quot;qIds&quot;</span><span class="p">:</span> <span class="n">qIds</span><span class="p">}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+    <span class="c1"># Creates an empty session app. The following applies: The name of a session app cannot be chosen. The engine  # NOQA</span>
+    <span class="c1"># automatically assigns a unique identifier to the session app. A session app is not persisted and cannot be  # NOQA</span>
+    <span class="c1"># saved. Everything created during a session app is non-persisted; for example: objects, data connections.  # NOQA</span>
+<div class="viewcode-block" id="EngineGlobalApi.create_session_app">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.create_session_app">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_session_app</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates an empty session app in Qlik Sense.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        dict: Information about the created session app.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;CreateSessionApp&quot;</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+            <span class="c1"># Return the session App Id to use for subsequent calls</span>
+            <span class="c1"># The identifier of the session app is composed of the prefix SessionApp_ and of a GUID.  # NOQA</span>
+            <span class="c1"># [&#39;qReturn&#39;]</span>
+
+    <span class="c1"># Create an empty session app from an Existing App The objects in the source app are copied into the session app  # NOQA</span>
+    <span class="c1"># but contain no data. The script of the session app can be edited and reloaded. The name of a session app cannot  # NOQA</span>
+    <span class="c1">#  be chosen. The engine automatically assigns a unique identifier to the session app. A session app is not  # NOQA</span>
+    <span class="c1"># persisted and cannot be saved. Everything created during a session app is non-persisted; for example: objects,  # NOQA</span>
+    <span class="c1"># data connections.</span>
+<div class="viewcode-block" id="EngineGlobalApi.create_session_app_from_app">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.create_session_app_from_app">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_session_app_from_app</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src_app_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a session app in Qlik Sense from an existing app.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        src_app_id : str</span>
+<span class="sd">            The identifier (GUID) of the source app.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        dict: Information about the created session app.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;CreateSessionAppFromApp&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qSrcAppId&quot;</span><span class="p">:</span> <span class="n">src_app_id</span><span class="p">}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+    <span class="c1"># ExportApp method: Exports an app from the Qlik Sense repository to the file system. !!! This operation is  # NOQA</span>
+    <span class="c1"># possible only in Qlik Sense Enterprise. !!! Parameters: qTargetPath (MANDATORY) - Path and name of the target  # NOQA</span>
+    <span class="c1"># app qSrcAppId (MANDATORY) - Identifier of the source app. The identifier is a GUID from the Qlik Sense  # NOQA</span>
+    <span class="c1"># repository. qIds - Array of identifiers.. The list of all the objects in the app to be exported must be given.  # NOQA</span>
+    <span class="c1"># This list must contain the GUIDs of all these objects.</span>
+<div class="viewcode-block" id="EngineGlobalApi.export_app">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.export_app">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">export_app</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_path</span><span class="p">,</span> <span class="n">src_app_id</span><span class="p">,</span> <span class="n">qIds</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Exports an app from the Qlik Sense repository to the file system.</span>
+
+<span class="sd">        This operation is available only in Qlik Sense Enterprise.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            target_path (str): The path and name of the target app file to export to.</span>
+<span class="sd">            src_app_id (str): The GUID of the source app in the Qlik Sense repository.</span>
+<span class="sd">            qIds (list of str): An array of identifiers (GUIDs) for the objects in the app to be exported.</span>
+<span class="sd">                                The list must contain the GUIDs of all these objects.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The result of the export operation. In case of an error, returns the error information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;ExportApp&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qTargetPath&quot;</span><span class="p">:</span> <span class="n">target_path</span><span class="p">,</span> <span class="s2">&quot;qSrcAppId&quot;</span><span class="p">:</span> <span class="n">src_app_id</span><span class="p">,</span> <span class="s2">&quot;qIds&quot;</span><span class="p">:</span> <span class="n">qIds</span><span class="p">}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+    <span class="c1"># ReplaceAppFromID method: Replaces an app with the objects from a source app. The list of objects in the app to  # NOQA</span>
+    <span class="c1"># be replaced must be defined in qIds. !!! This operation is possible only in Qlik Sense Enterprise. !!!  # NOQA</span>
+    <span class="c1"># Parameters: qTargetAppId (MANDATORY) - Identifier (GUID) of the target app. The target app is the app to be  # NOQA</span>
+    <span class="c1"># replaced. qSrcAppId (MANDATORY) - Identifier of the source app. The identifier is a GUID from the Qlik Sense  # NOQA</span>
+    <span class="c1"># repository. qIds - QRS identifiers (GUID) of the objects in the target app to be replaced. Only QRS-approved  # NOQA</span>
+    <span class="c1"># GUIDs are applicable. An object that is QRS-approved, is for example an object that has been published (i.e not  # NOQA</span>
+    <span class="c1">#  private anymore). If an object is private, it should not be included in this list.  If qIds is empty,  # NOQA</span>
+    <span class="c1"># the engine automatically creates a list that contains all QRS-approved objects. If the array of identifiers  # NOQA</span>
+    <span class="c1"># contains objects that are not present in the source app, the objects related to these identifiers are removed  # NOQA</span>
+    <span class="c1"># from the target app.</span>
+<div class="viewcode-block" id="EngineGlobalApi.replace_app_from_id">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.replace_app_from_id">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">replace_app_from_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_path</span><span class="p">,</span> <span class="n">src_app_id</span><span class="p">,</span> <span class="n">qIds</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Replaces an app with the objects from a source app.</span>
+
+<span class="sd">        The list of objects in the app to be replaced must be defined in qIds.</span>
+<span class="sd">        This operation is available only in Qlik Sense Enterprise.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            target_app_id (str): The GUID of the target app to be replaced.</span>
+<span class="sd">            src_app_id (str): The GUID of the source app in the Qlik Sense repository.</span>
+<span class="sd">            qIds (list of str): An array of GUIDs for the objects in the target app to be replaced.</span>
+<span class="sd">                                Only QRS-approved GUIDs are applicable. If qIds is empty,</span>
+<span class="sd">                                the engine automatically creates a list containing all QRS-approved objects.</span>
+<span class="sd">                                If the array contains objects not present in the source app,</span>
+<span class="sd">                                those objects are removed from the target app.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The result of the replace operation. In case of an error, returns the error information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;ReplaceAppFromID&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;qTargetAppId&quot;</span><span class="p">:</span> <span class="n">target_path</span><span class="p">,</span> <span class="s2">&quot;qSrcAppId&quot;</span><span class="p">:</span> <span class="n">src_app_id</span><span class="p">,</span> <span class="s2">&quot;qIds&quot;</span><span class="p">:</span> <span class="n">qIds</span><span class="p">}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span></div>
+
+
+    <span class="c1"># GetAuthenticatedUser</span>
+    <span class="c1"># No parameters</span>
+<div class="viewcode-block" id="EngineGlobalApi.get_auth_user">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_auth_user">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_auth_user</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves information about the authenticated user.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: The result containing information about the authenticated user.</span>
+<span class="sd">                  In case of an error, returns the error information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;GetAuthenticatedUser&quot;</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{}})</span>
+        <span class="n">response_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response_json</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response_json</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]</span></div>
+
+
+    <span class="c1"># GetDatabasesFromConnectionString Lists the databases in a ODBC, OLEDB or CUSTOM data source (global level)  # NOQA</span>
+    <span class="c1"># Parameters: qConnection (object - has several fields) qId: Identifier of the connection. Is generated by  # NOQA</span>
+    <span class="c1"># the engine and is unique. qName (MANDATORY): Name of the connection. This parameter is mandatory and must  # NOQA</span>
+    <span class="c1"># be set when creating or modifying a connection. qConnectionString (MANDATORY): One of: ODBC CONNECT TO [  # NOQA</span>
+    <span class="c1"># &lt;provider name&gt;], OLEDB CONNECT TO [&lt;provider name&gt;], CUSTOM CONNECT TO [&lt;provider name&gt;], &quot;&lt;local absolut  # NOQA</span>
+    <span class="c1">#  or relative path,UNC path &gt;&quot;, &quot;&lt;URL&gt;&quot; Connection string. qType (MANDATORY): Type of the connection. One  # NOQA</span>
+    <span class="c1"># of- ODBC, OLEDB, &lt;Name of the custom connection file&gt;, folder, internet. For ODBC, OLEDB and custom  # NOQA</span>
+    <span class="c1"># connections, the engine checks that the connection type matches the connection string. The type is not cas  # NOQA</span>
+    <span class="c1">#  sensitive. qUserName: Name of the user who creates the connection. This parameter is optional; it is only  # NOQA</span>
+    <span class="c1"># used for OLEDB, ODBC and CUSTOM connections. A call to GetConnection method does not return the user name.  # NOQA</span>
+    <span class="c1"># qPassword: Password of the user who creates the connection. This parameter is optional; it is only used fo  # NOQA</span>
+    <span class="c1">#  OLEDB, ODBC and CUSTOM connections. A call to GetConnection method does not return the password.  # NOQA</span>
+    <span class="c1"># qModifiedDate: Is generated by the engine. Creation date of the connection or last modification date of th  # NOQA</span>
+    <span class="c1">#  connection. qMeta: Information about the connection. qLogOn (SSO Passthrough or not): Select which user  # NOQA</span>
+        <span class="c1"># credentials to use to connect to the source. LOG_ON_SERVICE_USER: Disables, LOG_ON_CURRENT_USER: Enabl  # NOQA</span>
+<div class="viewcode-block" id="EngineGlobalApi.list_databases_from_odbc">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.list_databases_from_odbc">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">list_databases_from_odbc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connect_name</span><span class="p">,</span> <span class="n">connect_string</span><span class="p">,</span> <span class="n">connect_type</span><span class="p">,</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">mod_date</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                                 <span class="n">meta</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">sso_passthrough</span><span class="o">=</span><span class="s2">&quot;LOG_ON_SERVICE_USER&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists the databases available in an ODBC, OLEDB, or CUSTOM data source.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            connect_name (str): Name of the connection.</span>
+<span class="sd">            connect_string (str): Connection string (e.g., ODBC CONNECT TO [&lt;provider name&gt;]).</span>
+<span class="sd">            connect_type (str): Type of the connection (ODBC, OLEDB, CUSTOM, etc.).</span>
+<span class="sd">            user_name (str): Name of the user creating the connection.</span>
+<span class="sd">            password (str): Password of the user creating the connection.</span>
+<span class="sd">            mod_date (str, optional): Modification date of the connection.</span>
+<span class="sd">            meta (str, optional): Metadata information about the connection.</span>
+<span class="sd">            sso_passthrough (str, optional): User credentials to use (LOG_ON_SERVICE_USER, LOG_ON_CURRENT_USER).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the list of databases.</span>
+<span class="sd">                  In case of an error, returns the error information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;GetDatabasesFromConnectionString&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;qId&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;qName&quot;</span><span class="p">:</span> <span class="n">connect_name</span><span class="p">,</span> <span class="s2">&quot;qConnectionString&quot;</span><span class="p">:</span> <span class="n">connect_string</span><span class="p">,</span>
+                                      <span class="s2">&quot;qType&quot;</span><span class="p">:</span> <span class="n">connect_type</span><span class="p">,</span> <span class="s2">&quot;qUserName&quot;</span><span class="p">:</span> <span class="n">user_name</span><span class="p">,</span> <span class="s2">&quot;qPassword&quot;</span><span class="p">:</span> <span class="n">password</span><span class="p">,</span>
+                                      <span class="s2">&quot;qModifiedDate&quot;</span><span class="p">:</span> <span class="n">mod_date</span><span class="p">,</span> <span class="s2">&quot;qMeta&quot;</span><span class="p">:</span> <span class="n">meta</span><span class="p">,</span> <span class="s2">&quot;qLogOn&quot;</span><span class="p">:</span> <span class="n">sso_passthrough</span><span class="p">}]})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span></div>
+
+
+    <span class="c1"># IsValidConnectionString method: Checks if a connection string is valid.</span>
+<div class="viewcode-block" id="EngineGlobalApi.is_valid_connect_string">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.is_valid_connect_string">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_valid_connect_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connect_name</span><span class="p">,</span> <span class="n">connect_string</span><span class="p">,</span> <span class="n">connect_type</span><span class="p">,</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">mod_date</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                                <span class="n">meta</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">sso_passthrough</span><span class="o">=</span><span class="s2">&quot;LOG_ON_SERVICE_USER&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if a connection string is valid.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            connect_name (str): Name of the connection.</span>
+<span class="sd">            connect_string (str): Connection string (e.g., ODBC CONNECT TO [&lt;provider name&gt;]).</span>
+<span class="sd">            connect_type (str): Type of the connection (ODBC, OLEDB, CUSTOM, etc.).</span>
+<span class="sd">            user_name (str): Name of the user creating the connection.</span>
+<span class="sd">            password (str): Password of the user creating the connection.</span>
+<span class="sd">            mod_date (str, optional): Modification date of the connection.</span>
+<span class="sd">            meta (str, optional): Metadata information about the connection.</span>
+<span class="sd">            sso_passthrough (str, optional): User credentials to use (LOG_ON_SERVICE_USER, LOG_ON_CURRENT_USER).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing validation information.</span>
+<span class="sd">                  In case of an error, returns the error information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;IsValidConnectionString&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;qId&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;qName&quot;</span><span class="p">:</span> <span class="n">connect_name</span><span class="p">,</span> <span class="s2">&quot;qConnectionString&quot;</span><span class="p">:</span> <span class="n">connect_string</span><span class="p">,</span>
+                                      <span class="s2">&quot;qType&quot;</span><span class="p">:</span> <span class="n">connect_type</span><span class="p">,</span> <span class="s2">&quot;qUserName&quot;</span><span class="p">:</span> <span class="n">user_name</span><span class="p">,</span> <span class="s2">&quot;qPassword&quot;</span><span class="p">:</span> <span class="n">password</span><span class="p">,</span>
+                                      <span class="s2">&quot;qModifiedDate&quot;</span><span class="p">:</span> <span class="n">mod_date</span><span class="p">,</span> <span class="s2">&quot;qMeta&quot;</span><span class="p">:</span> <span class="n">meta</span><span class="p">,</span> <span class="s2">&quot;qLogOn&quot;</span><span class="p">:</span> <span class="n">sso_passthrough</span><span class="p">}]})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>  <span class="c1"># Returns an array of databases</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span></div>
+
+
+    <span class="c1"># GetOdbcDsns: List all the ODBC connectors installed on the Sense server machine in Windows  # NOQA</span>
+<div class="viewcode-block" id="EngineGlobalApi.get_odbc_dsns">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_odbc_dsns">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_odbc_dsns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves a list of all ODBC connectors installed on the Qlik Sense server.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the details of the ODBC connectors installed.</span>
+<span class="sd">                  In case of an error, returns the error information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;GetOdbcDsns&quot;</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span></div>
+
+
+    <span class="c1"># GetOleDbProviders: Returns the list of the OLEDB providers installed on the system.  # NOQA</span>
+<div class="viewcode-block" id="EngineGlobalApi.get_ole_dbs">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_ole_dbs">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_ole_dbs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves a list of all OLEDB providers installed on the Qlik Sense server.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing the details of the OLEDB providers installed.</span>
+<span class="sd">                  In case of an error, returns the error information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;GetOleDbProviders&quot;</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span></div>
+
+
+    <span class="c1"># GetProgress: Gives information about the progress of the DoReload and DoSave calls. Parameters: qRequestId:  # NOQA</span>
+    <span class="c1"># Identifier of the DoReload or DoSave request or 0. Complete information is returned if the identifier of the  # NOQA</span>
+    <span class="c1"># request is given. If the identifier is 0, less information is given. Progress messages and error messages are  # NOQA</span>
+    <span class="c1"># returned but information like when the request started and finished is not returned.  # NOQA</span>
+
+<div class="viewcode-block" id="EngineGlobalApi.get_progress">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.get_progress">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_progress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provides information about the progress of DoReload and DoSave calls.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            request_id (int): Identifier of the DoReload or DoSave request.</span>
+<span class="sd">                              If set to 0, only limited information is provided.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary containing progress messages and error messages.</span>
+<span class="sd">                  If request_id is 0, detailed information like start and end times is not provided.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;GetProgress&quot;</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span></div>
+
+
+    <span class="c1"># IsDesktopMode: Indicates whether the user is working</span>
+    <span class="c1"># in Qlik Sense Desktop.</span>
+    <span class="c1"># No parameters</span>
+<div class="viewcode-block" id="EngineGlobalApi.is_desktop_mode">
+<a class="viewcode-back" href="../../../api_classes/engine_global_api.html#qe_api_client.api_classes.engine_global_api.EngineGlobalApi.is_desktop_mode">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_desktop_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the user is working in Qlik Sense Desktop mode.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict: A dictionary indicating whether the user is in desktop mode.</span>
+<span class="sd">                  In case of an error, returns the error information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s2">&quot;jsonrpc&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;IsDesktopMode&quot;</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{}})</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="o">.</span><span class="n">send_call</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span></div>
+</div>
+
+
+    <span class="c1"># ## NOT IMPLEMENTED, perceived out of use case scope: ## CreateDocEx, GetBaseBNFHash, GetBaseBNF, GetBNF,  # NOQA</span>
+        <span class="c1"># GetCustomConnectors, GetDefaultAppFolder, GetFunctions, GetInteract, GetLogicalDriveStrings,  # NOQA</span>
+        <span class="c1"># ## GetStreamList, GetSupportedCodePages, GetUniqueID, InteractDone, IsPersonalMode (deprecated), OSVersion,  # NOQA</span>
+        <span class="c1">#  ProductVersion (depr), QTProduct, QvVersion (depr), ## ReloadExtensionList, ReplaceAppFromID,  # NOQA</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Rumen Vasilev.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
