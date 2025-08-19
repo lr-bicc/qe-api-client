@@ -134,6 +134,27 @@ class EngineAppApi:
         except KeyError:
             return response['error']
 
+
+    def get_objects(self, app_handle: int, options: dict):
+        """
+        Retrieves a specific object from the app identified by the document handle.
+
+        Parameters:
+            app_handle (int): The handle identifying the app document.
+            object_id (str): The ID of the object to retrieve.
+
+        Returns:
+            dict: The retrieved object (qReturn). In case of an error, returns the error information.
+        """
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": app_handle, "method": "GetObjects",
+                          "params": {"qOptions": options}})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
+        try:
+            return response["result"]["qList"]
+        except KeyError:
+            return response["error"]
+
+
     def get_field(self, doc_handle: int, field_name, state_name=""):
         """
         Retrieves a specific field from the app identified by the document handle.

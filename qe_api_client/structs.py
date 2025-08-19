@@ -664,3 +664,13 @@ def nx_get_bookmark_options(types: list, data: dict = None):
     return {
 			"qTypes": types, "qData": data
 	}
+
+
+def options(types: list, include_session_objects: bool = False, data: dict = None):
+    if data is None:
+        data = {}
+    return {
+        "qTypes": types,
+        "qIncludeSessionObjects": include_session_objects,
+        "qData": data
+    }
