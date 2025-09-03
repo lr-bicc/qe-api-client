@@ -385,9 +385,9 @@ class EngineAppApi:
     # ### Example:  The variable x contains the text string Sum(Sales). In a chart, you define the expression $(x)/12.  # NOQA
     # The effect is exactly the same as having the chart expression Sum(Sales)/12. However, if you change the value of the variable x to Sum(Budget),  # NOQA
     # the data in the chart are immediately recalculated with the expression interpreted as Sum(Budget)/12.  # NOQA
-    def create_session_variable(self, doc_handle: int, var_id="", var_name="", var_comment="", var_def=""):
+    def create_session_variable(self, app_handle: int, var_id="", var_name="", var_comment="", var_def=""):
         msg = json.dumps(
-            {"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
+            {"jsonrpc": "2.0", "id": 0, "handle": app_handle,
              "method": "CreateSessionVariable", "params": [{
                 "qInfo": {
                     "qId": var_id,
@@ -414,8 +414,8 @@ class EngineAppApi:
     # The effect is exactly the same as having the chart expression Sum(Sales)/12.   # NOQA
     # However, if you change the value of the variable x to Sum(Budget),
     # the data in the chart are immediately recalculated with the expression interpreted as Sum(Budget)/12.  # NOQA
-    def create_variable(self, doc_handle: int, var_id="", var_name="", var_comment="", var_def=""):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle,
+    def create_variable(self, app_handle: int, var_id="", var_name="", var_comment="", var_def=""):
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": app_handle,
                           "method": "CreateVariable", "params": [{
                                 "qInfo": {
                                     "qId": var_id,
@@ -467,8 +467,8 @@ class EngineAppApi:
 
     # Evaluate method: Evaluates an expression as a string. (Actually uses EvaluateEx, which is better for giving the data type back to python)  # NOQA
     # Parameters: qExpression
-    def expr_eval(self, doc_handle: int, expr):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "EvaluateEx",
+    def expr_eval(self, app_handle: int, expr):
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": app_handle, "method": "EvaluateEx",
                           "params": {"qExpression": expr}})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
@@ -477,8 +477,8 @@ class EngineAppApi:
             return response['error']
 
     # GetAllInfos method: Get the identifier and the type of any generic object in an app by using the GetAllInfos method.  # NOQA
-    def get_all_infos(self, doc_handle: int):
-        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": doc_handle, "method": "GetAllInfos", "params": []})
+    def get_all_infos(self, app_handle: int):
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": app_handle, "method": "GetAllInfos", "params": []})
         response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
         try:
             return response['result']['qInfos']
