@@ -1441,6 +1441,950 @@ class QixEngine:
         return df_sheet_list
 
 
+    # def get_object_properties(self, app_handle: int, obj_type: str):
+    #     """
+    #     Retrieves a list with all metadata of given object.
+    #
+    #     Parameters:
+    #         app_handle (int): The handle of the app.
+    #         obj_type (str): The type of the given object.
+    #
+    #     Returns:
+    #         DataFrame: A table with all metadata of given object.
+    #     """
+    #
+    #     # Define the DataFrame structure of filterpane
+    #     if obj_type in ["filterpane"]:
+    #         df_obj_list = pd.DataFrame(
+    #             columns=["qInfo", "qExtendsId", "qMetaDef", "qStateName", "showTitles", "title", "subtitle", "footnote",
+    #                      "disableNavMenu", "showDetails", "showDetailsExpression", "visualization", "version",
+    #                      "qChildren"])
+    #     # Define the DataFrame structure of listbox
+    #     elif obj_type in ["listbox"]:
+    #         df_obj_list = pd.DataFrame(
+    #             columns=["qInfo", "qExtendsId", "qMetaDef", "qStateName", "qListObjectDef", "showTitles", "title",
+    #                      "subtitle", "footnote", "disableNavMenu", "showDetails", "showDetailsExpression",
+    #                      "visualization", "qChildren"])
+    #     # Define the DataFrame structure of table
+    #     elif obj_type in ["table"]:
+    #         df_obj_list = pd.DataFrame(
+    #             columns=["qInfo", "qExtendsId", "qMetaDef", "qStateName", "qHyperCubeDef", "script", "search", "showTitles", "title",
+    #                      "subtitle", "footnote", "disableNavMenu", "showDetails", "showDetailsExpression", "totals",
+    #                      "scrolling", "multiline", "visualization", "qChildren"])
+    #     else:
+    #         return "Chart type not supported."
+    #
+    #     # Get object data
+    #     options = self.structs.options(types=[obj_type])
+    #     obj_list = self.eaa.get_objects(app_handle=app_handle, options=options)
+    #
+    #     for obj in obj_list:
+    #         # Get filterpane ID
+    #         obj_id = obj["qInfo"]["qId"]
+    #         # Get filterpane object
+    #         obj = self.eaa.get_object(app_handle=app_handle, object_id=obj_id)
+    #         # Get filterpane handle
+    #         obj_handle = self.get_handle(obj)
+    #         # Get filterpane full property tree
+    #         obj_full_property_tree = self.egoa.get_full_property_tree(handle=obj_handle)
+    #
+    #         # Get filterpane properties
+    #         obj_props = obj_full_property_tree["qProperty"]
+    #         obj_children = obj_full_property_tree["qChildren"]
+    #         obj_children_ids = [child["qProperty"]["qInfo"]["qId"] for child in obj_children]
+    #         obj_props["qChildren"] = obj_children_ids
+    #
+    #         # Concatenate the filterpane metadata to the DataFrame structure
+    #         df_obj_list.loc[len(df_obj_list)] = obj_props
+    #
+    #
+    #     # Resolve the dictionary structure of attribute "qInfo"
+    #     df_obj_list_expanded = (df_obj_list["qInfo"].dropna().apply(pd.Series).add_prefix("qInfo_"))
+    #     df_obj_list = df_obj_list.drop(columns=["qInfo"]).join(df_obj_list_expanded)
+    #
+    #     if obj_type in ["listbox"]:
+    #         # Resolve the dictionary structure of attribute "title"
+    #         df_obj_list_expanded = (
+    #             df_obj_list["title"].dropna()
+    #             # .apply(lambda x: x if isinstance(x, dict) else {})
+    #             .apply(pd.Series).add_prefix("title_"))
+    #         # df_obj_list_expanded = (
+    #         #     df_obj_list["title"].dropna()
+    #         #     .apply(lambda x: x.get("qStringExpression", {}).get("qExpr") if isinstance(x, dict) else x)
+    #         #     .to_frame("title_qStringExpression")
+    #         # )
+    #         df_obj_list = df_obj_list.drop(columns=["title"]).join(df_obj_list_expanded)
+    #
+    #         # Resolve the dictionary structure of attribute "title_qStringExpression"
+    #         df_obj_list_expanded = (
+    #             df_obj_list["title_qStringExpression"].dropna()
+    #             .apply(pd.Series).add_prefix("title_qStringExpression_"))
+    #         df_obj_list = df_obj_list.drop(columns=["title_qStringExpression"]).join(df_obj_list_expanded)
+    #
+    #         # Resolve the dictionary structure of attribute "qListObjectDef"
+    #         df_obj_list_expanded = (
+    #             df_obj_list["qListObjectDef"].dropna().apply(pd.Series).add_prefix("qListObjectDef_"))
+    #         df_obj_list = df_obj_list.drop(columns=["qListObjectDef"]).join(df_obj_list_expanded)
+    #
+    #         # Resolve the dictionary structure of attribute "qListObjectDef_qDef"
+    #         df_obj_list_expanded = (
+    #             df_obj_list["qListObjectDef_qDef"].dropna().apply(pd.Series).add_prefix("qListObjectDef_qDef_"))
+    #         df_obj_list = df_obj_list.drop(columns=["qListObjectDef_qDef"]).join(df_obj_list_expanded)
+    #
+    #     if obj_type in ["table"]:
+    #         # Resolve the dictionary structure of attribute "qHyperCubeDef"
+    #         df_obj_list_expanded = (
+    #             df_obj_list["qHyperCubeDef"].dropna().apply(pd.Series).add_prefix("qHyperCubeDef_"))
+    #         df_obj_list = df_obj_list.drop(columns=["qHyperCubeDef"]).join(df_obj_list_expanded)
+    #
+    #         # Resolve the dictionary structure of attribute "search"
+    #         df_obj_list_expanded = (
+    #             df_obj_list["search"].dropna().apply(pd.Series).add_prefix("search_"))
+    #         df_obj_list = df_obj_list.drop(columns=["search"]).join(df_obj_list_expanded)
+    #
+    #     return df_obj_list
+
+
+    def get_object_type_properties(self, app_obj: dict, obj_type: str):
+        """
+        Retrieves a list with all metadata of given type of objects.
+
+        Parameters:
+            app_obj (dict): The response od the opened app.
+            obj_type (str): The type of the given object.
+
+        Returns:
+            List: A list with all metadata of given type of objects.
+        """
+
+        # Get app handle
+        app_handle = self.get_handle(app_obj)
+        # Get app ID
+        app_id = self.get_id(app_obj)
+        # Get objects structure
+        options = self.structs.options(types=[obj_type])
+        # Get objects per type
+        obj_list = self.eaa.get_objects(app_handle=app_handle, options=options)
+        # Define list variable
+        obj_props_list = []
+
+        # Loop objects from the list
+        for obj in obj_list:
+            # Get object ID
+            obj_id = obj["qInfo"]["qId"]
+            # Get object
+            obj = self.eaa.get_object(app_handle=app_handle, object_id=obj_id)
+            # Get object handle
+            obj_handle = self.get_handle(obj)
+            # Get object full property tree
+            obj_props = self.egoa.get_full_property_tree(handle=obj_handle)
+            # Insert app id
+            obj_props["qDocId"] = app_id
+            # Concatenate object properties to the list
+            obj_props_list.append(obj_props)
+
+        return obj_props_list
+
+
+    # def get_objects_properties(self, app_obj: dict):
+    #     """
+    #     Retrieves a list with all metadata of all app objects.
+    #
+    #     Parameters:
+    #         app_obj (dict): The response od the opened app.
+    #
+    #     Returns:
+    #         List: A list with all metadata of all app objects.
+    #     """
+    #     app_handle = self.get_handle(app_obj)
+    #     app_id = self.get_id(app_obj)
+    #
+    #     app_infos = self.eaa.get_all_infos(app_handle=app_handle)
+    #
+    #     # Extrahiere alle qId-Werte in eine Liste
+    #     obj_id_list = [item["qId"] for item in app_infos]
+    #
+    #     obj_props_list = []
+    #
+    #     for obj_id in obj_id_list:
+    #         obj = self.eaa.get_object(app_handle=app_handle, object_id=obj_id)
+    #         obj_handle = self.get_handle(obj)
+    #         obj_props = self.egoa.get_full_property_tree(handle=obj_handle)
+    #         obj_props["appId"] = app_id
+    #         obj_props_list.append(obj_props)
+    #
+    #     return obj_props_list
+
+
+    # def get_app_properties(self, app_handle):
+    #     """
+    #     Retrieves a list with all app property metadata.
+    #
+    #     Parameters:
+    #         app_handle (int): The handle of the app.
+    #
+    #     Returns:
+    #         DataFrame: A table with all app property metadata.
+    #     """
+    #
+    #     # Define the DataFrame structure
+    #     df_app_property_list = pd.DataFrame(
+    #         columns=["qInfo", "qExtendsId", "qMetaDef", "qStateName", "sheetTitleBgColor", "sheetTitleGradientColor",
+    #                  "sheetTitleColor", "sheetLogoThumbnail", "sheetLogoPosition", "rtl", "theme", "disableCellNavMenu",
+    #                  "defaultBookmarkId", "qChildren"])
+    #
+    #     # Get app property object data
+    #     options = self.structs.options(types=["appprops"])
+    #     app_property_list = self.eaa.get_objects(app_handle=app_handle, options=options)
+    #
+    #     for app_property in app_property_list:
+    #         # Get app property ID
+    #         app_property_id = app_property["qInfo"]["qId"]
+    #         # Get app property object
+    #         app_property_obj = self.eaa.get_object(app_handle=app_handle, object_id=app_property_id)
+    #         # Get app property handle
+    #         app_property_handle = self.get_handle(app_property_obj)
+    #         # Get app property full property tree
+    #         app_property_full_property_tree = self.egoa.get_full_property_tree(handle=app_property_handle)
+    #
+    #         # Get app property properties
+    #         app_property_props = app_property_full_property_tree["qProperty"]
+    #         app_property_children = app_property_full_property_tree["qChildren"]
+    #         app_property_children_ids = [child["qProperty"]["qInfo"]["qId"] for child in app_property_children]
+    #         app_property_props["qChildren"] = app_property_children_ids
+    #
+    #         # Concatenate the app property metadata to the DataFrame structure
+    #         df_app_property_list.loc[len(df_app_property_list)] = app_property_props
+    #
+    #
+    #     # Resolve the dictionary structure of attribute "qInfo"
+    #     df_app_property_list_expanded = (df_app_property_list["qInfo"].dropna().apply(pd.Series).add_prefix("qInfo_"))
+    #     df_app_property_list = df_app_property_list.drop(columns=["qInfo"]).join(df_app_property_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "sheetTitleBgColor"
+    #     df_app_property_list_expanded = (df_app_property_list["sheetTitleBgColor"].dropna().apply(pd.Series).add_prefix("sheetTitleBgColor_"))
+    #     df_app_property_list = df_app_property_list.drop(columns=["sheetTitleBgColor"]).join(df_app_property_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "sheetTitleGradientColor"
+    #     df_app_property_list_expanded = (
+    #         df_app_property_list["sheetTitleGradientColor"].dropna().apply(pd.Series).add_prefix("sheetTitleGradientColor_"))
+    #     df_app_property_list = df_app_property_list.drop(columns=["sheetTitleGradientColor"]).join(
+    #         df_app_property_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "sheetLogoThumbnail"
+    #     df_app_property_list_expanded = (
+    #         df_app_property_list["sheetLogoThumbnail"].dropna().apply(pd.Series).add_prefix("sheetLogoThumbnail_"))
+    #     df_app_property_list = df_app_property_list.drop(columns=["sheetLogoThumbnail"]).join(
+    #         df_app_property_list_expanded)
+    #
+    #     return df_app_property_list
+    #
+    #
+    # def get_app_sheet_groups(self, app_handle):
+    #     """
+    #     Retrieves a list with all app sheet group metadata.
+    #
+    #     Parameters:
+    #         app_handle (int): The 0handle of the app.
+    #
+    #     Returns:
+    #         DataFrame: A table with all sheet group metadata from an app.
+    #     """
+    #
+    #     # Define the DataFrame structure
+    #     df_sheet_group_list = pd.DataFrame(
+    #         columns=["qInfo", "qExtendsId", "qMetaDef", "qStateName", "rank", "qChildren", "qEmbeddedSnapshotRef"])
+    #
+    #     # Get sheet group object data
+    #     options = self.structs.options(types=["sheetgroup"])
+    #     sheet_group_list = self.eaa.get_objects(app_handle=app_handle, options=options)
+    #
+    #     for sheet_group in sheet_group_list:
+    #         # Get sheet group ID
+    #         sheet_group_id = sheet_group["qInfo"]["qId"]
+    #         # Get sheet group object
+    #         sheet_group_obj = self.eaa.get_object(app_handle=app_handle, object_id=sheet_group_id)
+    #         # Get sheet group handle
+    #         sheet_group_handle = self.get_handle(sheet_group_obj)
+    #         # Get sheet group full property tree
+    #         sheet_group_full_property_tree = self.egoa.get_full_property_tree(handle=sheet_group_handle)
+    #
+    #         # Get sheet group properties
+    #         sheet_group_props = sheet_group_full_property_tree["qProperty"]
+    #         sheet_group_children = sheet_group_full_property_tree["qChildren"]
+    #         sheet_group_children_ids = [child["qProperty"]["qInfo"]["qId"] for child in sheet_group_children]
+    #         sheet_group_props["qChildren"] = sheet_group_children_ids
+    #
+    #         # Concatenate the sheet group metadata to the DataFrame structure
+    #         df_sheet_group_list.loc[len(df_sheet_group_list)] = sheet_group_props
+    #
+    #
+    #     # Resolve the dictionary structure of attribute "qInfo"
+    #     df_sheet_group_list_expanded = (df_sheet_group_list["qInfo"].dropna().apply(pd.Series).add_prefix("qInfo_"))
+    #     df_sheet_group_list = df_sheet_group_list.drop(columns=["qInfo"]).join(df_sheet_group_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qMetaDef"
+    #     df_sheet_group_list_expanded = (df_sheet_group_list["qMetaDef"].dropna().apply(pd.Series).add_prefix("qMetaDef_"))
+    #     df_sheet_group_list = df_sheet_group_list.drop(columns=["qMetaDef"]).join(df_sheet_group_list_expanded)
+    #
+    #     return df_sheet_group_list
+    #
+    #
+    # def get_app_sheets(self, app_handle):
+    #     """
+    #     Retrieves a list with all app sheet metadata.
+    #
+    #     Parameters:
+    #         app_handle (int): The 0handle of the app.
+    #
+    #     Returns:
+    #         DataFrame: A table with all sheet metadata from an app.
+    #     """
+    #
+    #     # Define the DataFrame structure
+    #     df_sheet_list = pd.DataFrame(
+    #         columns=["qInfo", "qExtendsId", "qMetaDef", "qStateName", "creationDate", "rank", "thumbnail", "columns",
+    #                  "rows", "cells", "qChildListDef", "customRowBase", "gridResolution", "layoutOptions", "gridMode",
+    #                  "groupId", "labelExpression", "qChildren"])
+    #
+    #     # Get sheet object data
+    #     options = self.structs.options(types=["sheet"])
+    #     sheet_list = self.eaa.get_objects(app_handle=app_handle, options=options)
+    #
+    #     for sheet in sheet_list:
+    #         # Get sheet ID
+    #         sheet_id = sheet["qInfo"]["qId"]
+    #         # Get sheet object
+    #         sheet_obj = self.eaa.get_object(app_handle=app_handle, object_id=sheet_id)
+    #         # Get sheet handle
+    #         sheet_handle = self.get_handle(sheet_obj)
+    #         # Get sheet full property tree
+    #         sheet_full_property_tree = self.egoa.get_full_property_tree(handle=sheet_handle)
+    #
+    #         # Get sheet properties
+    #         sheet_props = sheet_full_property_tree["qProperty"]
+    #         sheet_children = sheet_full_property_tree["qChildren"]
+    #         sheet_children_ids = [child["qProperty"]["qInfo"]["qId"] for child in sheet_children]
+    #         sheet_props["qChildren"] = sheet_children_ids
+    #
+    #         # Concatenate the sheet metadata to the DataFrame structure
+    #         df_sheet_list.loc[len(df_sheet_list)] = sheet_props
+    #
+    #
+    #     # Resolve the dictionary structure of attribute "qInfo"
+    #     df_sheet_list_expanded = (df_sheet_list["qInfo"].dropna().apply(pd.Series).add_prefix("qInfo_"))
+    #     df_sheet_list = df_sheet_list.drop(columns=["qInfo"]).join(df_sheet_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qMetaDef"
+    #     df_sheet_list_expanded = (df_sheet_list["qMetaDef"].dropna().apply(pd.Series).add_prefix("qMetaDef_"))
+    #     df_sheet_list = df_sheet_list.drop(columns=["qMetaDef"]).join(df_sheet_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "thumbnail"
+    #     df_sheet_list_expanded = (df_sheet_list["thumbnail"].dropna().apply(pd.Series).add_prefix("thumbnail_"))
+    #     df_sheet_list = df_sheet_list.drop(columns=["thumbnail"]).join(df_sheet_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "thumbnail_qStaticContentUrlDef"
+    #     df_sheet_list_expanded = (df_sheet_list["thumbnail_qStaticContentUrlDef"].dropna().apply(pd.Series).add_prefix("thumbnail_qStaticContentUrlDef_"))
+    #     df_sheet_list = df_sheet_list.drop(columns=["thumbnail_qStaticContentUrlDef"]).join(df_sheet_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qChildListDef"
+    #     df_sheet_list_expanded = (df_sheet_list["qChildListDef"].dropna().apply(pd.Series).add_prefix("qChildListDef_"))
+    #     df_sheet_list = df_sheet_list.drop(columns=["qChildListDef"]).join(df_sheet_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qChildListDef_qData"
+    #     df_sheet_list_expanded = (df_sheet_list["qChildListDef_qData"].dropna().apply(pd.Series).add_prefix("qChildListDef_qData_"))
+    #     df_sheet_list = df_sheet_list.drop(columns=["qChildListDef_qData"]).join(df_sheet_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "layoutOptions"
+    #     df_sheet_list_expanded = (df_sheet_list["layoutOptions"].dropna().apply(pd.Series).add_prefix("layoutOptions_"))
+    #     df_sheet_list = df_sheet_list.drop(columns=["layoutOptions"]).join(df_sheet_list_expanded)
+    #
+    #     return df_sheet_list
+    #
+    #
+    # def get_app_layout_containers(self, app_handle):
+    #     """
+    #     Retrieves a list with all app layout container metadata.
+    #
+    #     Parameters:
+    #         app_handle (int): The handle of the app.
+    #
+    #     Returns:
+    #         DataFrame: A table with all layout container metadata from an app.
+    #     """
+    #
+    #     # Define the DataFrame structure
+    #     df_layout_container_list = pd.DataFrame(
+    #         columns=["qInfo", "qExtendsId", "qMetaDef", "qStateName", "objects", "showTitles", "title", "subtitle",
+    #                  "footnote", "disableNavMenu", "showDetails", "showDetailsExpression", "components",
+    #                  "constrainToContainer", "showGridLines", "gridRowCount", "gridColumnCount", "snapToGrid",
+    #                  "visualization", "qChildListDef", "version", "extensionMeta"
+    #                  "qChildren", "qEmbeddedSnapshotRef"])
+    #
+    #     # Get layout container object data
+    #     options = self.structs.options(types=["sn-layout-container"])
+    #     layout_container_list = self.eaa.get_objects(app_handle=app_handle, options=options)
+    #
+    #     for layout_container in layout_container_list:
+    #         # Get layout container ID
+    #         layout_container_id = layout_container["qInfo"]["qId"]
+    #         # Get layout container object
+    #         layout_container_obj = self.eaa.get_object(app_handle=app_handle, object_id=layout_container_id)
+    #         # Get layout container handle
+    #         layout_container_handle = self.get_handle(layout_container_obj)
+    #         # Get layout container full property tree
+    #         layout_container_full_property_tree = self.egoa.get_full_property_tree(handle=layout_container_handle)
+    #
+    #         # Get layout container properties
+    #         layout_container_props = layout_container_full_property_tree["qProperty"]
+    #         layout_container_children = layout_container_full_property_tree["qChildren"]
+    #         layout_container_children_ids = [child["qProperty"]["qInfo"]["qId"] for child in layout_container_children]
+    #         layout_container_props["qChildren"] = layout_container_children_ids
+    #
+    #         # Concatenate the layout container metadata to the DataFrame structure
+    #         df_layout_container_list.loc[len(df_layout_container_list)] = layout_container_props
+    #
+    #
+    #     # Resolve the dictionary structure of attribute "qInfo"
+    #     df_layout_container_list_expanded = (df_layout_container_list["qInfo"].dropna().apply(pd.Series).add_prefix("qInfo_"))
+    #     df_layout_container_list = df_layout_container_list.drop(columns=["qInfo"]).join(df_layout_container_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qChildListDef"
+    #     df_layout_container_list_expanded = (
+    #         df_layout_container_list["qChildListDef"].dropna().apply(pd.Series).add_prefix("qChildListDef_"))
+    #     df_layout_container_list = df_layout_container_list.drop(columns=["qChildListDef"]).join(
+    #         df_layout_container_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qChildListDef_qData"
+    #     df_layout_container_list_expanded = (
+    #         df_layout_container_list["qChildListDef_qData"].dropna().apply(pd.Series).add_prefix("qChildListDef_qData_"))
+    #     df_layout_container_list = df_layout_container_list.drop(columns=["qChildListDef_qData"]).join(
+    #         df_layout_container_list_expanded)
+    #
+    #     return df_layout_container_list
+    #
+    #
+    # def get_app_tabbed_containers(self, app_handle):
+    #     """
+    #     Retrieves a list with all app tabbed container metadata.
+    #
+    #     Parameters:
+    #         app_handle (int): The handle of the app.
+    #
+    #     Returns:
+    #         DataFrame: A table with all tabbed container metadata from an app.
+    #     """
+    #
+    #     # Define the DataFrame structure
+    #     df_tabbed_container_list = pd.DataFrame(
+    #         columns=["qInfo", "qExtendsId", "qMetaDef", "qStateName", "objects", "showTitles", "title", "subtitle",
+    #                  "footnote", "disableNavMenu", "showDetails", "showDetailsExpression", "showTabs", "useDropdown",
+    #                  "useScrollButton", "showIcons", "orientation", "defaultTabId", "visualization", "qChildListDef",
+    #                  "components", "fontsUsed", "qChildren", "qEmbeddedSnapshotRef"])
+    #
+    #     # Get tabbed container object data
+    #     options = self.structs.options(types=["sn-tabbed-container"])
+    #     tabbed_container_list = self.eaa.get_objects(app_handle=app_handle, options=options)
+    #
+    #     for tabbed_container in tabbed_container_list:
+    #         # Get tabbed container ID
+    #         tabbed_container_id = tabbed_container["qInfo"]["qId"]
+    #         # Get tabbed container object
+    #         tabbed_container_obj = self.eaa.get_object(app_handle=app_handle, object_id=tabbed_container_id)
+    #         # Get tabbed container handle
+    #         tabbed_container_handle = self.get_handle(tabbed_container_obj)
+    #         # Get tabbed container full property tree
+    #         tabbed_container_full_property_tree = self.egoa.get_full_property_tree(handle=tabbed_container_handle)
+    #
+    #         # Get tabbed container properties
+    #         tabbed_container_props = tabbed_container_full_property_tree["qProperty"]
+    #         tabbed_container_children = tabbed_container_full_property_tree["qChildren"]
+    #         tabbed_container_children_ids = [child["qProperty"]["qInfo"]["qId"] for child in tabbed_container_children]
+    #         tabbed_container_props["qChildren"] = tabbed_container_children_ids
+    #
+    #         # Concatenate the tabbed container metadata to the DataFrame structure
+    #         df_tabbed_container_list.loc[len(df_tabbed_container_list)] = tabbed_container_props
+    #
+    #
+    #     # Resolve the dictionary structure of attribute "qInfo"
+    #     df_tabbed_container_list_expanded = (df_tabbed_container_list["qInfo"].dropna().apply(pd.Series).add_prefix("qInfo_"))
+    #     df_tabbed_container_list = df_tabbed_container_list.drop(columns=["qInfo"]).join(df_tabbed_container_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qChildListDef"
+    #     df_tabbed_container_list_expanded = (
+    #         df_tabbed_container_list["qChildListDef"].dropna().apply(pd.Series).add_prefix("qChildListDef_"))
+    #     df_tabbed_container_list = df_tabbed_container_list.drop(columns=["qChildListDef"]).join(
+    #         df_tabbed_container_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qChildListDef"
+    #     df_tabbed_container_list_expanded = (
+    #         df_tabbed_container_list["qChildListDef_qData"].dropna().apply(pd.Series).add_prefix("qChildListDef_qData_"))
+    #     df_tabbed_container_list = df_tabbed_container_list.drop(columns=["qChildListDef_qData"]).join(
+    #         df_tabbed_container_list_expanded)
+    #
+    #     return df_tabbed_container_list
+    #
+    #
+    # def get_app_containers(self, app_handle):
+    #     """
+    #     Retrieves a list with all app container metadata.
+    #
+    #     Parameters:
+    #         app_handle (int): The handle of the app.
+    #
+    #     Returns:
+    #         DataFrame: A table with all container metadata from an app.
+    #     """
+    #
+    #     # Define the DataFrame structure
+    #     df_container_list = pd.DataFrame(
+    #         columns=["qInfo", "qExtendsId", "qMetaDef", "qStateName", "children", "showTitles", "title", "subtitle",
+    #                  "footnote", "disableNavMenu", "showDetails", "showDetailsExpression", "borders", "showTabs", "useDropdown",
+    #                  "useScrollButton", "showIcons", "activeTab", "defaultTab", "visualization", "qChildListDef",
+    #                  "supportRefresh", "hasExternalChildren", "qChildren", "qEmbeddedSnapshotRef"])
+    #
+    #     # Get container object data
+    #     options = self.structs.options(types=["container"])
+    #     container_list = self.eaa.get_objects(app_handle=app_handle, options=options)
+    #
+    #     for container in container_list:
+    #         # Get container ID
+    #         container_id = container["qInfo"]["qId"]
+    #         # Get container object
+    #         container_obj = self.eaa.get_object(app_handle=app_handle, object_id=container_id)
+    #         # Get container handle
+    #         container_handle = self.get_handle(container_obj)
+    #         # Get container full property tree
+    #         container_full_property_tree = self.egoa.get_full_property_tree(handle=container_handle)
+    #
+    #         # Get container properties
+    #         container_props = container_full_property_tree["qProperty"]
+    #         container_children = container_full_property_tree["qChildren"]
+    #         container_children_ids = [child["qProperty"]["qInfo"]["qId"] for child in container_children]
+    #         container_props["qChildren"] = container_children_ids
+    #
+    #         # Concatenate the container metadata to the DataFrame structure
+    #         df_container_list.loc[len(df_container_list)] = container_props
+    #
+    #
+    #     # Resolve the dictionary structure of attribute "qInfo"
+    #     df_container_list_expanded = (df_container_list["qInfo"].dropna().apply(pd.Series).add_prefix("qInfo_"))
+    #     df_container_list = df_container_list.drop(columns=["qInfo"]).join(df_container_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qChildListDef"
+    #     df_container_list_expanded = (
+    #         df_container_list["qChildListDef"].dropna().apply(pd.Series).add_prefix("qChildListDef_"))
+    #     df_container_list = df_container_list.drop(columns=["qChildListDef"]).join(
+    #         df_container_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qChildListDef"
+    #     df_container_list_expanded = (
+    #         df_container_list["qChildListDef_qData"].dropna().apply(pd.Series).add_prefix("qChildListDef_qData_"))
+    #     df_container_list = df_container_list.drop(columns=["qChildListDef_qData"]).join(
+    #         df_container_list_expanded)
+    #
+    #     return df_container_list
+    #
+    #
+    # def get_app_filterpanes(self, app_handle):
+    #     """
+    #     Retrieves a list with all app filterpane metadata.
+    #
+    #     Parameters:
+    #         app_handle (int): The handle of the app.
+    #
+    #     Returns:
+    #         DataFrame: A table with all filterpane metadata from an app.
+    #     """
+    #
+    #     # Define the DataFrame structure
+    #     df_filterpane_list = pd.DataFrame(
+    #         columns=["qInfo", "qExtendsId", "qMetaDef", "qStateName", "showTitles", "title", "subtitle", "footnote",
+    #                  "disableNavMenu", "showDetails", "showDetailsExpression", "visualization", "version", "qChildren"])
+    #
+    #     # Get filterpane object data
+    #     options = self.structs.options(types=["filterpane"])
+    #     filterpane_list = self.eaa.get_objects(app_handle=app_handle, options=options)
+    #
+    #     for filterpane in filterpane_list:
+    #         # Get filterpane ID
+    #         filterpane_id = filterpane["qInfo"]["qId"]
+    #         # Get filterpane object
+    #         filterpane_obj = self.eaa.get_object(app_handle=app_handle, object_id=filterpane_id)
+    #         # Get filterpane handle
+    #         filterpane_handle = self.get_handle(filterpane_obj)
+    #         # Get filterpane full property tree
+    #         filterpane_full_property_tree = self.egoa.get_full_property_tree(handle=filterpane_handle)
+    #
+    #         # Get filterpane properties
+    #         filterpane_props = filterpane_full_property_tree["qProperty"]
+    #         filterpane_children = filterpane_full_property_tree["qChildren"]
+    #         filterpane_children_ids = [child["qProperty"]["qInfo"]["qId"] for child in filterpane_children]
+    #         filterpane_props["qChildren"] = filterpane_children_ids
+    #
+    #         # Concatenate the filterpane metadata to the DataFrame structure
+    #         df_filterpane_list.loc[len(df_filterpane_list)] = filterpane_props
+    #
+    #
+    #     # Resolve the dictionary structure of attribute "qInfo"
+    #     df_filterpane_list_expanded = (df_filterpane_list["qInfo"].dropna().apply(pd.Series).add_prefix("qInfo_"))
+    #     df_filterpane_list = df_filterpane_list.drop(columns=["qInfo"]).join(df_filterpane_list_expanded)
+    #
+    #     return df_filterpane_list
+    #
+    #
+    # def get_app_listboxes(self, app_handle):
+    #     """
+    #     Retrieves a list with all app listbox metadata.
+    #
+    #     Parameters:
+    #         app_handle (int): The handle of the app.
+    #
+    #     Returns:
+    #         DataFrame: A table with all listbox metadata from an app.
+    #     """
+    #
+    #     # Define the DataFrame structure
+    #     df_listbox_list = pd.DataFrame(
+    #         columns=["qInfo", "qExtendsId", "qMetaDef", "qStateName", "qListObjectDef", "showTitles", "title", "subtitle", "footnote",
+    #                  "disableNavMenu", "showDetails", "showDetailsExpression", "visualization", "qChildren"])
+    #
+    #     # Get listbox object data
+    #     options = self.structs.options(types=["listbox"])
+    #     listbox_list = self.eaa.get_objects(app_handle=app_handle, options=options)
+    #
+    #     for listbox in listbox_list:
+    #         # Get listbox ID
+    #         listbox_id = listbox["qInfo"]["qId"]
+    #         # Get listbox object
+    #         listbox_obj = self.eaa.get_object(app_handle=app_handle, object_id=listbox_id)
+    #         # Get listbox handle
+    #         listbox_handle = self.get_handle(listbox_obj)
+    #         # Get listbox full property tree
+    #         listbox_full_property_tree = self.egoa.get_full_property_tree(handle=listbox_handle)
+    #
+    #         # Get listbox properties
+    #         listbox_props = listbox_full_property_tree["qProperty"]
+    #         listbox_children = listbox_full_property_tree["qChildren"]
+    #         listbox_children_ids = [child["qProperty"]["qInfo"]["qId"] for child in listbox_children]
+    #         listbox_props["qChildren"] = listbox_children_ids
+    #
+    #         # Concatenate the listbox metadata to the DataFrame structure
+    #         df_listbox_list.loc[len(df_listbox_list)] = listbox_props
+    #
+    #
+    #     # Resolve the dictionary structure of attribute "qInfo"
+    #     df_listbox_list_expanded = (df_listbox_list["qInfo"].dropna().apply(pd.Series).add_prefix("qInfo_"))
+    #     df_listbox_list = df_listbox_list.drop(columns=["qInfo"]).join(df_listbox_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qListObjectDef"
+    #     df_listbox_list_expanded = (df_listbox_list["qListObjectDef"].dropna().apply(pd.Series).add_prefix("qListObjectDef_"))
+    #     df_listbox_list = df_listbox_list.drop(columns=["qListObjectDef"]).join(df_listbox_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qListObjectDef_qDef"
+    #     df_listbox_list_expanded = (
+    #         df_listbox_list["qListObjectDef_qDef"].dropna().apply(pd.Series).add_prefix("qListObjectDef_qDef_"))
+    #     df_listbox_list = df_listbox_list.drop(columns=["qListObjectDef_qDef"]).join(df_listbox_list_expanded)
+    #
+    #     return df_listbox_list
+    #
+    #
+    # def get_app_tables(self, app_handle):
+    #     """
+    #     Retrieves a list with all app table metadata.
+    #
+    #     Parameters:
+    #         app_handle (int): The handle of the app.
+    #
+    #     Returns:
+    #         DataFrame: A table with all table metadata from an app.
+    #     """
+    #
+    #     # Define the DataFrame structure
+    #     df_table_list = pd.DataFrame(
+    #         columns=["qInfo", "qExtendsId", "qMetaDef", "qStateName", "qHyperCubeDef", "script", "filter", "search",
+    #                  "showTitles", "title", "subtitle", "footnote", "disableNavMenu", "showDetails",
+    #                  "showDetailsExpression", "totals", "scrolling", "multiline", "visualization", "qChildren",
+    #                  "qEmbeddedSnapshotRef"])
+    #
+    #     # Get table object data
+    #     options = self.structs.options(types=["table"])
+    #     table_list = self.eaa.get_objects(app_handle=app_handle, options=options)
+    #
+    #     for table in table_list:
+    #         # Get table ID
+    #         table_id = table["qInfo"]["qId"]
+    #         # Get table object
+    #         table_obj = self.eaa.get_object(app_handle=app_handle, object_id=table_id)
+    #         # Get table handle
+    #         table_handle = self.get_handle(table_obj)
+    #         # Get table full property tree
+    #         table_full_property_tree = self.egoa.get_full_property_tree(handle=table_handle)
+    #
+    #         # Get table properties
+    #         table_props = table_full_property_tree["qProperty"]
+    #         table_children = table_full_property_tree["qChildren"]
+    #         table_children_ids = [child["qProperty"]["qInfo"]["qId"] for child in table_children]
+    #         table_props["qChildren"] = table_children_ids
+    #
+    #         # Concatenate the table metadata to the DataFrame structure
+    #         df_table_list.loc[len(df_table_list)] = table_props
+    #
+    #
+    #     # Resolve the dictionary structure of attribute "qInfo"
+    #     df_table_list_expanded = (df_table_list["qInfo"].dropna().apply(pd.Series).add_prefix("qInfo_"))
+    #     df_table_list = df_table_list.drop(columns=["qInfo"]).join(df_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qHyperCubeDef"
+    #     df_table_list_expanded = (df_table_list["qHyperCubeDef"].dropna().apply(pd.Series).add_prefix("qHyperCubeDef_"))
+    #     df_table_list = df_table_list.drop(columns=["qHyperCubeDef"]).join(df_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "search"
+    #     df_table_list_expanded = (df_table_list["search"].dropna().apply(pd.Series).add_prefix("search_"))
+    #     df_table_list = df_table_list.drop(columns=["search"]).join(df_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "totals"
+    #     df_table_list_expanded = (df_table_list["totals"].dropna().apply(pd.Series).add_prefix("totals_"))
+    #     df_table_list = df_table_list.drop(columns=["totals"]).join(df_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "scrolling"
+    #     df_table_list_expanded = (df_table_list["scrolling"].dropna().apply(pd.Series).add_prefix("scrolling_"))
+    #     df_table_list = df_table_list.drop(columns=["scrolling"]).join(df_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "multiline"
+    #     df_table_list_expanded = (df_table_list["multiline"].dropna().apply(pd.Series).add_prefix("multiline_"))
+    #     df_table_list = df_table_list.drop(columns=["multiline"]).join(df_table_list_expanded)
+    #
+    #     return df_table_list
+    #
+    #
+    # def get_app_pivot_tables(self, app_handle):
+    #     """
+    #     Retrieves a list with all app pivot table metadata.
+    #
+    #     Parameters:
+    #         app_handle (int): The handle of the app.
+    #
+    #     Returns:
+    #         DataFrame: A table with all pivot table metadata from an app.
+    #     """
+    #
+    #     # Define the DataFrame structure
+    #     df_pivot_table_list = pd.DataFrame(
+    #         columns=["qInfo", "qExtendsId", "qMetaDef", "qStateName", "qHyperCubeDef", "search", "showTitles", "title",
+    #                  "subtitle", "footnote", "disableNavMenu", "showDetails", "showDetailsExpression", "visualization",
+    #                  "qLayoutExclude", "components", "containerChildId", "qChildren", "qEmbeddedSnapshotRef"])
+    #
+    #     # Get table object data
+    #     options = self.structs.options(types=["pivot-table"])
+    #     pivot_table_list = self.eaa.get_objects(app_handle=app_handle, options=options)
+    #
+    #     for pivot_table in pivot_table_list:
+    #         # Get table ID
+    #         pivot_table_id = pivot_table["qInfo"]["qId"]
+    #         # Get table object
+    #         pivot_table_obj = self.eaa.get_object(app_handle=app_handle, object_id=pivot_table_id)
+    #         # Get table handle
+    #         pivot_table_handle = self.get_handle(pivot_table_obj)
+    #         # Get table full property tree
+    #         pivot_table_full_property_tree = self.egoa.get_full_property_tree(handle=pivot_table_handle)
+    #
+    #         # Get table properties
+    #         pivot_table_props = pivot_table_full_property_tree["qProperty"]
+    #         pivot_table_children = pivot_table_full_property_tree["qChildren"]
+    #         pivot_table_children_ids = [child["qProperty"]["qInfo"]["qId"] for child in pivot_table_children]
+    #         pivot_table_props["qChildren"] = pivot_table_children_ids
+    #
+    #         # Concatenate the table metadata to the DataFrame structure
+    #         df_pivot_table_list.loc[len(df_pivot_table_list)] = pivot_table_props
+    #
+    #
+    #     # Resolve the dictionary structure of attribute "qInfo"
+    #     df_pivot_table_list_expanded = (df_pivot_table_list["qInfo"].dropna().apply(pd.Series).add_prefix("qInfo_"))
+    #     df_pivot_table_list = df_pivot_table_list.drop(columns=["qInfo"]).join(df_pivot_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qHyperCubeDef"
+    #     df_pivot_table_list_expanded = (df_pivot_table_list["qHyperCubeDef"].dropna().apply(pd.Series).add_prefix("qHyperCubeDef_"))
+    #     df_pivot_table_list = df_pivot_table_list.drop(columns=["qHyperCubeDef"]).join(df_pivot_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "search"
+    #     df_pivot_table_list_expanded = (
+    #         df_pivot_table_list["search"].dropna().apply(pd.Series).add_prefix("search_"))
+    #     df_pivot_table_list = df_pivot_table_list.drop(columns=["search"]).join(df_pivot_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qLayoutExclude"
+    #     df_pivot_table_list_expanded = (
+    #         df_pivot_table_list["qLayoutExclude"].dropna().apply(pd.Series).add_prefix("qLayoutExclude_"))
+    #     df_pivot_table_list = df_pivot_table_list.drop(columns=["qLayoutExclude"]).join(df_pivot_table_list_expanded)
+    #
+    #     return df_pivot_table_list
+    #
+    #
+    # def get_app_straight_tables(self, app_handle):
+    #     """
+    #     Retrieves a list with all app straight table metadata.
+    #
+    #     Parameters:
+    #         app_handle (int): The handle of the app.
+    #
+    #     Returns:
+    #         DataFrame: A table with all straight table metadata from an app.
+    #     """
+    #
+    #     # Define the DataFrame structure
+    #     df_straight_table_list = pd.DataFrame(
+    #         columns=["qInfo", "qExtendsId", "qMetaDef", "qStateName", "qHyperCubeDef", "showTitles", "title",
+    #                  "subtitle", "footnote", "disableNavMenu", "showDetails", "showDetailsExpression", "components",
+    #                  "totals", "usePagination", "enableChartExploration", "chartExploration", "visualization",
+    #                  "version", "qLayoutExclude", "extensionMeta", "containerChildId", "insideContainer", "childRefId",
+    #                  "nullValueRepresentation", "qChildren", "qEmbeddedSnapshotRef"])
+    #
+    #     # Get table object data
+    #     options = self.structs.options(types=["sn-table"])
+    #     straight_table_list = self.eaa.get_objects(app_handle=app_handle, options=options)
+    #
+    #     for straight_table in straight_table_list:
+    #         # Get table ID
+    #         straight_table_id = straight_table["qInfo"]["qId"]
+    #         # Get table object
+    #         straight_table_obj = self.eaa.get_object(app_handle=app_handle, object_id=straight_table_id)
+    #         # Get table handle
+    #         straight_table_handle = self.get_handle(straight_table_obj)
+    #         # Get table full property tree
+    #         straight_table_full_property_tree = self.egoa.get_full_property_tree(handle=straight_table_handle)
+    #
+    #         # Get table properties
+    #         straight_table_props = straight_table_full_property_tree["qProperty"]
+    #         straight_table_children = straight_table_full_property_tree["qChildren"]
+    #         straight_table_children_ids = [child["qProperty"]["qInfo"]["qId"] for child in straight_table_children]
+    #         straight_table_props["qChildren"] = straight_table_children_ids
+    #
+    #         # Concatenate the table metadata to the DataFrame structure
+    #         df_straight_table_list.loc[len(df_straight_table_list)] = straight_table_props
+    #
+    #
+    #     # Resolve the dictionary structure of attribute "qInfo"
+    #     df_straight_table_list_expanded = (df_straight_table_list["qInfo"].dropna().apply(pd.Series).add_prefix("qInfo_"))
+    #     df_straight_table_list = df_straight_table_list.drop(columns=["qInfo"]).join(df_straight_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qHyperCubeDef"
+    #     df_straight_table_list_expanded = (df_straight_table_list["qHyperCubeDef"].dropna().apply(pd.Series).add_prefix("qHyperCubeDef_"))
+    #     df_straight_table_list = df_straight_table_list.drop(columns=["qHyperCubeDef"]).join(df_straight_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "footnote"
+    #     df_straight_table_list_expanded = (df_straight_table_list["footnote"].dropna().apply(pd.Series).add_prefix("footnote_"))
+    #     df_straight_table_list = df_straight_table_list.drop(columns=["footnote"]).join(df_straight_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "totals"
+    #     df_straight_table_list_expanded = (
+    #         df_straight_table_list["totals"].dropna().apply(pd.Series).add_prefix("totals_"))
+    #     df_straight_table_list = df_straight_table_list.drop(columns=["totals"]).join(df_straight_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "chartExploration"
+    #     df_straight_table_list_expanded = (
+    #         df_straight_table_list["chartExploration"].dropna().apply(pd.Series).add_prefix("chartExploration_"))
+    #     df_straight_table_list = df_straight_table_list.drop(columns=["chartExploration"]).join(df_straight_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qLayoutExclude"
+    #     df_straight_table_list_expanded = (df_straight_table_list["qLayoutExclude"].dropna().apply(pd.Series).add_prefix("qLayoutExclude_"))
+    #     df_straight_table_list = df_straight_table_list.drop(columns=["qLayoutExclude"]).join(df_straight_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "extensionMeta"
+    #     df_straight_table_list_expanded = (
+    #         df_straight_table_list["extensionMeta"].dropna().apply(pd.Series).add_prefix("extensionMeta_"))
+    #     df_straight_table_list = df_straight_table_list.drop(columns=["extensionMeta"]).join(
+    #         df_straight_table_list_expanded)
+    #
+    #     return df_straight_table_list
+    #
+    #
+    # def get_app_new_pivot_tables(self, app_handle):
+    #     """
+    #     Retrieves a list with all app new pivot table metadata.
+    #
+    #     Parameters:
+    #         app_handle (int): The handle of the app.
+    #
+    #     Returns:
+    #         DataFrame: A table with all new pivot table metadata from an app.
+    #     """
+    #
+    #     # Define the DataFrame structure
+    #     df_new_pivot_table_list = pd.DataFrame(
+    #         columns=["qInfo", "qExtendsId", "qMetaDef", "qStateName", "qHyperCubeDef", "search", "showTitles", "title",
+    #                  "subtitle", "footnote", "disableNavMenu", "showDetails", "showDetailsExpression", "visualization",
+    #                  "qLayoutExclude", "components", "nullValueRepresentation", "version", "extensionMeta",
+    #                  "containerChildId", "qChildren", "qEmbeddedSnapshotRef"])
+    #
+    #     # Get table object data
+    #     options = self.structs.options(types=["sn-pivot-table"])
+    #     new_pivot_table_list = self.eaa.get_objects(app_handle=app_handle, options=options)
+    #
+    #     for new_pivot_table in new_pivot_table_list:
+    #         # Get table ID
+    #         new_pivot_table_id = new_pivot_table["qInfo"]["qId"]
+    #         # Get table object
+    #         new_pivot_table_obj = self.eaa.get_object(app_handle=app_handle, object_id=new_pivot_table_id)
+    #         # Get table handle
+    #         new_pivot_table_handle = self.get_handle(new_pivot_table_obj)
+    #         # Get table full property tree
+    #         new_pivot_table_full_property_tree = self.egoa.get_full_property_tree(handle=new_pivot_table_handle)
+    #
+    #         # Get table properties
+    #         new_pivot_table_props = new_pivot_table_full_property_tree["qProperty"]
+    #         new_pivot_table_children = new_pivot_table_full_property_tree["qChildren"]
+    #         new_pivot_table_children_ids = [child["qProperty"]["qInfo"]["qId"] for child in new_pivot_table_children]
+    #         new_pivot_table_props["qChildren"] = new_pivot_table_children_ids
+    #
+    #         # Concatenate the table metadata to the DataFrame structure
+    #         df_new_pivot_table_list.loc[len(df_new_pivot_table_list)] = new_pivot_table_props
+    #
+    #
+    #     # Resolve the dictionary structure of attribute "qInfo"
+    #     df_new_pivot_table_list_expanded = (df_new_pivot_table_list["qInfo"].dropna().apply(pd.Series).add_prefix("qInfo_"))
+    #     df_new_pivot_table_list = df_new_pivot_table_list.drop(columns=["qInfo"]).join(df_new_pivot_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qHyperCubeDef"
+    #     df_new_pivot_table_list_expanded = (
+    #         df_new_pivot_table_list["qHyperCubeDef"].dropna().apply(pd.Series).add_prefix("qHyperCubeDef_"))
+    #     df_new_pivot_table_list = df_new_pivot_table_list.drop(columns=["qHyperCubeDef"]).join(df_new_pivot_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "footnote"
+    #     df_new_pivot_table_list_expanded = (
+    #         df_new_pivot_table_list["footnote"].dropna().apply(pd.Series).add_prefix("footnote_"))
+    #     df_new_pivot_table_list = df_new_pivot_table_list.drop(columns=["footnote"]).join(
+    #         df_new_pivot_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "footnote_qStringExpression"
+    #     df_new_pivot_table_list_expanded = (
+    #         df_new_pivot_table_list["footnote_qStringExpression"].dropna().apply(pd.Series).add_prefix("footnote_qStringExpression_"))
+    #     df_new_pivot_table_list = df_new_pivot_table_list.drop(columns=["footnote_qStringExpression"]).join(
+    #         df_new_pivot_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "qLayoutExclude"
+    #     df_new_pivot_table_list_expanded = (
+    #         df_new_pivot_table_list["qLayoutExclude"].dropna().apply(pd.Series).add_prefix(
+    #             "qLayoutExclude_"))
+    #     df_new_pivot_table_list = df_new_pivot_table_list.drop(columns=["qLayoutExclude"]).join(
+    #         df_new_pivot_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "nullValueRepresentation"
+    #     df_new_pivot_table_list_expanded = (
+    #         df_new_pivot_table_list["nullValueRepresentation"].dropna().apply(pd.Series).add_prefix(
+    #             "nullValueRepresentation_"))
+    #     df_new_pivot_table_list = df_new_pivot_table_list.drop(columns=["nullValueRepresentation"]).join(
+    #         df_new_pivot_table_list_expanded)
+    #
+    #     # Resolve the dictionary structure of attribute "extensionMeta"
+    #     df_new_pivot_table_list_expanded = (
+    #         df_new_pivot_table_list["extensionMeta"].dropna().apply(pd.Series).add_prefix(
+    #             "extensionMeta_"))
+    #     df_new_pivot_table_list = df_new_pivot_table_list.drop(columns=["extensionMeta"]).join(
+    #         df_new_pivot_table_list_expanded)
+    #
+    #     return df_new_pivot_table_list
+
+
     def get_app_variables(self, app_handle):
         """
         Retrieves a list with all app variables containing metadata.
