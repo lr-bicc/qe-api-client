@@ -66,6 +66,16 @@ class QixEngine:
         fld_handle = self.get_handle(lb_field)
         return self.efa.select_possible(fld_handle)
 
+    def select_alternative_in_field(self, app_handle, field_name):
+        lb_field = self.eaa.get_field(app_handle, field_name)
+        fld_handle = self.get_handle(lb_field)
+        return self.efa.select_alternative(fld_handle)
+
+    def select_all_in_field(self, app_handle, field_name):
+        lb_field = self.eaa.get_field(app_handle, field_name)
+        fld_handle = self.get_handle(lb_field)
+        return self.efa.select_all(fld_handle)
+
     # return a list of tuples where first value in tuple is the actual
     # data value and the second tuple value is that
     # values selection state
