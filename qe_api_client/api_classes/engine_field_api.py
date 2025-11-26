@@ -102,6 +102,46 @@ class EngineFieldApi:
         except KeyError:
             return response["error"]
 
+    def select_alternative(self, fld_handle, soft_lock=False):
+        """
+        Selects alternative possible values in a field.
+
+        Args:
+            fld_handle (int): The handle of the field.
+            soft_lock (bool): Set to true to ignore locks; in that case, locked fields can be selected.
+            The default value is false.
+
+        Returns:
+            bool: true/false. The operation is successful if qReturn is set to true.
+        """
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": fld_handle, "method": "SelectAlternative",
+                          "params": {"qSoftLock": soft_lock}})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
+        try:
+            return response["result"]["qReturn"]
+        except KeyError:
+            return response["error"]
+
+    def select_all(self, fld_handle, soft_lock=False):
+        """
+        Selects all values in a field.
+
+        Args:
+            fld_handle (int): The handle of the field.
+            soft_lock (bool): Set to true to ignore locks; in that case, locked fields can be selected.
+            The default value is false.
+
+        Returns:
+            bool: true/false. The operation is successful if qReturn is set to true.
+        """
+        msg = json.dumps({"jsonrpc": "2.0", "id": 0, "handle": fld_handle, "method": "SelectAll",
+                          "params": {"qSoftLock": soft_lock}})
+        response = json.loads(self.engine_socket.send_call(self.engine_socket, msg))
+        try:
+            return response["result"]["qReturn"]
+        except KeyError:
+            return response["error"]
+
     def clear(self, fld_handle):
         """
         Clears the selection in a field.
